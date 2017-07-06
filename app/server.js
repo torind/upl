@@ -3,7 +3,9 @@ var ejs = require('ejs');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var partials = require('express-partials');
 var router = require('./routes.js')
+
 
 var app = express();
 
@@ -30,8 +32,8 @@ app.listen(8080);
 
 // Helper Methods
 function checkAuth (req, res, next) {
-
-	if (req.url.startsWith("/secure") && (!req.session || !req.session.authenticated)) {
+	var devMode = true
+	if (!devMode && req.url.startsWith("/secure") && (!req.session || !req.session.authenticated)) {
 		res.render('login.ejs', {failedLogin : true, redirect : req.url})
 		return;
 	}

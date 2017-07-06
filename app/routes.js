@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/secure/home', function(req, res) {
-	res.render('homepage.ejs');
+	res.render('homepage/homepage.ejs');
 });
 
 
