@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta content="width=device-width, user-scalable=no , initial-scale=1" name="viewport">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>UPenn Lions - Login </title>
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css" media="screen" type="text/css"/>
+
+</head>
+
+<body>
+
+  <div class="wrap">
+    <div class="avatar">
+      <img src="images/lions-logo.jpg">
+    </div>
+    <form action="/login" method="POST">
+      <input type="text" name="username" placeholder="Username" required>
+      <div class="bar">
+        <i></i>
+      </div>
+      <input type="password" name="password" placeholder="Password" required>
+      <a href="" class="forgot_link">forgot ?</a>
+      <% if (typeof failedAttempt != 'undefined' && failedAttempt == true) { %>
+        <h2 style="width:100%; text-align:center; padding-bottom:20px; font-family: Impact, Charcoal, sans-serif; color:#990000">Incorrect Username or Password</h2>
+      <% } %>
+      <button>Sign In</button>
+    </form>
+  </div>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-1.9.1.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+</html>
