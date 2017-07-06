@@ -1,0 +1,132 @@
+<div class="modal-background" ng-if="getModal('dues')">
+  <div class="modal-content">
+    <div class="panel panel-default modal-panel" ng-controller="duesFormController">
+      <div class="panel-heading">
+        <div class="container-fluid">
+          <div class="row text-color">
+            <div class="col-xs-11 nopad">
+              <h2 class="panel-title modal-title">Submit Dues Form</h2>
+            </div>
+            <div class="col-xs-1 nopad">
+              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="close()"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body  max-panel-body" ng-init="init(<?php echo $_SESSION['session_uiD']; ?>)">
+        <div>
+          <div class="container-fluid" ng-if="formSubmitted == 0">
+            <div class="row">
+              <div class="col-xs-3 no-mobile"></div>
+              <div class="col-xs-12 col-md-6">
+                <div class="well well-lg" style="margin-bottom: 20px">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="dues-header">Your Spring 2016 dues obligation:</div>
+                    </div>
+                    <div class="row">
+                      <div class="amount">${{obligation}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-3 no-mobile"></div>
+              <div class="col-xs-12 col-md-6">
+                <div class="dues-instruction">Please select one of the following options: </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-3 no-mobile"></div>
+              <div class="col-xs-12 col-md-6 indent">
+                <div class="checkbox">
+                  <label><input class="hover" value="one" type="checkbox" ng-checked="options.one" ng-click="optionClick(1)">I will pay my dues in full by January 13th via cash, check or Venmo</label>
+                </div>
+                <div class="checkbox">
+                  <label><input class="hover" value="two" type="checkbox" ng-checked="options.two" ng-click="optionClick(2)"> I will pay my dues in full but I need to set up a payment plan</label>
+                </div>
+                <div class="checkbox">
+                  <label><input class="hover" value="three" type="checkbox" ng-checked="options.three" ng-click="optionClick(3)">I am unable to pay my dues in full and will require a discounted payment plan</label>
+                </div>
+              </div>
+            </div>
+
+            <div ng-if="isShowMore()">
+              <div ng-if="isDiscounted()">
+                <div class="row">
+                  <div class="col-xs-3 no-mobile"></div>
+                  <div class="col-xs-12 col-md-6">
+                    <div class="dues-instruction">Proposed Amount: </div>
+                  </div>
+                </div>
+                <div class="row" style="margin: 5px 0px;">
+                  <div class="col-xs-5 no-mobile"></div>
+                  <div class="col-xs-8 col-md-2">
+                    <div class="input-group">
+                      <span class="input-group-addon">$</span>
+                      <input type="text" class="form-control" ng-model="proposed.text" placeholder="Amount...">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-3 no-mobile"></div>
+                <div class="col-xs-12 col-md-6">
+                  <div class="dues-instruction">Please provide the dates of your payments: </div>
+                </div>
+              </div>
+
+              <div class="row" style="margin:15px 0px 5px 0px;">
+                <div class="col-xs-3 no-mobile"></div>
+                <div class="col-xs-6 col-md-3 text-center payment-title"> Date: </div>
+                <div class="col-xs-6 col-md-3 text-center payment-title"> Amount: </div>
+              </div>
+
+              <div class="row" ng-repeat="payment in payments track by $index" style="margin:10px 0px;">
+                <div class="col-xs-3 no-mobile"></div>
+                <div class="col-xs-6 col-md-3">
+                  <input type="text" class="form-control" ng-model="payment.date" placeholder="ex. 09-28-17">
+                </div>
+                <div class="col-xs-6 col-md-3">
+                  <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" ng-model="payment.amount" placeholder="Amount...">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-5 no-mobile"></div>
+                <div class="col-xs-12 col-md-2">
+                  <div ng-click="addPayment()" class="anotha-one">Add Payment</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="container-fluid" ng-if="formSubmitted == 1">
+            <div class="heading"> You have already submitted your form. Thank you! </div>
+          </div>
+
+          <div class="container-fluid" ng-if="formSubmitted == -1">
+            <div class="heading">...</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" ng-if="formSubmitted == 0">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-3 col-md-1"></div>
+            <div class="col-xs-6 col-md-10">
+              <div class="error-text" ng-if="hasError">{{errorText}}</div>
+            </div>
+            <div class="col-xs-3 col-md-1">
+              <button type="button" class="btn btn-primary" ng-click="submit(<?php echo $_SESSION['session_uiD']; ?>)">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

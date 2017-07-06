@@ -1,0 +1,48 @@
+<div class="modal-background" ng-if="getModal('expense')">
+  <div class="modal-content" ng-controller="expenseController">
+    <div class="panel panel-default modal-panel">
+      <div class="panel-heading">
+        <div class="container-fluid">
+          <div class="row text-color">
+            <div class="col-xs-11 nopad">
+              <h2 class="panel-title modal-title">Submit Expense</h2>
+            </div>
+            <div class="col-xs-1 nopad">
+              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="close()"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="container-fluid modal-container">
+          <div class="row iso-row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4 text-color">
+              <label>Account:</label>
+              <input-selection field-data="accounts" value="data.account"></input-selection>
+            </div>
+            <div class="col-sm-4"></div>
+          </div>
+          <div class="row iso-row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-5 text-color">
+              <label>Description:</label>
+              <input type="text" ng-model="data.description" class="form-control" placeholder="Description...">
+            </div>
+            <div class="col-sm-3 text-color">
+              <label>Amount:</label>
+              <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" ng-model="data.amount" class="form-control" placeholder="Amount...">
+              </div>
+            </div>
+            <div class="col-sm-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="submit(<?php echo $_SESSION['session_uiD']; ?>)">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

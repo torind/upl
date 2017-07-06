@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta content="width=device-width, user-scalable=no , initial-scale=1" name="viewport">
+<head>
+
+  <title>UPenn Lions - Home </title>
+
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+
+<body class="background-color" ng-app="homepageApp" ng-controller="mainController" ng-class="{'modal-open' : isOpen()}" ng-init="init()">
+  <div ng-class="{'cover' : !loaded}">
+    <!-- Email Modal -->
+    
+
+    <!-- Update Modal -->
+
+
+
+    <!-- Dues Modal -->
+
+
+    <!-- Links Modal -->
+
+
+    <!-- Expense Modal -->
+
+
+    <!-- Approve Modal -->
+
+  <!-- Nav Bar -->
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header"> 
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false"> 
+          <span class="sr-only">Toggle navigation</span> 
+          <span class="icon-bar upl-nav"></span> 
+          <span class="icon-bar upl-nav"></span>
+          <span class="icon-bar upl-nav"></span> 
+        </button> 
+        <a href="home" class="navbar-brand upl-brand">UPenn Lions</a>
+      </div>
+      <nav id="bs-navbar" class="collapse navbar-collapse" id="bs-navbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="mobile-only"><a href="#" ng-click="openModal('update')" class="upl-option">Update Collection Status</a></li>
+          <li class="mobile-only"><a href="#" ng-click="openModal('approve')" class="upl-option">Approve Expenses</a></li>
+          <li class="mobile-only"><a href="#" ng-click="openModal('dues')" class="upl-option">Submit Dues Form</a></li>
+          <li class="mobile-only"><a href="#" ng-click="openModal('expense')" class="upl-option">Submit Expenses</a></li>
+          <li class="mobile-only"><a href="#" ng-click="openModal('password')" class="upl-option">Change Password</a></li>
+          <li><a href="/login/back_end/logout" class="upl-option">Log Out</a></li>
+        </ul>
+      </nav>
+    </div>
+  </nav>
+
+  <!-- Main Screen -->
+  <div class="container">
+    <div class="main-container">
+
+      <!-- Mobile Welcome-->
+      <div class="panel panel-default mobile-only" ng-controller="navController" ng-init="init(<?php echo $_SESSION['session_uiD']; ?>)">
+        <div class="panel-heading">
+          <div class="container-fluid text-color">
+            <div class="col-xs-11"><h3 class="panel-title">Welcome {{name()}}!</h3></div>
+            <div class="col-xs-1 nopad"><upl-switch open="open"></upl-switch></div>
+          </div>
+        </div>
+        <div class="panel-body" ng-if="open" ng-class="complianceClass()">
+          <div class="container-fluid">
+            <!-- Financial Standing -->
+            <div class="row center-text"><span class="options-header">Current Financial Standing:</span></div>
+            <div class="row" style="margin: 15px 0px; text-align:center" ng-class="complianceClass()">
+              <div style="display: inline-block">
+                <span class="glyphicon" ng-class="icon()" aria-hidden="true"></span>
+                <span class="dues-status">{{message()}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+
+      <!-- Current Budget Usage -->
+      <div class="panel panel-default" ng-controller="currentUsageController" ng-init="init()">
+        <div class="panel-heading">
+          <div class="container-fluid text-color">
+            <div class="col-xs-11"><h3 class="panel-title">Current Budget Usage</h3></div>
+            <div class="col-xs-1 nopad"><upl-switch open="open"></upl-switch></div>
+          </div>
+        </div>
+        <div class="panel-body" ng-if="open">
+          <div class="container-fluid">
+            <upl-progress-bar name="'Total Budget Usage'" current-val="totalUsage()" max-val="totalMax()"></upl-progress-bar>
+            <upl-progress-bar name="'Social Budget'" current-val="usages.social" max-val="max.social" color></upl-progress-bar>
+            <upl-progress-bar name="'Rush Budget'" current-val="usages.rush" max-val="max.rush"></upl-progress-bar>
+            <upl-progress-bar name="'Brotherhood Budget'" current-val="usages.brohood" max-val="max.brohood"></upl-progress-bar>
+          </div>
+        </div>
+      </div>
+
+      <!-- Individual Brother Financial Standing -->
+      <div class="panel panel-default" ng-controller="individualDuesController" ng-init="init()">
+        <div class="panel-heading">
+          <div class="container-fluid text-color">
+            <div class="col-xs-6 col-sm-7"><h3 class="panel-title">Individual Brother Financial Standing</h3></div>
+            <div class="col-xs-5 col-sm-4"><h3 class="panel-title" style="font-size: 10pt; line-height: 18px">Last Updated: {{lastUpdated}}</h3></div>
+            <div class="col-xs-1 nopad"><upl-switch open="open"></upl-switch></div>
+          </div>
+        </div>
+        <table class="table tabled-striped table-hover" ng-cloak ng-if="open">
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th class="centeredCell">Form Recieved</th>
+              <th class="centeredCell">Form Approved</th>
+              <th class="centeredCell">Paid</th>
+            </tr>
+          </thead>
+          <tbody ng-cloak>
+            <tr ng-repeat="bro in data" ng-class="rowType($index)">
+              <td>{{bro.firstName}}</td>
+              <td>{{bro.lastName}}</td>
+              <td class="centeredCell"><span class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="format(bro.formRecieved)"></span></td>
+              <td class="centeredCell"><span class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="format(bro.formApproved)"></span></td>
+              <td class="centeredCell"><span class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="format(bro.paid)"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Include Nav -->
+    <% include('nav_panel'); %>
+  </div>
+  
+
+
+  <!-- Include Modals -->
+  <%
+    var modals = ["approveExpense", "changePassword", "duesForm", "email", "links", "reportIssue", "statusUpdate", "submitExpense"];
+    for (var i =0; i < modals.length; i++) {
+      include('modals/' + modals[i] + '_modal');
+    }
+  %>
+
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
+  <script src="/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/angular/angular.min.js"></script>
+  <script src="/angular/angular-resource.min.js"></script>
+  <script src="/services.js"></script>
+  <script src="/factories.js"></script>
+  <script src="/homepage/controller.js"></script>
+  <script src="/homepage/chart.js"></script>
+  <script src="/homepage/angular-charts-min.js"></script>
+</body>
+
+</html>

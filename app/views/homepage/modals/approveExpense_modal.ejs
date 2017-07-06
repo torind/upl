@@ -1,0 +1,59 @@
+<div class="modal-background" ng-if="getModal('approve')">
+  <div class="modal-content" ng-controller="approvalController" ng-init="init(<?php echo $_SESSION['myprivilege']; ?>)">
+    <div class="panel panel-default modal-panel">
+      <div class="panel-heading">
+        <div class="container-fluid">
+          <div class="row text-color">
+            <div class="col-xs-11 nopad">
+              <h2 class="panel-title modal-title">Approve Expenses</h2>
+            </div>
+            <div class="col-xs-1 nopad">
+              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="close()"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body nopad">
+        <div class="pane">
+          <table class="table tabled-striped table-hover">
+            <thead>
+              <tr>
+                <th class="centeredCell"></th>
+                <th class="centeredCell no-mobile">Date</th>
+                <th class="centeredCell">Account</th>
+                <th class="centeredCell">Requesting Brother</th>
+                <th class="centeredCell">Description</th>
+                <th class="centeredCell">Amount</th>
+                <th class="centeredCell">Approved</th>
+                <th class="centeredCell">Paid</th>
+              </tr>
+            </thead>
+            <tbody ng-cloak>
+              <tr ng-repeat="expense in data">
+                <td class="centeredCell" ng-click="deleteExp($index)"><span class="glyphicon glyphicon-remove centered-glyph" aria-hidden="true"></span></td>
+                <td class="centeredCell no-mobile">{{date($index)}}</td>
+                <td class="centeredCell">{{expense.account}}</td>
+                <td class="centeredCell">{{expense.firstName}} {{expense.lastName}}</td>
+                <td class="centeredCell">{{expense.description}}</td>
+                <td class="centeredCell">${{expense.amount}}</td>
+                <td class="centeredCell">
+                  <div class="my-checkbox hoverable" ng-click="approve($index)">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-if="isApproved($index)"></span>
+                  </div>
+                </td>
+                <td class="centeredCell">
+                  <div class="my-checkbox hoverable" ng-click="pay($index)">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-if="isPaid($index)"></span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="submit(<?php echo $_SESSION['session_uiD']; ?>)">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

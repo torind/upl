@@ -1,0 +1,34 @@
+<div class="modal-background" ng-if="getModal('report')">
+  <div class="modal-content" ng-controller="reportController">
+    <div class="panel panel-default modal-panel">
+      <div class="panel-heading">
+        <div class="container-fluid">
+          <div class="row text-color">
+            <div class="col-xs-11 nopad">
+              <h2 class="panel-title modal-title">Report Issue</h2>
+            </div>
+            <div class="col-xs-1 nopad">
+              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="close()"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="container-fluid modal-container">
+          <div class="row iso-row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6 text-color form-group nomargin">
+              <label>Please Describe Your Issue:</label>
+              <input style="display:none">
+              <textarea ng-model="description" class="form-control" rows="4" placeholder="Describe..."></textarea>
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="submit(<?php echo $_SESSION['session_uiD']; ?>)">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

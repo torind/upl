@@ -1,0 +1,58 @@
+<div class="modal-background" ng-if="getModal('update')">
+  <div class="modal-content" ng-controller="updateController">
+    <div class="panel panel-default modal-panel">
+      <div class="panel-heading">
+        <div class="container-fluid">
+          <div class="row text-color">
+            <div class="col-xs-11 nopad">
+              <h2 class="panel-title modal-title">Update Collection Status</h2>
+            </div>
+            <div class="col-xs-1 nopad">
+              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="close()"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body nopad">
+        <div class="pane">
+          <!-- Update -->
+          <table class="table tabled-striped table-hover">
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th class="centeredCell">Form Recieved</th>
+                <th class="centeredCell">Form Approved</th>
+                <th class="centeredCell">Paid</th>
+              </tr>
+            </thead>
+            <tbody ng-cloak>
+              <tr ng-repeat="bro in data" ng-class="rowType($index)">
+                <td>{{bro.firstName}}</td>
+                <td>{{bro.lastName}}</td>
+                <td class="centeredCell">
+                  <div class="my-checkbox hoverable" ng-click="update('formRecieved',$index)">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-if="format(bro.formRecieved)"></span>
+                  </div>
+                </td>
+                <td class="centeredCell">
+                  <div class="my-checkbox hoverable" ng-click="update('formApproved', $index)">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-if="format(bro.formApproved)"></span>
+                  </div>
+                </td>
+                <td class="centeredCell">
+                  <div class="my-checkbox hoverable" ng-click="update('paid', $index)">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-if="format(bro.paid)"></span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="submit()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
