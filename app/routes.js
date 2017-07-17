@@ -14,15 +14,19 @@ router.get('/secure/home', function(req, res) {
 	res.render('homepage/homepage.ejs');
 });
 
-
 router.post('/login', function (req, res, next) {
 	// you might like to do a database look-up or something more scalable here
 	if (req.body.username && req.body.username === 'user' && req.body.password && req.body.password === 'pass') {
 		req.session.authenticated = true;
 		res.redirect('/secure/home');
 	} else {
-		res.render('login.ejs', {failedAttempt : true})
+		res.render('login.ejs', {failedAttempt : true});
 	}
+});
+
+router.get('/logout', function(req, res) {
+	req.session.destroy();
+	res.redirect('/');
 });
 
 module.exports = router

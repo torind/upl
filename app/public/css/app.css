@@ -11,6 +11,91 @@ tbody {
 
 }
 
+.dash-detail {
+	font-weight: bold;
+}
+
+.dashboard-container {
+	padding: 10px 0px 0px 0px;
+}
+
+.background-container {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+  z-index: -1;
+}
+.background-container img {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+  min-width: 50%;
+  min-height: 50%;
+}
+
+.payment-panel-body {
+	padding: 7px 15px 7px 15px;
+}
+
+.next-payment-date {
+	margin: 10px 0px 4px 0px;
+}
+
+.next-payment-amount {
+	margin: 4px 0px 15px 0px;
+}
+
+.upl-button {
+	border-radius: 100px;
+    box-shadow: none;
+    cursor: pointer;
+    border: 1px solid #555555;
+    color: #555555;
+    font-size: 12px;
+    line-height: 22px;
+    padding: 4px 12px;
+    background: transparent;
+    min-width: 89px;
+    font-weight: bold;
+}
+
+.upl-button:focus {
+	outline-style: none;
+}
+
+.blink-me {
+  animation: blinker 1.5s infinite;
+}
+
+@keyframes blinker {  
+  50% { opacity: 0; }
+}
+
+.welcome-box-alert {
+	margin: 0px 5px 0px 0px;
+}
+
+.current-balance {
+	margin: 5px 0px 15px 0px;
+}
+
+.welcome-box {
+	height: 200px;
+}
+
+.homepage-logo {
+    width: 30%;
+}
+
+.homepage-logo-container {
+	text-align: center;
+}
+
 .centered-glyph {
 	text-align: center;
 	line-height: 23px;

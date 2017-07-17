@@ -13,7 +13,7 @@ var resources = ['/public', '/js'];
 
 // App configuration
 app.set('view engine', 'ejs')
-app.set('views', __dirname + '\\views\\');
+app.set('views', __dirname + '/views/');
 
 
 app.use(cookieParser());

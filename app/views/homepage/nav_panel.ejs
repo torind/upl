@@ -1,23 +1,13 @@
-<div class="nav-container" ng-controller="navController" ng-init="init(<?php echo $_SESSION['session_uiD']; ?>)">
+<div class="nav-container" ng-controller="navController" ng-init="init()">
   <div class="box shadow" style="margin-top: 40px">
     <div class="box-content container-fluid">
       <div class="row">
-        <div class="col-xs-12 nopad"><h4 style="text-align:center">Welcome {{name()}}!</h4></div>
+        <div class="col-xs-12 nopad"><h4 style="text-align:center">Welcome Torin!</h4></div>
       </div>
 
-      <div class="row section-break"></div>
-      <div class="row row-highlighted">
-        <div class="container-fluid" ng-class="complianceClass()">
-          <!-- Financial Standing -->
-          <div class="row center-text"><span class="options-header">Current Financial Standing:</span></div>
-          <div class="row" style="margin: 15px 0px; text-align:center" ng-class="complianceClass()">
-            <div style="display: inline-block">
-              <span class="glyphicon" ng-class="icon()" aria-hidden="true"></span>
-              <span class="dues-status">{{message()}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+     <div class="row homepage-logo-container">
+       <img class="homepage-logo" src="/images/lions-logo.jpg">
+     </div>
 
       <div class="row major-section-break"></div>
       <div class="row">

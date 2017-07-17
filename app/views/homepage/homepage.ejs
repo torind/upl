@@ -11,25 +11,15 @@
   <link rel="stylesheet" href="/css/app.css">
 </head>
 
-<body class="background-color" ng-app="homepageApp" ng-controller="mainController" ng-class="{'modal-open' : isOpen()}" ng-init="init()">
-  <div ng-class="{'cover' : !loaded}">
-    <!-- Email Modal -->
-    
-
-    <!-- Update Modal -->
 
 
 
-    <!-- Dues Modal -->
+<body ng-app="homepageApp" ng-controller="mainController" ng-class="{'modal-open' : isOpen()}" ng-init="init()">
 
+  <div class="background-container">
+    <img src="/images/lions-background.png">
+  </div>
 
-    <!-- Links Modal -->
-
-
-    <!-- Expense Modal -->
-
-
-    <!-- Approve Modal -->
 
   <!-- Nav Bar -->
   <nav class="navbar navbar-default">
@@ -50,7 +40,7 @@
           <li class="mobile-only"><a href="#" ng-click="openModal('dues')" class="upl-option">Submit Dues Form</a></li>
           <li class="mobile-only"><a href="#" ng-click="openModal('expense')" class="upl-option">Submit Expenses</a></li>
           <li class="mobile-only"><a href="#" ng-click="openModal('password')" class="upl-option">Change Password</a></li>
-          <li><a href="/login/back_end/logout" class="upl-option">Log Out</a></li>
+          <li><a href="/logout" class="upl-option">Log Out</a></li>
         </ul>
       </nav>
     </div>
@@ -61,7 +51,7 @@
     <div class="main-container">
 
       <!-- Mobile Welcome-->
-      <div class="panel panel-default mobile-only" ng-controller="navController" ng-init="init(<?php echo $_SESSION['session_uiD']; ?>)">
+      <div class="panel panel-default mobile-only" ng-controller="navController" ng-init="init()">
         <div class="panel-heading">
           <div class="container-fluid text-color">
             <div class="col-xs-11"><h3 class="panel-title">Welcome {{name()}}!</h3></div>
@@ -80,61 +70,321 @@
             </div>
           </div>
         </div>
-      </div>  
+      </div> 
 
-      <!-- Current Budget Usage -->
-      <div class="panel panel-default" ng-controller="currentUsageController" ng-init="init()">
-        <div class="panel-heading">
-          <div class="container-fluid text-color">
-            <div class="col-xs-11"><h3 class="panel-title">Current Budget Usage</h3></div>
-            <div class="col-xs-1 nopad"><upl-switch open="open"></upl-switch></div>
+      <!-- Welcome Boxes -->
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="col-xs-4">
+            <div class="panel panel-default welcome-box">
+
+              <div class="panel-heading">
+                <div class="container-fluid text-color nopad">
+                  <div class="col-xs-1 nopad welcome-box-alert blink-me">
+                    <span class="glyphicon glyphicon-alert" aria-hidden="true">
+                  </div>
+                  <div class="col-xs-10 nopad">
+                    <h3 class="panel-title">Current Status</h3>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-body">
+                <div class="container-fluid">
+                  <div class="row text-center">
+                    <p class="nomargin">Your current balance is:</p>
+                  </div>
+
+                  <div class="row" style="text-align: center">
+                    <h2 class="text-color current-balance">$225.10</h2>
+                  </div>
+
+                  <div class="row">
+                    <p>This is a message that I will tell you what's good!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <div class="col-xs-4">
+            <div class="panel panel-default welcome-box">
+
+              <div class="panel-heading">
+                <div class="container-fluid text-color nopad">
+                  <div class="col-xs-1 nopad welcome-box-alert">
+                    <span class="glyphicon glyphicon-alert blink-me" aria-hidden="true">
+                  </div>
+                  <div class="col-xs-10 nopad">
+                    <h3 class="panel-title">Upcoming Payments</h3>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-body payment-panel-body">
+                <div class="container-fluid">
+                  <div class="row text-center">
+                    <p class="nomargin">Your next payment is scheduled for:</p>
+                  </div>
+                  <div class="row text-center">
+                    <h3 class="text-color next-payment-date">July 15th, 2017</h3>
+                  </div>
+
+                  <div class="row text-center">
+                    <h4 class="text-color next-payment-amount">$150</h4>
+                  </div>
+
+                  <div class="row text-center">
+                    <button type="button" class="upl-button">View All Payments</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-xs-4"> 
+            <div class="panel panel-default welcome-box">
+              
+              <div class="panel-heading">
+                <div class="container-fluid text-color nopad">
+                  <div class="col-xs-12 nopad">
+                    <h3 class="panel-title">Payment History</h3>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-body payment-panel-body">
+                <div class="container-fluid">
+                  <div class="row text-center">
+                    <p class="nomargin">Your last processed payment was:</p>
+                  </div>
+                  <div class="row text-center">
+                    <h3 class="text-color next-payment-date">July 15th, 2017</h3>
+                  </div>
+
+                  <div class="row text-center">
+                    <h4 class="text-color next-payment-amount">$150</h4>
+                  </div>
+
+                  <div class="row text-center">
+                    <button type="button" class="upl-button">View All Payments</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
-        <div class="panel-body" ng-if="open">
-          <div class="container-fluid">
-            <upl-progress-bar name="'Total Budget Usage'" current-val="totalUsage()" max-val="totalMax()"></upl-progress-bar>
-            <upl-progress-bar name="'Social Budget'" current-val="usages.social" max-val="max.social" color></upl-progress-bar>
-            <upl-progress-bar name="'Rush Budget'" current-val="usages.rush" max-val="max.rush"></upl-progress-bar>
-            <upl-progress-bar name="'Brotherhood Budget'" current-val="usages.brohood" max-val="max.brohood"></upl-progress-bar>
+      </div>
+
+      <!-- Social Chair Dashboard -->
+      <div class="container-fluid">
+        <div class="panel panel-default" ng-controller="currentUsageController" ng-init="init()">
+          <div class="panel-heading">
+            <div class="container-fluid text-color">
+              <div class="col-xs-12"><h3 class="panel-title">Social Chair Dashboard</h3></div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="container-fluid dashboard-container">
+              <div class="row">
+                <upl-progress-bar name="" current-val="totalUsage()" max-val="totalMax()"></upl-progress-bar>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 text-center">
+                  <div class="container-fluid" style="padding: 10px">
+
+                    <div class="row">
+                      <p class="nomargin">Remaining Budget:</p>
+                    </div>
+                    <div class="row">
+                      <h2 class="nomargin">$10,930</h2>
+                    </div>
+
+                    <div class="row" style="margin-top: 15px">
+                        <span class="nomargin">Total Budget: </span>
+                        <span class="dash-detail">$15,000</span>
+                    </div>
+                    <div class="row">
+                        <span class="nomargin">Spent Thus Far: </span>
+                        <span class="dash-detail">$4,070</span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-xs-8">
+                  <table class="table tabled-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th class="centeredCell no-mobile">Date</th>
+                        <th class="centeredCell">Requesting Brother</th>
+                        <th class="centeredCell">Description</th>
+                        <th class="centeredCell">Amount</th>
+                        <th class="centeredCell">Paid</th>
+                      </tr>
+                    </thead>
+                    <tbody ng-cloak>
+                      <tr ng-repeat="expense in data">
+                        <td class="centeredCell no-mobile">{{date($index)}}</td>
+                        <td class="centeredCell">{{expense.account}}</td>
+                        <td class="centeredCell">{{expense.firstName}} {{expense.lastName}}</td>
+                        <td class="centeredCell">{{expense.description}}</td>
+                        <td class="centeredCell">${{expense.amount}}</td>
+                        <td class="centeredCell">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Individual Brother Financial Standing -->
-      <div class="panel panel-default" ng-controller="individualDuesController" ng-init="init()">
-        <div class="panel-heading">
-          <div class="container-fluid text-color">
-            <div class="col-xs-6 col-sm-7"><h3 class="panel-title">Individual Brother Financial Standing</h3></div>
-            <div class="col-xs-5 col-sm-4"><h3 class="panel-title" style="font-size: 10pt; line-height: 18px">Last Updated: {{lastUpdated}}</h3></div>
-            <div class="col-xs-1 nopad"><upl-switch open="open"></upl-switch></div>
+      <!-- Rush Chair Dashboard -->
+      <div class="container-fluid">
+        <div class="panel panel-default" ng-controller="currentUsageController" ng-init="init()">
+          <div class="panel-heading">
+            <div class="container-fluid text-color">
+              <div class="col-xs-12"><h3 class="panel-title">Rush Chair Dashboard</h3></div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="container-fluid dashboard-container">
+              <div class="row">
+                <upl-progress-bar name="" current-val="totalUsage()" max-val="totalMax()"></upl-progress-bar>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 text-center">
+                  <div class="container-fluid" style="padding: 10px">
+
+                    <div class="row">
+                      <p class="nomargin">Remaining Budget:</p>
+                    </div>
+                    <div class="row">
+                      <h2 class="nomargin">$10,930</h2>
+                    </div>
+
+                    <div class="row" style="margin-top: 15px">
+                        <span class="nomargin">Total Budget: </span>
+                        <span class="dash-detail">$15,000</span>
+                    </div>
+                    <div class="row">
+                        <span class="nomargin">Spent Thus Far: </span>
+                        <span class="dash-detail">$4,070</span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-xs-8">
+                  <table class="table tabled-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th class="centeredCell no-mobile">Date</th>
+                        <th class="centeredCell">Requesting Brother</th>
+                        <th class="centeredCell">Description</th>
+                        <th class="centeredCell">Amount</th>
+                        <th class="centeredCell">Paid</th>
+                      </tr>
+                    </thead>
+                    <tbody ng-cloak>
+                      <tr ng-repeat="expense in data">
+                        <td class="centeredCell no-mobile">{{date($index)}}</td>
+                        <td class="centeredCell">{{expense.account}}</td>
+                        <td class="centeredCell">{{expense.firstName}} {{expense.lastName}}</td>
+                        <td class="centeredCell">{{expense.description}}</td>
+                        <td class="centeredCell">${{expense.amount}}</td>
+                        <td class="centeredCell">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <table class="table tabled-striped table-hover" ng-cloak ng-if="open">
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th class="centeredCell">Form Recieved</th>
-              <th class="centeredCell">Form Approved</th>
-              <th class="centeredCell">Paid</th>
-            </tr>
-          </thead>
-          <tbody ng-cloak>
-            <tr ng-repeat="bro in data" ng-class="rowType($index)">
-              <td>{{bro.firstName}}</td>
-              <td>{{bro.lastName}}</td>
-              <td class="centeredCell"><span class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="format(bro.formRecieved)"></span></td>
-              <td class="centeredCell"><span class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="format(bro.formApproved)"></span></td>
-              <td class="centeredCell"><span class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="format(bro.paid)"></span></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
+
+      <!-- Brotherhood Chair Dashboard -->
+      <div class="container-fluid">
+        <div class="panel panel-default" ng-controller="currentUsageController" ng-init="init()">
+          <div class="panel-heading">
+            <div class="container-fluid text-color">
+              <div class="col-xs-12"><h3 class="panel-title">Brotherhood Chair Dashboard</h3></div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="container-fluid dashboard-container">
+              <div class="row">
+                <upl-progress-bar name="" current-val="totalUsage()" max-val="totalMax()"></upl-progress-bar>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 text-center">
+                  <div class="container-fluid" style="padding: 10px">
+
+                    <div class="row">
+                      <p class="nomargin">Remaining Budget:</p>
+                    </div>
+                    <div class="row">
+                      <h2 class="nomargin">$10,930</h2>
+                    </div>
+
+                    <div class="row" style="margin-top: 15px">
+                        <span class="nomargin">Total Budget: </span>
+                        <span class="dash-detail">$15,000</span>
+                    </div>
+                    <div class="row">
+                        <span class="nomargin">Spent Thus Far: </span>
+                        <span class="dash-detail">$4,070</span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-xs-8">
+                  <table class="table tabled-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th class="centeredCell no-mobile">Date</th>
+                        <th class="centeredCell">Requesting Brother</th>
+                        <th class="centeredCell">Description</th>
+                        <th class="centeredCell">Amount</th>
+                        <th class="centeredCell">Paid</th>
+                      </tr>
+                    </thead>
+                    <tbody ng-cloak>
+                      <tr ng-repeat="expense in data">
+                        <td class="centeredCell no-mobile">{{date($index)}}</td>
+                        <td class="centeredCell">{{expense.account}}</td>
+                        <td class="centeredCell">{{expense.firstName}} {{expense.lastName}}</td>
+                        <td class="centeredCell">{{expense.description}}</td>
+                        <td class="centeredCell">${{expense.amount}}</td>
+                        <td class="centeredCell">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
-
     <!-- Include Nav -->
-    <% include('nav_panel'); %>
+    <% include nav_panel %>
   </div>
+
   
 
 
@@ -142,9 +392,9 @@
   <%
     var modals = ["approveExpense", "changePassword", "duesForm", "email", "links", "reportIssue", "statusUpdate", "submitExpense"];
     for (var i =0; i < modals.length; i++) {
-      include('modals/' + modals[i] + '_modal');
-    }
-  %>
+      var path = 'modals/' + modals[i] + '_modal.ejs'; %>
+      <%- include(path); %>
+    <% } %>
 
   <script src="https://code.jquery.com/jquery-1.9.1.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
   <script src="/bootstrap/js/bootstrap.min.js"></script>
