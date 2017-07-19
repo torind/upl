@@ -620,6 +620,10 @@ tbody {
     animation-duration: 0.4s
 }
 
+.modal-open {
+	overflow: hidden;
+}
+
 
 .text-center {
 	text-align: center;

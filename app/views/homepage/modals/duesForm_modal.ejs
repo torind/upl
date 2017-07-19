@@ -1,6 +1,6 @@
 <div class="modal-background" ng-if="getModal('dues')">
   <div class="modal-content">
-    <div class="panel panel-default modal-panel" ng-controller="duesFormController">
+    <div class="panel panel-default modal-panel" >
       <div class="panel-heading">
         <div class="container-fluid">
           <div class="row text-color">
@@ -8,12 +8,12 @@
               <h2 class="panel-title modal-title">Submit Dues Form</h2>
             </div>
             <div class="col-xs-1 nopad">
-              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="close()"></span>
+              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="closeModal()"></span>
             </div>
           </div>
         </div>
       </div>
-      <div class="panel-body  max-panel-body" ng-init="init(<?php echo $_SESSION['session_uiD']; ?>)">
+      <div class="panel-body  max-panel-body">
         <div>
           <div class="container-fluid" ng-if="formSubmitted == 0">
             <div class="row">

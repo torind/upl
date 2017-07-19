@@ -1,5 +1,5 @@
 <div class="modal-background" ng-if="getModal('expense')">
-  <div class="modal-content" ng-controller="expenseController">
+  <div class="modal-content" >
     <div class="panel panel-default modal-panel">
       <div class="panel-heading">
         <div class="container-fluid">
@@ -8,7 +8,7 @@
               <h2 class="panel-title modal-title">Submit Expense</h2>
             </div>
             <div class="col-xs-1 nopad">
-              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="close()"></span>
+              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="closeModal()"></span>
             </div>
           </div>
         </div>
@@ -27,13 +27,13 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-5 text-color">
               <label>Description:</label>
-              <input type="text" ng-model="data.description" class="form-control" placeholder="Description...">
+              <input type="text"  class="form-control" placeholder="Description...">
             </div>
             <div class="col-sm-3 text-color">
               <label>Amount:</label>
               <div class="input-group">
                 <span class="input-group-addon">$</span>
-                <input type="text" ng-model="data.amount" class="form-control" placeholder="Amount...">
+                <input type="text"  class="form-control" placeholder="Amount...">
               </div>
             </div>
             <div class="col-sm-2"></div>
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="submit(<?php echo $_SESSION['session_uiD']; ?>)">Submit</button>
+        <button type="button" class="btn btn-primary" >Submit</button>
       </div>
     </div>
   </div>

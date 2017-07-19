@@ -20,15 +20,15 @@
     <div class="avatar">
       <img src="/images/lions-logo.jpg">
     </div>
-    <form action="/login" method="POST">
+    <form action="/auth/login" method="POST">
       <input type="text" name="username" placeholder="Username" required>
       <div class="bar">
         <i></i>
       </div>
       <input type="password" name="password" placeholder="Password" required>
       <a href="" class="forgot_link">forgot ?</a>
-      <% if (typeof failedAttempt != 'undefined' && failedAttempt == true) { %>
-        <h2 style="width:100%; text-align:center; padding-bottom:20px; font-family: Impact, Charcoal, sans-serif; color:#990000">Incorrect Username or Password</h2>
+      <% if (typeof failMessage != 'undefined') { %>
+        <h2 style="width:100%; text-align:center; padding-bottom:20px; font-family: Impact, Charcoal, sans-serif; color:#990000"><%=failMessage%></h2>
       <% } %>
       <button>Sign In</button>
     </form>

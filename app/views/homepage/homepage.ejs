@@ -14,8 +14,7 @@
 
 
 
-<body ng-app="homepageApp" ng-controller="mainController" ng-class="{'modal-open' : isOpen()}" ng-init="init()">
-
+<body ng-app="homepage-app" ng-controller="root-controller" ng-class="{'modal-open': hasModal()}">
   <div class="background-container">
     <img src="/images/lions-background.png">
   </div>
@@ -31,16 +30,16 @@
           <span class="icon-bar upl-nav"></span>
           <span class="icon-bar upl-nav"></span> 
         </button> 
-        <a href="home" class="navbar-brand upl-brand">UPenn Lions</a>
+        <a href="/" class="navbar-brand upl-brand">UPenn Lions</a>
       </div>
       <nav id="bs-navbar" class="collapse navbar-collapse" id="bs-navbar">
         <ul class="nav navbar-nav navbar-right">
-          <li class="mobile-only"><a href="#" ng-click="openModal('update')" class="upl-option">Update Collection Status</a></li>
-          <li class="mobile-only"><a href="#" ng-click="openModal('approve')" class="upl-option">Approve Expenses</a></li>
-          <li class="mobile-only"><a href="#" ng-click="openModal('dues')" class="upl-option">Submit Dues Form</a></li>
-          <li class="mobile-only"><a href="#" ng-click="openModal('expense')" class="upl-option">Submit Expenses</a></li>
-          <li class="mobile-only"><a href="#" ng-click="openModal('password')" class="upl-option">Change Password</a></li>
-          <li><a href="/logout" class="upl-option">Log Out</a></li>
+          <li class="mobile-only"><a href="#"  class="upl-option">Update Collection Status</a></li>
+          <li class="mobile-only"><a href="#"  class="upl-option">Approve Expenses</a></li>
+          <li class="mobile-only"><a href="#"  class="upl-option">Submit Dues Form</a></li>
+          <li class="mobile-only"><a href="#"  class="upl-option">Submit Expenses</a></li>
+          <li class="mobile-only"><a href="#"  class="upl-option">Change Password</a></li>
+          <li><a href="/auth/logout" class="upl-option">Log Out</a></li>
         </ul>
       </nav>
     </div>
@@ -51,20 +50,20 @@
     <div class="main-container">
 
       <!-- Mobile Welcome-->
-      <div class="panel panel-default mobile-only" ng-controller="navController" ng-init="init()">
+      <div class="panel panel-default mobile-only"  >
         <div class="panel-heading">
           <div class="container-fluid text-color">
             <div class="col-xs-11"><h3 class="panel-title">Welcome {{name()}}!</h3></div>
             <div class="col-xs-1 nopad"><upl-switch open="open"></upl-switch></div>
           </div>
         </div>
-        <div class="panel-body" ng-if="open" ng-class="complianceClass()">
+        <div class="panel-body"  >
           <div class="container-fluid">
             <!-- Financial Standing -->
             <div class="row center-text"><span class="options-header">Current Financial Standing:</span></div>
-            <div class="row" style="margin: 15px 0px; text-align:center" ng-class="complianceClass()">
+            <div class="row" style="margin: 15px 0px; text-align:center" >
               <div style="display: inline-block">
-                <span class="glyphicon" ng-class="icon()" aria-hidden="true"></span>
+                <span class="glyphicon"  aria-hidden="true"></span>
                 <span class="dues-status">{{message()}}</span>
               </div>
             </div>
@@ -181,7 +180,7 @@
 
       <!-- Social Chair Dashboard -->
       <div class="container-fluid">
-        <div class="panel panel-default" ng-controller="currentUsageController" ng-init="init()">
+        <div class="panel panel-default"  >
           <div class="panel-heading">
             <div class="container-fluid text-color">
               <div class="col-xs-12"><h3 class="panel-title">Social Chair Dashboard</h3></div>
@@ -225,8 +224,8 @@
                         <th class="centeredCell">Paid</th>
                       </tr>
                     </thead>
-                    <tbody ng-cloak>
-                      <tr ng-repeat="expense in data">
+                    <tbody>
+                      <tr>
                         <td class="centeredCell no-mobile">{{date($index)}}</td>
                         <td class="centeredCell">{{expense.account}}</td>
                         <td class="centeredCell">{{expense.firstName}} {{expense.lastName}}</td>
@@ -248,7 +247,7 @@
 
       <!-- Rush Chair Dashboard -->
       <div class="container-fluid">
-        <div class="panel panel-default" ng-controller="currentUsageController" ng-init="init()">
+        <div class="panel panel-default"  >
           <div class="panel-heading">
             <div class="container-fluid text-color">
               <div class="col-xs-12"><h3 class="panel-title">Rush Chair Dashboard</h3></div>
@@ -292,8 +291,8 @@
                         <th class="centeredCell">Paid</th>
                       </tr>
                     </thead>
-                    <tbody ng-cloak>
-                      <tr ng-repeat="expense in data">
+                    <tbody>
+                      <tr>
                         <td class="centeredCell no-mobile">{{date($index)}}</td>
                         <td class="centeredCell">{{expense.account}}</td>
                         <td class="centeredCell">{{expense.firstName}} {{expense.lastName}}</td>
@@ -315,7 +314,7 @@
 
       <!-- Brotherhood Chair Dashboard -->
       <div class="container-fluid">
-        <div class="panel panel-default" ng-controller="currentUsageController" ng-init="init()">
+        <div class="panel panel-default"  >
           <div class="panel-heading">
             <div class="container-fluid text-color">
               <div class="col-xs-12"><h3 class="panel-title">Brotherhood Chair Dashboard</h3></div>
@@ -359,8 +358,8 @@
                         <th class="centeredCell">Paid</th>
                       </tr>
                     </thead>
-                    <tbody ng-cloak>
-                      <tr ng-repeat="expense in data">
+                    <tbody>
+                      <tr>
                         <td class="centeredCell no-mobile">{{date($index)}}</td>
                         <td class="centeredCell">{{expense.account}}</td>
                         <td class="centeredCell">{{expense.firstName}} {{expense.lastName}}</td>
@@ -390,7 +389,7 @@
 
   <!-- Include Modals -->
   <%
-    var modals = ["approveExpense", "changePassword", "duesForm", "email", "links", "reportIssue", "statusUpdate", "submitExpense"];
+    var modals = ["changePassword", "duesForm", "email", "links", "reportIssue", "submitExpense"];
     for (var i =0; i < modals.length; i++) {
       var path = 'modals/' + modals[i] + '_modal.ejs'; %>
       <%- include(path); %>
@@ -401,10 +400,7 @@
   <script src="/angular/angular.min.js"></script>
   <script src="/angular/angular-resource.min.js"></script>
   <script src="/services.js"></script>
-  <script src="/factories.js"></script>
   <script src="/homepage/controller.js"></script>
-  <script src="/homepage/chart.js"></script>
-  <script src="/homepage/angular-charts-min.js"></script>
 </body>
 
 </html>
