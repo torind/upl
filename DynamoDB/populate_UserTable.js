@@ -37,7 +37,6 @@ allUsers.forEach(function(user) {
             "dues_amounts": dues_amounts_blank,
             "dues_status": dues_status_blank,
             "charges": [],
-            "schedules_payments": [],
             "payments": [],
             "positions" : []
         }

@@ -447,6 +447,7 @@ tbody {
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+    overflow: hidden;
 }
 
 @-webkit-keyframes animatetop {
@@ -604,7 +605,7 @@ tbody {
 
 	.max-panel-body {
 		max-height: 380px;
-		overflow: scroll;
+		overflow: auto;
 	}
 }
 
@@ -618,6 +619,11 @@ tbody {
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s
+}
+
+.no-payment-padding {
+	margin: 25px 0px;
+    font-size: 14pt;
 }
 
 .modal-open {
@@ -637,7 +643,7 @@ tbody {
 
 	.max-panel-body {
 		max-height: 60vh;
-		overflow: scroll;
+		overflow: auto;
 	}
 
   .no-mobile {
