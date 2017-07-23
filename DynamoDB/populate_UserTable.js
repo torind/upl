@@ -8,6 +8,7 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 console.log("Importing user information into DynamoDB. Please wait.");
 
 var dues_amounts_blank = {
+  "status": null,
   "proposed_amount": null,
   "agreed_amount" : null,
 };

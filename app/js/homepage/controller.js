@@ -154,32 +154,35 @@ angular.module('homepage-app',['services.js'])
     $scope.clearError();
     if ($scope.options.one) {
       params = {
-        param0: JSON.stringify([{date: paymentDate, amount: $scope.obligation}])
+        param0: 'paying_full',
+        param1: JSON.stringify([{date: paymentDate, amount: $scope.obligation}])
       };
     }
     else if ($scope.options.two) {
       if (optionTwoSanity()) {
         if(paymentSanity()) {
           params = {
-            param0: JSON.stringify($scope.payments)
+            param0: 'full_plan',
+            param1: JSON.stringify($scope.payments)
           };
 
         }
       }
       else {
-        $scope.reportError("Proposed amounts do not equal your charged amount.")
+        $scope.reportError("Proposed amounts do not equal total amount.")
       }
     }
     else if ($scope.options.three) {
       if (optionThreeSanity()) {
         if(paymentSanity()) {
           params = {
-            param0: JSON.stringify($scope.payments)
+            param0: 'discounted_plan',
+            param1: JSON.stringify($scope.payments)
           };
         }
       }
       else {
-        $scope.reportError("Proposed amounts do not equal your proposed total.")
+        $scope.reportError("Proposed amounts do not equal total amount.")
       }
     }
     $http.post('/api/post_dues_form', params).then(

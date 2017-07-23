@@ -47,7 +47,6 @@ router.get('/indv_bro_profile', function(req, res) {
 	}
 });
 
-// Data Formatters
 function indv_bro_profile(aws_data_obj) {
 	var dbItem = aws_data_obj.Item
 	var cData = {
@@ -148,5 +147,13 @@ function popBalance(cData, dbItem) {
 	cData.balance = totalPayments - totalCharge;
 	cData.balance_alert = cData.balance < 0;
 };
+
+router.post('/post_dues_form', function(req, res) {
+	var status = req.body.param0;
+	var payments = req.body.param1;
+	if (typeof status != 'undefined' && typeof payments != 'undefined') {
+		res.send("Success");
+	}
+});
 
 module.exports = router;
