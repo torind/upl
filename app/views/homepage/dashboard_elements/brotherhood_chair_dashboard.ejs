@@ -1,0 +1,66 @@
+<!-- Brotherhood Chair Dashboard -->
+<div class="container-fluid">
+  <div class="panel panel-default"  >
+    <div class="panel-heading">
+      <div class="container-fluid text-color">
+        <div class="col-xs-12"><h3 class="panel-title">Brotherhood Chair Dashboard</h3></div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="container-fluid dashboard-container">
+        <div class="row">
+          <upl-progress-bar name="" current-val="totalUsage()" max-val="totalMax()"></upl-progress-bar>
+        </div>
+        <div class="row">
+          <div class="col-xs-4 text-center">
+            <div class="container-fluid" style="padding: 10px">
+
+              <div class="row">
+                <p class="nomargin">Remaining Budget:</p>
+              </div>
+              <div class="row">
+                <h2 class="nomargin">$10,930</h2>
+              </div>
+
+              <div class="row" style="margin-top: 15px">
+                <span class="nomargin">Total Budget: </span>
+                <span class="dash-detail">$15,000</span>
+              </div>
+              <div class="row">
+                <span class="nomargin">Spent Thus Far: </span>
+                <span class="dash-detail">$4,070</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-xs-8">
+            <table class="table tabled-striped table-hover">
+              <thead>
+                <tr>
+                  <th class="centeredCell no-mobile">Date</th>
+                  <th class="centeredCell">Requesting Brother</th>
+                  <th class="centeredCell">Description</th>
+                  <th class="centeredCell">Amount</th>
+                  <th class="centeredCell">Paid</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="centeredCell no-mobile">{{date($index)}}</td>
+                  <td class="centeredCell">{{expense.account}}</td>
+                  <td class="centeredCell">{{expense.firstName}} {{expense.lastName}}</td>
+                  <td class="centeredCell">{{expense.description}}</td>
+                  <td class="centeredCell">${{expense.amount}}</td>
+                  <td class="centeredCell">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
