@@ -29,6 +29,7 @@ var ssl_options = {
     cert: sslcert
 };
 
+var app = express();
 var resources = ['/public', '/js'];
 
 // App configuration
