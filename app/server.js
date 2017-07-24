@@ -12,7 +12,7 @@ var secure_router = require('./routes/secure_routes.js');
 var auth_router = require('./routes/auth_routes.js');
 var api_router = require('./routes/api.js');
 
-var httpsEnabled = false;
+var httpsEnabled = true;
 var bypass = false;
 
 var devMode = false;
