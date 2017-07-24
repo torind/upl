@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var partials = require('express-partials');
 var https = require('https');
+var http = require('http');
 var fs = require('fs');
 var helmet = require('helmet');
 
@@ -17,14 +18,13 @@ var bypass = false;
 
 var devMode = false;
 
-var app = express();
 
 
 // SSL
 var sslkey = fs.readFileSync('../SSL/ssl-key.pem');
 var sslcert = fs.readFileSync('../SSL/ssl-cert.pem');
 
-var httpsOptions = {
+var ssl_options = {
     key: sslkey,
     cert: sslcert
 };
@@ -57,8 +57,11 @@ app.use('/auth', auth_router);
 app.use(secure_router);
 
 var port = 8080;
-app.listen(8080);
-console.log("Server listening on port: ", port);
+var server = http.createServer(app);
+var secureServer = https.createServer(ssl_options, app);
+
+server.listen(80);
+secureServer.listen(443);
 
 function initializeStaticRoutes() {
 	for (var i = 0; i < resources.length; i++) {
