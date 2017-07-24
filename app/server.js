@@ -56,7 +56,9 @@ app.use('/api', api_router)
 app.use('/auth', auth_router);
 app.use(secure_router);
 
+var port = 8080;
 app.listen(8080);
+console.log("Server listening on port: ", port);
 
 function initializeStaticRoutes() {
 	for (var i = 0; i < resources.length; i++) {
