@@ -26,16 +26,20 @@ angular.module('services.js',[])
 	}
 })
 
-.service('profileService', function($http) {
+.service('profileService', function($http, modalService) {
 	var profileData = null;
 	this.init = function() {
 		$http.get('/api/indv_bro_profile').then(
 			function success(response) {
 				if (response.data.success) {
 					profileData = response.data.data;
+					var needsPwdReset = profileData.passwordNeedsReset;
+					if (typeof needsPwdReset != 'undefined' && needsPwdReset) {
+						modalService.pushModal('account-setup');
+					}
 				}
 				else {
-					console.log("Successful request but bad response!");
+					console.log("Successful request but bad response!", response.data.error.message);
 				}
 			},
 			function errorCallback(response) {
@@ -45,6 +49,12 @@ angular.module('services.js',[])
 
 	this.getData = function() {
 		return profileData;
+	}
+
+	this.setFormSubmitted = function() {
+		if (profileData != null && profileData.dues_status != null) {
+			profileData.dues_status.form_submitted = true;
+		}
 	}
 
 	this.isFormSubmitted = function() {

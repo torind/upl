@@ -4,14 +4,30 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var partials = require('express-partials');
+var https = require('https');
+var fs = require('fs');
+var helmet = require('helmet');
 
 var secure_router = require('./routes/secure_routes.js');
 var auth_router = require('./routes/auth_routes.js');
 var api_router = require('./routes/api.js');
 
-var devMode = true;
+var httpsEnabled = false;
+var bypass = false;
+
+var devMode = false;
 
 var app = express();
+
+
+// SSL
+var sslkey = fs.readFileSync('../SSL/ssl-key.pem');
+var sslcert = fs.readFileSync('../SSL/ssl-cert.pem');
+
+var httpsOptions = {
+    key: sslkey,
+    cert: sslcert
+};
 
 var resources = ['/public', '/js'];
 
@@ -24,21 +40,21 @@ app.use(cookieParser());
 app.use(session({
 	secret: '4001P!nE',
 	resave: false,
-	saveUninitialized: true}));
+	saveUninitialized: true,
+	cookie: {
+	    secure: httpsEnabled,
+	    httpOnly: httpsEnabled
+	 }}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
-initializeStaticRoutes()
 
-if (devMode) {
-	app.use(initializeDevMode);
-}
+app.use(initializeDevMode);
+app.use(helmet());
+initializeStaticRoutes()
 
 app.use('/api', api_router)
 app.use('/auth', auth_router);
 app.use(secure_router);
-
-
-
 
 app.listen(8080);
 
@@ -49,7 +65,17 @@ function initializeStaticRoutes() {
 }
 
 function initializeDevMode (req, res, next) {
-		req.session.uID = 12;
+
+	if (bypass) {
+	    req.session.uID = 12;
 		req.session.authenticated = true;
-		next()
+	}
+
+	if (httpsEnabled) {
+	    if (!/https/.test(req.protocol)) {
+	        res.redirect("https://" + req.headers.host + req.url);
+	    }
+	}
+
+	next()
 }

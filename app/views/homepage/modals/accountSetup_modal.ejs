@@ -1,0 +1,67 @@
+<div class="modal-background" ng-if="getModal('account-setup')" ng-cloak>
+  <div class="modal-content" ng-controller="account-setup-controller">
+    <div class="panel panel-default modal-panel">
+      <div class="panel-heading">
+        <div class="container-fluid">
+          <div class="row text-color">
+            <div class="col-xs-11 nopad">
+              <h2 class="panel-title modal-title">Account Setup</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="container-fluid modal-container">
+          <div class="row iso-row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+              <p class="setup-direction">Set Email:</p>
+            </div>
+          </div>
+          <div class="row iso-row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6 text-color form-group nomargin" ng-class="{'has-error' : !email.valid}">
+              <input style="display:none">
+              <input ng-model="email.value" class="form-control" placeholder="Email..." ng-change="email.validate(false)" autocomplete="off">
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+
+          <div class="row iso-row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+              <p class="setup-direction">Set Password:</p>
+            </div>
+          </div>
+          <div class="row iso-row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6 text-color form-group nomargin" ng-class="{'has-error' : !password.valid}">
+              <input style="display:none">
+              <input type="password" ng-model="password.value" class="form-control" placeholder="Password..." ng-change="password.validate(false)" autocomplete="off">
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+          <div class="row iso-row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6 text-color form-group nomargin" ng-class="{'has-error' : !confirm.valid}">
+              <input style="display:none">
+              <input type="password" ng-model="confirm.value" class="form-control" placeholder="Confirm Password..." ng-change="confirm.validate(false)" autocomplete="off">
+              <span id="helpBlock" class="help-block">Password must be at least 5 characters long.</span>
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+          <div class="row iso-row" ng-if="error.active">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+              <p class="error-text" ng-cloak>{{error.msg}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <img ng-if="loading" class="modal-loader" src="/images/loader.gif">
+        <button type="button" class="btn btn-primary" ng-click="submit()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

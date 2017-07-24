@@ -1,5 +1,5 @@
 var AWS = require("aws-sdk");
-AWS.config.loadFromPath('./dynamodb-config.json');
+AWS.config.loadFromPath('./DynamoDB/dynamodb-config.json');
 
 
 var dynamodb = new AWS.DynamoDB();

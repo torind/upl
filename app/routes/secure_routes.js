@@ -30,6 +30,7 @@ router.get('/', function(req, res) {
 });
 
 function checkAuth (req, res, next) {
+
 	if (req.path != "/") {
 		if (!req.session || !req.session.authenticated) {
 			res.redirect('/?fcode=2');

@@ -437,6 +437,12 @@ tbody {
 	margin:auto;
 }
 
+.setup-direction {
+	font-size: 14pt;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
 .modal-background {
 	position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -479,6 +485,15 @@ tbody {
 	overflow: hidden;
 }
 
+.modal-loader {
+	margin-right: 7px;
+	height: 100%
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 .error-text {
 	width: 100%;
 	text-align: center;
@@ -486,6 +501,7 @@ tbody {
 	font-family: "Arial Black", Gadget, sans-serif;
     font-size: .95em;
     margin-top: 5px;
+    overflow: hidden;
 }
 
 .heading {

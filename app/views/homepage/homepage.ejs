@@ -195,8 +195,23 @@
       
 
       
-
-      
+      <!-- Coming Soon Page -->
+      <div class="container-fluid">
+        <div class="panel panel-default"  >
+          <div class="panel-heading">
+            <div class="container-fluid text-color">
+              <div class="col-xs-12"><h3 class="panel-title" style="text-align: center">Other Shit</h3></div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="container-fluid dashboard-container">
+              <div class="row" style="text-align: center; margin: auto;">
+               <h2 style=" color: #888888">Other Shit Coming Soon...</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
     <!-- Include Nav -->
@@ -208,7 +223,7 @@
 
   <!-- Include Modals -->
   <%
-    var modals = ["changePassword", "duesForm", "email", "links", "reportIssue", "submitExpense"];
+    var modals = ["changePassword", "duesForm", "links", "reportIssue", "submitExpense", "accountSetup"];
     for (var i =0; i < modals.length; i++) {
       var path = 'modals/' + modals[i] + '_modal.ejs'; %>
       <%- include(path); %>

@@ -49,12 +49,14 @@ angular.module('homepage-app',['services.js'])
 
   $scope.$watch($profile.getData, function(d) {
     $scope.profileData = d;
+
   });
 
   init()
 }])
 
-.controller('dues-form-controller', ['$scope', 'modalService', 'profileService', '$http', function($scope, $modal, $profile, $http) {
+.controller('dues-form-controller', ['$scope', 'modalService', 'profileService', '$http', '$location', '$anchorScroll',
+ function($scope, $modal, $profile, $http, $location, $anchorScroll) {
   $scope.payments = [
   {
     date : "",
@@ -65,18 +67,25 @@ angular.module('homepage-app',['services.js'])
   $scope.hasError = false;
   $scope.errorText = null;
 
+  $scope.loading = false;
+
   $scope.obligation = "...";
 
   $scope.proposed = {
     text : ""
   };
 
-  $scope.formSubmitted = false;
+  $scope.formSubmitted = true;
 
   $scope.options  = {
     one: false,
     two: false,
     three: false
+  };
+
+  var showErrorText = function() {
+    $location.hash('errorText');
+    $anchorScroll();
   };
 
   $scope.dateParse = function(index) {
@@ -141,6 +150,7 @@ angular.module('homepage-app',['services.js'])
   $scope.reportError = function(str) {
     $scope.hasError = true;
     $scope.errorText = str;
+    showErrorText();
   }
 
   $scope.clearError = function() {
@@ -163,11 +173,14 @@ angular.module('homepage-app',['services.js'])
           params = {
             param0: JSON.stringify($scope.payments)
           };
-
+        }
+        else {
+          return;
         }
       }
       else {
         $scope.reportError("Proposed amounts do not equal your charged amount.")
+        return;
       }
     }
     else if ($scope.options.three) {
@@ -177,21 +190,29 @@ angular.module('homepage-app',['services.js'])
             param0: JSON.stringify($scope.payments)
           };
         }
+        else {
+          return;
+        }
       }
       else {
         $scope.reportError("Proposed amounts do not equal your proposed total.")
+        return;
       }
     }
-    $http.post('/api/post_dues_form', params).then(
+    $scope.loading = true;
+    $http.post('/api/post-dues-form', params).then(
       function success(response) {
+        $scope.loading = false;
         if (response.data.success) {
           $modal.popModal();
+          $profile.setFormSubmitted();
         }
         else {
           $scope.reportError(response.data.error);
         }
       },
       function error(response) {
+        $scope.loading = false;
         $scope.reportError(response.statusText + " Please try again.");
       });
   }
@@ -282,4 +303,107 @@ angular.module('homepage-app',['services.js'])
   };
 
   init();
+}])
+
+.controller('account-setup-controller', ['$scope', 'modalService', '$http', function($scope, $modal, $http) {
+  $scope.error = {
+    active : false,
+    msg : ""
+  };
+
+  $scope.email = {
+    value : "",
+    valid : true
+  };
+
+  $scope.password = {
+    value: "", 
+    valid: true
+  }
+
+  $scope.confirm = {
+    value: "",
+    valid: true
+  }
+
+  $scope.loading = false;
+
+  $scope.email.validate = function(verbose) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var isValid = re.test($scope.email.value);  
+    $scope.email.valid = isValid;
+    if (verbose && !isValid) {
+      $scope.reportError("Please enter a valid email")
+    }
+    else {
+      $scope.resetError()
+    }
+    return isValid;
+  };
+
+  $scope.password.validate = function(verbose) {
+    var isValid = false;
+    if ($scope.password.value.length > 4) {
+      isValid = true;
+    };
+    $scope.password.valid = isValid;
+    if (verbose && !isValid) {
+      $scope.reportError("Password must be at least 5 characters. Please try again")
+    }
+    else {
+      $scope.resetError()
+    }
+    return isValid;
+  };
+
+  $scope.confirm.validate = function(verbose) {
+    var isValid = false;
+    if ($scope.password.value == $scope.confirm.value) {
+      isValid = true;
+    }
+    $scope.confirm.valid = isValid;
+    if (verbose && !isValid) {
+      $scope.reportError("Passwords must match. Please try again")
+    }
+    else {
+      $scope.resetError()
+    }
+    return isValid;
+  }
+
+  $scope.reportError = function(error) {
+    $scope.error.active = true;
+    $scope.error.msg = error;
+  }
+
+  $scope.resetError = function() {
+    $scope.error.active = false;
+    $scope.error.msg = "";
+  }
+
+  $scope.submit = function() {
+    if ($scope.email.validate(true) && $scope.password.validate(true) && $scope.confirm.validate(true)) {
+      var params = {
+        param0 : $scope.email.value,
+        param1 : $scope.password.value
+      }
+      $scope.loading = true;
+      $http.post('/api/post-account-setup', params).then(
+        function success(response) {
+          if (response.data.success) {
+            $scope.loading = false;
+            $modal.popModal()
+          }
+          else {
+            console.log(response.data.error);
+            $scope.loading = false;
+            $scope.reportError("An error occured please try again. " + response.data.error.message);
+          }
+        }, function(response) {
+            console.log(response)
+            $scope.loading = false;
+            $scope.reportError("An error occured please try again. " + response.statusText);
+        });
+    }
+  }
 }]);
