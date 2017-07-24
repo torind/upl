@@ -7,6 +7,7 @@ var partials = require('express-partials');
 var https = require('https');
 var http = require('http');
 var fs = require('fs');
+var forceSSL = require('express-force-ssl');
 var helmet = require('helmet');
 
 var secure_router = require('./routes/secure_routes.js');
@@ -49,6 +50,10 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
+if (httpsEnabled) {
+	app.use(forceSSL);
+}
+
 app.use(initializeDevMode);
 app.use(helmet());
 initializeStaticRoutes()
@@ -75,12 +80,6 @@ function initializeDevMode (req, res, next) {
 	if (bypass) {
 	    req.session.uID = 12;
 		req.session.authenticated = true;
-	}
-
-	if (httpsEnabled) {
-	    if (!/https/.test(req.protocol)) {
-	        res.redirect("https://" + req.headers.host + req.url);
-	    }
 	}
 
 	next()
