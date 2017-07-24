@@ -61,8 +61,8 @@ var port = 8080;
 var server = http.createServer(app);
 var secureServer = https.createServer(ssl_options, app);
 
-server.listen(80);
-secureServer.listen(443);
+server.listen(8000);
+secureServer.listen(8080);
 
 function initializeStaticRoutes() {
 	for (var i = 0; i < resources.length; i++) {
