@@ -7,24 +7,14 @@ var partials = require('express-partials');
 var https = require('https');
 var http = require('http');
 var fs = require('fs');
-var forceSSL = require('express-force-ssl');
 var helmet = require('helmet');
 
 var secure_router = require('./routes/secure_routes.js');
 var auth_router = require('./routes/auth_routes.js');
 var api_router = require('./routes/api.js');
 
-var httpsEnabled = false;
+var httpsEnabled = true;
 var bypass = false;
-
-// SSL
-var sslkey = fs.readFileSync('../SSL/ssl-key.pem');
-var sslcert = fs.readFileSync('../SSL/ssl-cert.pem');
-
-var ssl_options = {
-    key: sslkey,
-    cert: sslcert
-};
 
 var app = express();
 var resources = ['/public', '/js'];
@@ -46,10 +36,6 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
-if (httpsEnabled) {
-	app.use(forceSSL);
-}
-
 app.use(initializeDevMode);
 app.use(helmet());
 initializeStaticRoutes()
@@ -58,11 +44,7 @@ app.use('/api', api_router)
 app.use('/auth', auth_router);
 app.use(secure_router);
 
-var port = 8080;
-var server = http.createServer(app);
-var secureServer = https.createServer(ssl_options, app);
-
-server.listen(8000);
+var secureServer = http.createServer(app);
 secureServer.listen(8080);
 
 function initializeStaticRoutes() {
