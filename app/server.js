@@ -15,7 +15,7 @@ var auth_router = require('./routes/auth_routes.js');
 var api_router = require('./routes/api.js');
 
 var httpsEnabled = true;
-var bypass = true;
+var bypass = false;
 
 // SSL
 var sslkey = fs.readFileSync('../SSL/ssl-key.pem');
@@ -46,10 +46,6 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
-if (httpsEnabled) {
-	app.use(forceSSL);
-}
-
 app.use(initializeDevMode);
 app.use(helmet());
 initializeStaticRoutes()
@@ -61,7 +57,7 @@ app.use(secure_router);
 var server = http.createServer(app);
 //var secureServer = https.createServer(app);
 
-server.listen(8000);
+server.listen(8080);
 //secureServer.listen(8080);
 
 function initializeStaticRoutes() {
