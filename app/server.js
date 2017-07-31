@@ -14,7 +14,7 @@ var secure_router = require('./routes/secure_routes.js');
 var auth_router = require('./routes/auth_routes.js');
 var api_router = require('./routes/api.js');
 
-var httpsEnabled = false;
+var httpsEnabled = true;
 var bypass = true;
 
 // SSL
@@ -58,12 +58,11 @@ app.use('/api', api_router)
 app.use('/auth', auth_router);
 app.use(secure_router);
 
-var port = 8080;
 var server = http.createServer(app);
-var secureServer = https.createServer(app);
+//var secureServer = https.createServer(app);
 
 server.listen(8000);
-secureServer.listen(8080);
+//secureServer.listen(8080);
 
 function initializeStaticRoutes() {
 	for (var i = 0; i < resources.length; i++) {
