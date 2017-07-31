@@ -57,7 +57,7 @@ app.use(secure_router);
 var server = http.createServer(app);
 //var secureServer = https.createServer(app);
 
-server.listen(8080);
+server.listen(8000);
 //secureServer.listen(8080);
 
 function initializeStaticRoutes() {
