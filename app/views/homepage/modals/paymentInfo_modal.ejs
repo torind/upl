@@ -1,0 +1,31 @@
+<div class="modal-background" ng-if="getModal('payment-info')" ng-cloak>
+  <div class="modal-content" >
+    <div class="panel panel-default modal-panel">
+      <div class="panel-heading">
+        <div class="container-fluid">
+          <div class="row text-color">
+            <div class="col-xs-11 nopad">
+              <h2 class="panel-title modal-title">Upcoming Payments</h2>
+            </div>
+            <div class="col-xs-1 nopad">
+              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="closeModal()"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="container-fluid modal-container">
+          <div class="row">
+            <div class="col-xs-4 center-text">Total Amount Owed this Semester:</div>
+            <div class="col-xs-4 center-text">Total Amount Paid So Far:</div>
+            <div class="col-xs-4 center-text">Remaining Amount Owed:</div>
+          </div>
+          <div class="row">
+            <div class="col-xs-4 center-text payment-amount"><h2>$980</h2></div>
+            <div class="col-xs-4 center-text payment-amount"><h2>$400</h2></div>
+            <div class="col-xs-4 center-text payment-amount"><h2>$580</h2></div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

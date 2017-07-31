@@ -48,6 +48,12 @@ angular.module('services.js',[])
 	};
 
 	this.getData = function() {
+		if (profileData != null && profileData.dues_status.form_submitted) {
+			profileData.dues_status.balanceAlert = false;
+		}
+		else if (profileData != null) {
+			profileData.dues_status.balanceAlert = true;
+		}
 		return profileData;
 	}
 

@@ -2,6 +2,8 @@ var express = require('express');
 var AWS = require("aws-sdk");
 var passwordHash = require('password-hash');
 
+var sesHandler = require('./ses-handler.js');
+
 AWS.config.loadFromPath('../DynamoDB/dynamodb-config.json');
 
 var router = express.Router();
@@ -116,7 +118,7 @@ function popPaymentInfo(cData, dbItem) {
 function popMessage(cData, dbItem) {
     var balance = cData.balance;
     var message = "";
-    if (!dbItem.dues_status.form_approved) {
+    if (!dbItem.dues_status.form_submitted) {
         message = "Please submit a dues form for this semester!";
     }
     else if (!dbItem.dues_status.form_approved) {
@@ -201,6 +203,7 @@ router.post('/post-dues-form', function(req, res) {
                 data: null,
                 error: null
             });
+            //sesHandler.sendFormConfirmation("torindisalvo@gmail.com", "skldsfkjlsdf", "");
         }
     });
 }
