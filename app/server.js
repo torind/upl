@@ -45,7 +45,7 @@ app.use(secure_router);
 
 var port = 3000;
 app.listen(port);
-console.log("App is listening on port" + port);
+console.log("App is listening on port: " + port);
 
 function initializeStaticRoutes() {
 	for (var i = 0; i < resources.length; i++) {
