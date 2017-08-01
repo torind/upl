@@ -4,6 +4,11 @@ angular.module('homepage-app',['services.js'])
   $scope.currentModal = null;
   $scope.profileData = null;
 
+  $scope.messageHeight = function() {
+    var element = $('#welcome-panel-body');
+    return element.outerHeight() - 10;
+  }
+
   $scope.openModal = function(modal_id) {
     $modal.pushModal(modal_id);
   };
@@ -206,6 +211,7 @@ angular.module('homepage-app',['services.js'])
         if (response.data.success) {
           $modal.popModal();
           $profile.setFormSubmitted();
+          $profile.init();
         }
         else {
           $scope.reportError(response.data.error);

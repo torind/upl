@@ -1,3 +1,23 @@
+.welcome-panel-body span {
+	left: 0;
+    position: absolute;
+    z-index: 2;
+    opacity: .25;
+    text-align: center;
+    width: 100%;
+    top: 10px;
+}
+
+.welcome-msg-logo-alert {
+	color: #D91E18;
+}
+
+.welcome-msg-logo-ok {
+	color: #26A65B
+}
+
+
+
 tbody {
 	height: 100px;
 	overflow: auto;
@@ -6,10 +26,6 @@ tbody {
 .bordered {
 	border: 1px solid #999999;
 } 
-
-@media screen and (max-width: 500px) {
-
-}
 
 .dash-detail {
 	font-weight: bold;
@@ -27,6 +43,11 @@ tbody {
   height: 200%;
   z-index: -1;
 }
+
+.payment-amount h2 {
+	margin: 7px 0px;
+}
+
 .background-container img {
   position: absolute; 
   top: 0; 
@@ -62,6 +83,11 @@ tbody {
     background: transparent;
     min-width: 89px;
     font-weight: bold;
+}
+
+.upl-button:hover {
+	background-color: #e7e7e7;
+	cursor: pointer;
 }
 
 .upl-button:focus {
@@ -293,6 +319,11 @@ tbody {
 		width: 175px;
 	}
 
+	.welcome-msg-msg {
+		text-align: center;
+		padding: 0px 0px;
+	}
+
 	.right-split-modal {
 		padding-right: 0px;
 	}
@@ -445,7 +476,7 @@ tbody {
 
 .modal-background {
 	position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 99; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -565,7 +596,7 @@ tbody {
  }
 
 .dues-status {
-	font-weight: bold;
+	font-weight: 500;
 }
 
 .compliant {
@@ -655,6 +686,15 @@ tbody {
 @media screen and (max-width: 650px) {
 	.nav-container {
 
+	}
+
+	.welcome-msg-msg {
+		text-align: center;
+		padding: 10px 0px;
+	}
+
+	.xs-nopad {
+		padding: 0px;
 	}
 
 	.max-panel-body {
