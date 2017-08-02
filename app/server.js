@@ -25,6 +25,9 @@ var resources = ['/public', '/js'];
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views/');
 
+if (httpsEnabled) {
+	app.use(enforceHttps);
+}
 
 app.use(cookieParser());
 app.use(session({
@@ -61,4 +64,13 @@ function initializeDevMode (req, res, next) {
 	}
 
 	next()
+}
+
+function enforceHttps(req, res, next) {
+	if((!req.secure) && (req.get('X-Forwarded-Proto') !== 'https')) {
+        res.redirect('https://' + req.get('Host') + req.url);
+    }
+    else {
+        next();
+    }
 }
