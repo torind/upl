@@ -50,6 +50,14 @@ var port = 3000;
 app.listen(port);
 console.log("App is listening on port: " + port);
 
+var healthCheck = express();
+var healthCheckPort = 8000;
+healthCheck.get('/', function(req, res) {
+	res.status(200).send('ok');
+});
+healthCheck.listen(healthCheckPort);
+console.log("Health check is listening on port: " + healthCheckPort);
+
 function initializeStaticRoutes() {
 	for (var i = 0; i < resources.length; i++) {
 		app.use(express.static(__dirname + resources[i]));
