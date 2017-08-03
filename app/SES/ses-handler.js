@@ -1,32 +1,43 @@
 var AWS = require("aws-sdk");
+var ejs = require("ejs");
+var fs = require("fs");
 
 AWS.config.loadFromPath('../DynamoDB/dynamodb-config.json');
 
 var SES = new AWS.SES({apiVersion: '2010-12-01'});
 
 
-// send to list
-var to = ['torindisalvo@gmail.com']
 
-// this must relate to a verified SES account
-var from = 'et@upennlions.com'
+var handler = {};
 
-SES.sendEmail( { 
-   Source: from, 
-   Destination: { ToAddresses: to },
-   Message: {
-       Subject: {
-          Data: 'A Message To You Rudy'
-       },
-       Body: {
-           Text: {
-               Data: 'Stop your messing around',
-           }
-        }
-   }
-}
-, function(err, data) {
-    if(err) throw err
-        console.log('Email sent:');
-        console.log(data);
- });
+handler.sendDuesFormConfirmation = function(email) {
+  var from = 'UpennLions <et@upennlions.com>';
+  var to = [email];
+  var ejsStr = fs.readFileSync(__dirname + "/email_templates/dues_form_confirmation/confirmation-template.ejs", "utf-8");
+  var htmlStr = ejs.render(ejsStr, {});
+
+  SES.sendEmail( { 
+     Source: from, 
+     Destination: { ToAddresses: to },
+     Message: {
+         Subject: {
+            Data: 'Dues Form Submission Confirmation'
+         },
+         Body: {
+            Html: {
+              Charset: "UTF-8", 
+              Data: htmlStr
+            }, 
+          }
+     }
+  }
+  , function(err, data) {
+      if(err) throw err
+          console.log('Email sent:');
+          console.log(data);
+   });
+};
+
+handler.sendDuesFormConfirmation("torindisalvo@gmail.com");
+
+module.exports = handler;

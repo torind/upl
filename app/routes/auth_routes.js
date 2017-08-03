@@ -30,7 +30,6 @@ router.post('/login', function (req, res, next) {
 				if(passwordHash.verify(password, data.Items[0].password.S)) {
 					req.session.uID = data.Items[0].uID.N
 					req.session.authenticated = true;
-					console.log(req.session);
 					res.redirect('/');
 				}
 				else {

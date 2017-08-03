@@ -1,6 +1,7 @@
 var express = require('express');
 var AWS = require("aws-sdk");
 var passwordHash = require('password-hash');
+var sesHandler = require('../SES/ses-handler.js');
 
 AWS.config.loadFromPath('../DynamoDB/dynamodb-config.json');
 
@@ -196,6 +197,7 @@ router.post('/post-dues-form', function(req, res) {
             });
         }
         else {
+            sesHandler.sendDuesFormConfirmation('torindisalvo@gmail.com');
             res.json({
                 success: true,
                 data: null,
