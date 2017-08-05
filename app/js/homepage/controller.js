@@ -55,8 +55,8 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   init()
 }])
 
-.controller('dues-form-controller', ['$scope', 'modalService', 'profileService', '$http', '$location', '$anchorScroll', 
- function($scope, $modal, $profile, $http, $location, $anchorScroll) {
+.controller('dues-form-controller', ['$scope', 'modalService', 'profileService', '$http', '$location', '$anchorScroll', '$window',
+ function($scope, $modal, $profile, $http, $location, $anchorScroll, $window) {
 
   $scope.hasError = false;
   $scope.errorText = null;
@@ -116,6 +116,17 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
       break;
     }
   }
+
+  $scope.datePickerPosition = function() {
+    if ($window.innerWidth < 640) {
+      return "top-left"
+    }
+    else {
+      return "top"
+    }
+  }
+
+  $scope.datePickerPosition();
 
   $scope.addPayment = function() {
     $scope.payments.push({

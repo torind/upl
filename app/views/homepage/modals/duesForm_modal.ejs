@@ -89,7 +89,7 @@
 
                   <p class="input-group">
 
-                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="payments[$index].date" is-open="payments[$index].opened" datepicker-options="dateOptions" ng-required="true" close-text="close(index)" popup-placement="top" />
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="payments[$index].date" is-open="payments[$index].opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" popup-placement="{{datePickerPosition()}}" />
 
                     <span class="input-group-btn">
                       <button type="button" class="btn btn-default" ng-click="open($index)"><i class="glyphicon glyphicon-calendar"></i></button>
