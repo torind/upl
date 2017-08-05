@@ -3,6 +3,26 @@ var router = express.Router();
 
 router.use(checkAuth);
 
+router.get('/ses_confirmation_template', function(req, res) {
+	var params = {
+		payments : [
+			{
+				date: "Aug 3, 2018",
+				amount : 100
+			},
+			{
+				date: "Aug 3, 2018",
+				amount : 200
+			},
+			{
+				date: "Aug 3, 2018",
+				amount : 300
+			}
+		]
+	};
+	res.render(__dirname + "/../../SES/email_templates/dues_form_confirmation/confirmation-template.ejs", params);
+});
+
 router.get('/', function(req, res) {
 	if (req.session.authenticated) {
 		res.render('homepage/homepage.ejs');

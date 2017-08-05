@@ -10,14 +10,24 @@ var SES = new AWS.SES({apiVersion: '2010-12-01'});
 
 var handler = {};
 
-handler.sendDuesFormConfirmation = function(email) {
+handler.sendDuesFormConfirmation = function(email, payments) {
+  var total = 0;
+  for (var i = 0; i < payments.length; i++) {
+    total += parseInt(payments[i].amount)
+  }
+  var params = {
+    payments : payments,
+    total : total,
+    filename: "ses-handler.js"
+  }
+
   var from = 'UpennLions <et@upennlions.com>';
   var to = [email];
   var ejsStr = fs.readFileSync(__dirname + "/email_templates/dues_form_confirmation/confirmation-template.ejs", "utf-8");
-  var htmlStr = ejs.render(ejsStr, {});
+  var htmlStr = ejs.render(ejsStr, params);
 
   SES.sendEmail( { 
-     Source: from, 
+     Source: from,
      Destination: { ToAddresses: to },
      Message: {
          Subject: {
@@ -38,6 +48,6 @@ handler.sendDuesFormConfirmation = function(email) {
    });
 };
 
-handler.sendDuesFormConfirmation("torindisalvo@gmail.com");
+
 
 module.exports = handler;

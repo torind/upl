@@ -86,7 +86,17 @@
               <div class="row" ng-repeat="payment in payments track by $index" style="margin:10px 0px;">
                 <div class="col-xs-3 no-mobile"></div>
                 <div class="col-xs-6 col-md-3">
-                  <input type="text" class="form-control" ng-model="payment.date" placeholder="ex. 09-28-17">
+
+                  <p class="input-group">
+
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="payments[$index].date" is-open="payments[$index].opened" datepicker-options="dateOptions" ng-required="true" close-text="close(index)" popup-placement="top" />
+
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="open($index)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+
+                  </p>
+
                 </div>
                 <div class="col-xs-6 col-md-3">
                   <div class="input-group">
@@ -95,7 +105,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div id="payment-anchor" class="row">
                 <div class="col-xs-5 no-mobile"></div>
                 <div class="col-xs-12 col-md-2">
                   <div ng-click="addPayment()" class="anotha-one">Add Payment</div>

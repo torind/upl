@@ -38,6 +38,40 @@ tbody {
   min-height: 50%;
 }
 
+.full button span {
+	background-color: limegreen;
+	border-radius: 32px;
+	color: black;
+}
+.partially button span {
+	background-color: orange;
+	border-radius: 32px;
+	color: black;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
 .payment-panel-body {
 	padding: 7px 15px 7px 15px;
 }
@@ -531,12 +565,7 @@ tbody {
 	display: block!important;
 }
 
-.dropdown-menu {
-	width: 100%;
-	margin: 0px;
-	padding: 0px;
-	display: none;
-}
+
 
 .dropdown-menu-option {
   padding: 10px;
@@ -546,6 +575,10 @@ tbody {
 
 .iso-row {
 	margin: 10px 0px;
+}
+
+ul,div:focus {
+	outline:none;
 }
 
 .option-highlight {

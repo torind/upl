@@ -1,4 +1,4 @@
-angular.module('homepage-app',['services.js'])
+angular.module('homepage-app',['services.js', 'ui.bootstrap'])
 
 .controller('root-controller', ['$scope', 'modalService', 'profileService', function($scope, $modal, $profile) {
   $scope.currentModal = null;
@@ -55,14 +55,8 @@ angular.module('homepage-app',['services.js'])
   init()
 }])
 
-.controller('dues-form-controller', ['$scope', 'modalService', 'profileService', '$http', '$location', '$anchorScroll',
+.controller('dues-form-controller', ['$scope', 'modalService', 'profileService', '$http', '$location', '$anchorScroll', 
  function($scope, $modal, $profile, $http, $location, $anchorScroll) {
-  $scope.payments = [
-  {
-    date : "",
-    amount : ""
-  }
-  ];
 
   $scope.hasError = false;
   $scope.errorText = null;
@@ -88,61 +82,45 @@ angular.module('homepage-app',['services.js'])
     $anchorScroll();
   };
 
-  $scope.dateParse = function(index) {
-    var date = $scope.payments[index].date;
-    var parsedDate = "";
-    date.replace("-", "");
-    if (date.length >= 2) {
-      parsedDate += date.substring(0, 1) + "-";
-      if (date.length >= 4) {
-        parsedDate += date.substring(2, 3) + "-";
-      }
-      $scope.payments[index].date = parsedDate;
-    }
-  };
-
   $scope.optionClick = function(num) {
     switch(num) {
       case 1: 
-      if ($scope.options.one) {
-        $scope.options.one = false;
-      }
-      else {
-        $scope.options.one = true;
-        $scope.options.two = false;
-        $scope.options.three = false;
-      }
-      break;
+        if ($scope.options.one) {
+          $scope.options.one = false;
+        }
+        else {
+          $scope.options.one = true;
+          $scope.options.two = false;
+          $scope.options.three = false;
+        }
+        break;
       case 2: 
-      if ($scope.options.two) {
-        $scope.options.two = false;
-      }
-      else {
-        $scope.options.one = false;
-        $scope.options.two = true;
-        $scope.options.three = false;
-      }
-      break;
+        if ($scope.options.two) {
+          $scope.options.two = false;
+        }
+        else {
+          $scope.options.one = false;
+          $scope.options.two = true;
+          $scope.options.three = false;
+        }
+        break;
       case 3: 
-      if ($scope.options.three) {
-        $scope.options.three = false;
-      }
-      else {
-        $scope.options.one = false;
-        $scope.options.two = false;
-        $scope.options.three = true;
-      }
+        if ($scope.options.three) {
+          $scope.options.three = false;
+        }
+        else {
+          $scope.options.one = false;
+          $scope.options.two = false;
+          $scope.options.three = true;
+        }
       break;
     }
-  }
-
-  $scope.getNumber = function(num) {
-    return new Array(num);   
   }
 
   $scope.addPayment = function() {
     $scope.payments.push({
-      date : "",
+      date : new Date(),
+      opened: false,
       amount : ""
     });
   }
@@ -158,20 +136,39 @@ angular.module('homepage-app',['services.js'])
     $scope.errorText = null;
   }
 
+  $scope.formatPayments = function() {
+    var formattedPayments = [];
+    for (var i = 0; i < $scope.payments.length; i++) {
+      var unformattedP = $scope.payments[i];
+      var d = unformattedP.date;
+      d.setHours(0);
+      d.setMinutes(0);
+      d.setSeconds(0);
+      var formattedP = {
+        amount : unformattedP.amount,
+        date : unformattedP.date.toUTCString()
+      }
+      formattedPayments.push(formattedP);
+    }
+    return formattedPayments;
+  }
+
   $scope.submit = function() {
     var paymentDate = "09-10-17";
     var params;
     $scope.clearError();
     if ($scope.options.one) {
+      var p = $scope.formatPayments();
+      p[0].amount = $scope.obligation;
       params = {
-        param0: JSON.stringify([{date: paymentDate, amount: $scope.obligation}])
+        param0: p
       };
     }
     else if ($scope.options.two) {
       if (optionTwoSanity()) {
         if(paymentSanity()) {
           params = {
-            param0: JSON.stringify($scope.payments)
+            param0: $scope.formatPayments()
           };
         }
         else {
@@ -187,7 +184,7 @@ angular.module('homepage-app',['services.js'])
       if (optionThreeSanity()) {
         if(paymentSanity()) {
           params = {
-            param0: JSON.stringify($scope.payments)
+            param0: $scope.formatPayments()
           };
         }
         else {
@@ -264,13 +261,7 @@ angular.module('homepage-app',['services.js'])
 
   var paymentCheck = function(pmnt) {
     if (pmnt.date != "" || pmnt.amount != "") {
-      var dateRX = /^[0-9]{2}-[0-9]{2}-[0-9]{2}$/i;
       var amountRX = /^[0-9]+$/i;
-      if (!dateRX.test(pmnt.date)) {
-        $scope.reportError("All dates must conform to the specified format. Please try again");
-        return false;
-      }
-
       if(!amountRX.test(pmnt.amount)) {
         $scope.reportError("All amounts must conform to the specified format. Please try again");
         return false;
@@ -296,6 +287,36 @@ angular.module('homepage-app',['services.js'])
       return false;
     }
   }
+
+  $scope.payments = [
+    {
+      date : new Date(),
+      opened: false,
+      amount : ""
+    }
+  ];
+
+  $scope.clear = function(index) {
+    $scope.payments[index].date = null;
+  };
+
+
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    maxDate: new Date(2020, 5, 22),
+    minDate: new Date(),
+    startingDay: 1,
+    showWeeks: false
+  };
+
+  $scope.open = function(index) {
+    $scope.payments[index].opened = true;
+  };
+
+  $scope.format = 'dd-MMMM-yyyy';
+
+
+  // End Date Picker JS
 
   var init = function() {
     $scope.formSubmitted = $profile.isFormSubmitted();

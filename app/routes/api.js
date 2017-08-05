@@ -1,7 +1,7 @@
 var express = require('express');
 var AWS = require("aws-sdk");
 var passwordHash = require('password-hash');
-var sesHandler = require('../SES/ses-handler.js');
+var sesHandler = require('../../SES/ses-handler.js');
 
 AWS.config.loadFromPath('../DynamoDB/dynamodb-config.json');
 
@@ -174,6 +174,7 @@ router.post('/post-dues-form', function(req, res) {
     }
     else {
         var payments = req.body.param0;
+        console.log(payments);
         var dues_status = {
             form_submitted : true,
             form_approved : false
@@ -181,32 +182,61 @@ router.post('/post-dues-form', function(req, res) {
         var params = {
           TableName: 'upl_users',
           Key: { uID : uID },
-          UpdateExpression: 'set #c = :p, #s = :s',
-          ExpressionAttributeNames: {'#c' : 'charges', '#s' : 'dues_status'},
+          UpdateExpression: 'set #p = :p, #s = :s',
+          ExpressionAttributeNames: {'#p' : 'charges', '#s' : 'dues_status'},
           ExpressionAttributeValues: {
             ':p' : payments, 
             ':s' : dues_status
+          }
+        };
+        var formattedPayments = [];
+        for (var i = 0; i < payments.length; i++) {
+            var date = new Date(payments[i].date);
+            var options = { year: 'numeric', month: 'long', day: 'numeric' };
+            var obj = {
+                amount: payments[i].amount,
+                date : date.toLocaleDateString('en-US', options)
+            };
+            formattedPayments.push(obj);
         }
-    };
-    docClient.update(params, function(err, data) {
-        if (err) {
-            res.json({
-                success : false,
-                data : null, 
-                error : err
-            });
-        }
-        else {
-            sesHandler.sendDuesFormConfirmation('torindisalvo@gmail.com');
-            res.json({
-                success: true,
-                data: null,
-                error: null
-            });
-        }
-    });
-}
+        docClient.update(params, function(err, data) {
+          if (err) {
+              res.json({
+                  success : false,
+                  data : null, 
+                  error : err
+              });
+          }
+          else {
+            sendConfirmationEmail(uID, formattedPayments);
+              res.json({
+                  success: true,
+                  data: null,
+                  error: null
+              });
+          }
+        });
+    }
 });
+
+var sendConfirmationEmail = function(uID, formattedPayments) {
+  var params = {
+    TableName: 'upl_users',
+    Key: {
+      uID: uID
+    }, 
+    ProjectionExpression : "email"
+  };
+  docClient.get(params, function(err, data) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      var email = data.Item.email;
+      sesHandler.sendDuesFormConfirmation(email, formattedPayments);
+    }
+  });
+}
 
 router.post('/post-account-setup', function(req, res) {
     var uID = parseInt(req.session.uID);
