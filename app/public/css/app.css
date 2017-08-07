@@ -497,9 +497,7 @@ tbody {
 	margin: 0px;
 }
 
-.modal-open {
-	overflow: hidden;
-}
+
 
 .modal-loader {
 	margin-right: 7px;
@@ -673,8 +671,9 @@ ul,div:focus {
 
 .modal-open {
 	overflow: hidden;
+  position: relative;
+  height: 100%;
 }
-
 
 .text-center {
 	text-align: center;
