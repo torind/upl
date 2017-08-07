@@ -199,8 +199,12 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
     var params;
     $scope.clearError();
     if ($scope.options.one) {
-      $scope.payments[0].date = new Date(2017, 8, 12, 0, 0, 0, 0);
-      $scope.payments[0].amount = $scope.obligation;
+      $scope.payments = [
+        {
+          date : new Date(2017, 8, 12, 0, 0, 0, 0),
+          amount : $scope.obligation
+        }
+      ];
       var p = $scope.formatPayments();
       params = {
         param0: p

@@ -6,7 +6,7 @@ AWS.config.loadFromPath(__dirname + '/dynamodb-config.json');
 
 var docClient = new AWS.DynamoDB.DocumentClient();
 
-console.log("Resetting Torin user information into DynamoDB. Please wait.");
+console.log("Resetting user information into DynamoDB. Please wait.");
 
 var i = 0;
 var successCount = 0;
