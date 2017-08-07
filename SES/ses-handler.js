@@ -31,7 +31,7 @@ handler.sendDuesFormConfirmation = function(email, payments) {
      Destination: { ToAddresses: to },
      Message: {
          Subject: {
-            Data: 'Dues Form Submission Confirmation'
+            Data: 'Dues Form Confirmation'
          },
          Body: {
             Html: {
