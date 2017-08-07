@@ -4,6 +4,11 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   $scope.currentModal = null;
   $scope.profileData = null;
 
+  $scope.welcomeIcon = null;
+  $scope.loaded == false;
+
+  $scope.welcomeMessage = "";
+
   $scope.openModal = function(modal_id) {
     $modal.pushModal(modal_id);
   };
@@ -38,6 +43,16 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
     }
   }
 
+  $scope.messageHeight = function() {
+    var element = $('#welcome-panel-body');
+    if ($scope.welcomeIcon == 'ok') {
+      return element.outerHeight() - 20;
+    }
+    else if ($scope.welcomeIcon == 'alert') {
+      return element.outerHeight() - 30;
+    }
+    
+  }
 
   $scope.$watch($modal.getTopModal, function(m) {
     $scope.currentModal = m;
@@ -47,10 +62,25 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
     $profile.init()
   };
 
-  $scope.$watch($profile.getData, function(d) {
-    $scope.profileData = d;
+  var parseData = function() {
+    if ($scope.profileData.dues_status.form_submitted) {
+      $scope.welcomeMessage = "Your dues form has been submitted. Thank you!"
+      $scope.welcomeIcon = 'ok';
+    }
+    else {
+      $scope.welcomeIcon = 'alert';
+      $scope.welcomeMessage = "Please submit a dues form as soon as possible!"
 
-  });
+    }
+  }
+
+  $scope.$watch($profile.getData, function(data) {
+    if (data != null) {
+      $scope.loaded = true;
+      $scope.profileData = data;
+      parseData();
+    }
+  }, true);
 
   init()
 }])
@@ -157,6 +187,7 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
       d.setSeconds(0);
       var formattedP = {
         amount : unformattedP.amount,
+        description : "Dues Payment",
         date : unformattedP.date.toUTCString()
       }
       formattedPayments.push(formattedP);
@@ -165,12 +196,12 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   }
 
   $scope.submit = function() {
-    var paymentDate = "09-10-17";
     var params;
     $scope.clearError();
     if ($scope.options.one) {
+      $scope.payments[0].date = new Date(2017, 8, 12, 0, 0, 0, 0);
+      $scope.payments[0].amount = $scope.obligation;
       var p = $scope.formatPayments();
-      p[0].amount = $scope.obligation;
       params = {
         param0: p
       };
@@ -207,6 +238,10 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
         return;
       }
     }
+    else {
+      $scope.reportError("Please choose an option before submitting!");
+      return;
+    }
     $scope.loading = true;
     $http.post('/api/post-dues-form', params).then(
       function success(response) {
@@ -214,6 +249,7 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
         if (response.data.success) {
           $modal.popModal();
           $profile.setFormSubmitted();
+          $profile.init();
         }
         else {
           $scope.reportError(response.data.error);
@@ -335,6 +371,49 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   };
 
   init();
+}])
+
+.controller('payment-info-controller', ['$scope', 'profileService', function($scope, $profile) {
+  $scope.shouldShow = false;
+
+  $scope.amounts = {
+    total : 980,
+    paid: 300,
+    owed: 580
+  };
+
+  $scope.payments = [
+  ];
+
+  $scope.parseData = function(data) {
+    if (data.dues_status.form_submitted) {
+      $scope.shouldShow = true;
+      $scope.amounts.total = data.dues_amounts.agreed == 0 ? data.dues_amounts.proposed : data.dues_amounts.agreed;
+      $scope.amounts.paid = 0;
+      $scope.amounts.owed = $scope.amounts.total - $scope.amounts.paid;
+      var charges = data.charge_info.charges;
+      for (var i = 0; i < charges.length; i++) {
+        var options = { year: 'numeric', month: 'long', day: 'numeric' };
+        var date = new Date(charges[i].date).toLocaleDateString('en-US', options);
+        $scope.payments.push({
+          date: date,
+          amount: charges[i].amount,
+          description: charges[i].description
+        });
+      }
+    }
+  }
+
+  $scope.$watch($profile.getData, function(data) {
+    if (data != null) {
+      $scope.parseData(data);
+    }
+    else {
+      $scope.shouldShow = false;
+    }
+  });
+
+
 }])
 
 .controller('account-setup-controller', ['$scope', 'modalService', '$http', function($scope, $modal, $http) {

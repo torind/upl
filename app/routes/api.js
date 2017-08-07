@@ -10,7 +10,6 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 
 router.get('/indv_bro_profile', function(req, res) {
     var uID = parseInt(req.session.uID);
-    console.log("uID: ", uID, ", type: ", typeof uID)
     if (uID == 'undefined') {
         res.status(400).json({
             success : false,
@@ -61,16 +60,11 @@ function indv_bro_profile(aws_data_obj) {
         firstName : dbItem.firstName,
         lastName : dbItem.lastName,
         balance: null,
-        balance_alert: null,
-        message: null,
-        payment_info: null,
         charge_info: null,
         dues_status: null
     }
     popBalance(cData, dbItem);
-    popMessage(cData, dbItem);
     popChargeInfo(cData, dbItem);
-    popPaymentInfo(cData, dbItem);
     popDuesStatus(cData, dbItem);
     popPasswordReset(cData, dbItem);
     return cData;
@@ -91,8 +85,12 @@ function popDuesStatus(cData, dbItem) {
         default:
             obligation = 1000000;
     }
-    cData.dues_status = {
+    cData.dues_amounts = {
         obligation : obligation,
+        proposed : dbItem.dues_amounts.proposed_amount,
+        agreed : dbItem.dues_amounts.agreed_amount
+    }
+    cData.dues_status = {
         form_approved : dbItem.dues_status.form_approved,
         form_submitted : dbItem.dues_status.form_submitted 
     }
@@ -100,36 +98,8 @@ function popDuesStatus(cData, dbItem) {
 
 function popChargeInfo(cData, dbItem) {
     cData.charge_info = {
-        next_charge_date : null,
-        next_charge_amount : null,
-        charges : []
+        charges : dbItem.charges
     };
-};
-
-function popPaymentInfo(cData, dbItem) {
-    cData.payment_info = {
-        next_payment_date : null,
-        next_payment_amount : null,
-        charges: []
-    };
-};
-
-function popMessage(cData, dbItem) {
-    var balance = cData.balance;
-    var message = "";
-    if (!dbItem.dues_status.form_approved) {
-        message = "Please submit a dues form for this semester!";
-    }
-    else if (!dbItem.dues_status.form_approved) {
-        message = "Your dues form is being processed. No action is required as of now!";
-    }
-    else if (balance < 0) {
-        message = "You have outstanding charges on your account. Please pay off your balance or reach out to Torin";
-    }
-    else {
-        message = "You are chillen. No action is required right now."
-    }
-    cData.message = message;
 };
 
 function popBalance(cData, dbItem) {
@@ -154,7 +124,6 @@ function popBalance(cData, dbItem) {
         }
     }
     cData.balance = totalPayments - totalCharge;
-    cData.balance_alert = cData.balance < 0;
 };
 
 function popPasswordReset(cData, dbItem) {
@@ -174,21 +143,33 @@ router.post('/post-dues-form', function(req, res) {
     }
     else {
         var payments = req.body.param0;
-        console.log(payments);
         var dues_status = {
             form_submitted : true,
             form_approved : false
         }
+        var proposed_amount = 0;
+
+        for (var i = 0; i < payments.length; i++) {
+            proposed_amount += parseInt(payments[i].amount);
+        }
+
+        var dues_amounts = {
+          proposed_amount : proposed_amount,
+          agreed_amount : 0
+        }
+
         var params = {
           TableName: 'upl_users',
           Key: { uID : uID },
-          UpdateExpression: 'set #p = :p, #s = :s',
-          ExpressionAttributeNames: {'#p' : 'charges', '#s' : 'dues_status'},
+          UpdateExpression: 'set #p = :p, #s = :s, #d = :d',
+          ExpressionAttributeNames: {'#p' : 'charges', '#s' : 'dues_status', '#d' : 'dues_amounts'},
           ExpressionAttributeValues: {
             ':p' : payments, 
-            ':s' : dues_status
+            ':s' : dues_status,
+            ':d' : dues_amounts
           }
         };
+
         var formattedPayments = [];
         for (var i = 0; i < payments.length; i++) {
             var date = new Date(payments[i].date);
@@ -199,6 +180,7 @@ router.post('/post-dues-form', function(req, res) {
             };
             formattedPayments.push(obj);
         }
+
         docClient.update(params, function(err, data) {
           if (err) {
               res.json({
@@ -209,11 +191,11 @@ router.post('/post-dues-form', function(req, res) {
           }
           else {
             sendConfirmationEmail(uID, formattedPayments);
-              res.json({
-                  success: true,
-                  data: null,
-                  error: null
-              });
+            res.json({
+                success: true,
+                data: null,
+                error: null
+            });
           }
         });
     }

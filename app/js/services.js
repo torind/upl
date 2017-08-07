@@ -28,6 +28,7 @@ angular.module('services.js',[])
 
 .service('profileService', function($http, modalService) {
 	var profileData = null;
+
 	this.init = function() {
 		$http.get('/api/indv_bro_profile').then(
 			function success(response) {
@@ -65,7 +66,7 @@ angular.module('services.js',[])
 
 	this.getDuesObligation = function() {
 		if (profileData != null) {
-			return profileData.dues_status.obligation;
+			return profileData.dues_amounts.obligation;
 		}
 	}
 });

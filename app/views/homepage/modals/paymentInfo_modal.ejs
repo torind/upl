@@ -1,4 +1,4 @@
-<div class="modal-background" ng-if="getModal('payment-info')" ng-cloak>
+<div class="modal-background" ng-if="getModal('payment-info')" ng-controller="payment-info-controller" ng-cloak>
   <div class="modal-content" >
     <div class="panel panel-default modal-panel">
       <div class="panel-heading">
@@ -13,19 +13,55 @@
           </div>
         </div>
       </div>
-      <div class="panel-body">
-        <div class="container-fluid modal-container">
+
+      <div class="panel-body payment-info-panel-body">
+        <div class="container-fluid modal-container nomargin" ng-if="shouldShow">
           <div class="row">
-            <div class="col-xs-4 center-text">Total Amount Owed this Semester:</div>
-            <div class="col-xs-4 center-text">Total Amount Paid So Far:</div>
-            <div class="col-xs-4 center-text">Remaining Amount Owed:</div>
+            <div class="col-xs-4 center-text no-mobile">Total Amount Owed this Semester:</div>
+            <div class="col-xs-6 col-sm-4 center-text">Total Amount Paid So Far:</div>
+            <div class="col-xs-6 col-sm-4 center-text">Remaining Amount Owed:</div>
           </div>
           <div class="row">
-            <div class="col-xs-4 center-text payment-amount"><h2>$980</h2></div>
-            <div class="col-xs-4 center-text payment-amount"><h2>$400</h2></div>
-            <div class="col-xs-4 center-text payment-amount"><h2>$580</h2></div>
+            <div class="col-sm-4 center-text payment-amount no-mobile">${{amounts.total}}</div>
+            <div class="col-xs-6 col-sm-4 center-text payment-amount" style="color: #26A65B">${{amounts.paid}}</div>
+            <div class="col-xs-6 col-sm-4 center-text payment-amount" style="color: #D91E18">${{amounts.owed}}</div>
+          </div>
+          <div class="row">
+            <div class="container-fluid payment-info-table-container">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th class="center-text">Description</th>
+                    <th class="center-text">Amount</th>
+                    <th class="center-text">Paid</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr ng-repeat="p in payments">
+                    <td>{{p.date}}</td>
+                    <td class="center-text">{{p.description}}</td>
+                    <td class="center-text">${{p.amount}}</td>
+                    <td class="center-text"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
+
+        <div class="container-fluid modal-container" ng-if="!shouldShow">
+          <div class="container-fluid flexbox-container">
+            <div class="row" style="text-align: center; width: 100%">
+              <div class="heading text-color">Please sumit a dues form first!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+<!--       <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="closeModal()">Done</button>
+      </div> -->
     </div>
   </div>
 </div>

@@ -8,7 +8,8 @@
   <title>UPenn Lions - Home </title>
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/app.css">
-
+  <link rel="icon" href="/images/lions-logo.png">
+  <!-- Fonts -->
 </head>
 
 
@@ -43,14 +44,21 @@
 
   <!-- Main Screen -->
   <div class="container">
-    <div class="main-container">
+    <!-- Loading Screen -->
+    <div class="main-container" ng-if="!loaded">
+      <div class="container-fluid">
+        <div class="loader"></div>
+      </div>
+    </div>
+
+    <div class="main-container" ng-if="loaded" ng-cloak>
 
       <!-- Welcome Boxes -->
       <div class="container-fluid">
         <div class="row">
 
-          <div class="col-xs-12 col-sm-4">
-            <div class="panel panel-default welcome-box">
+          <div class="col-xs-12 col-sm-6">
+            <div class="panel panel-default">
 
               <div class="panel-heading">
                 <div class="container-fluid text-color nopad">
@@ -63,26 +71,22 @@
                 </div>
               </div>
 
-              <div class="panel-body">
+              <div id="welcome-panel-body" class="panel-body welcome-box-body flexbox-container">
+
+                <span class="glyphicon glyphicon-alert welcome-msg-logo-alert" ng-style="{'font-size' : messageHeight()}" ng-if="welcomeIcon == 'alert'" ng-cloak></span>
+                <span class="glyphicon glyphicon-ok-circle welcome-msg-logo-ok" ng-style="{'font-size' : messageHeight()}" ng-if="welcomeIcon == 'ok'"></span>
+                
                 <div class="container-fluid">
-                  <div class="row text-center">
-                    <p class="nomargin">Your current balance is:</p>
-                  </div>
-
-                  <div class="row" style="text-align: center">
-                    <h2 class="text-color current-balance">${{getBalance()}}</h2>
-                  </div>
-
                   <div class="row">
-                    <p>{{profileData.message}}</p>
+                    <div class="welcome-msg-text text-color">{{welcomeMessage}}</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="col-xs-12 col-sm-4">
-            <div class="panel panel-default welcome-box">
+          <div class="col-xs-12 col-sm-6">
+            <div class="panel panel-default">
 
               <div class="panel-heading">
                 <div class="container-fluid text-color nopad">
@@ -92,7 +96,7 @@
                 </div>
               </div>
 
-              <div class="panel-body payment-panel-body">
+              <div class="panel-body payment-panel-body welcome-box-body flexbox-container">
                 <div class="container-fluid">
                   <div ng-if="showNextCharge()">
                     <div class="row text-center">
@@ -114,55 +118,13 @@
                   </div>
                   
                   <div class="row text-center">
-                    <button type="button" class="upl-button">View All Payments</button>
+                    <button type="button" class="upl-button" ng-click="openModal('payment-info')">View All Payments</button>
                   </div>
                 </div>
               </div>
 
             </div>
           </div>
-
-          <div class="col-xs-12 col-sm-4"> 
-            <div class="panel panel-default welcome-box">
-              
-              <div class="panel-heading">
-                <div class="container-fluid text-color nopad">
-                  <div class="col-xs-12 nopad">
-                    <h3 class="panel-title">Payment History</h3>
-                  </div>
-                </div>
-              </div>
-
-              <div class="panel-body payment-panel-body">
-                <div class="container-fluid">
-
-                  <div ng-if="showNextPayment()">
-                    <div class="row text-center">
-                      <p class="nomargin">Your last processed payment was:</p>
-                    </div>
-                    <div class="row text-center">
-                      <h3 class="text-color next-payment-date">July 15th, 2017</h3>
-                    </div>
-
-                    <div class="row text-center">
-                      <h4 class="text-color next-payment-amount">$150</h4>
-                    </div>
-                  </div>
-                  
-                  <div ng-if="!showNextPayment()">
-                    <div class="row text-center">
-                      <div class="text-color no-payment-padding">You have not made any payments yet.</div>
-                    </div>
-                  </div>
-
-                  <div class="row text-center">
-                    <button type="button" class="upl-button">View All Payments</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
 
@@ -197,7 +159,7 @@
 
   <!-- Include Modals -->
   <%
-    var modals = ["changePassword", "duesForm", "links", "reportIssue", "submitExpense", "accountSetup"];
+    var modals = ["changePassword", "duesForm", "links", "reportIssue", "submitExpense", "accountSetup", "paymentInfo"];
     for (var i =0; i < modals.length; i++) {
       var path = 'modals/' + modals[i] + '_modal.ejs'; %>
       <%- include(path); %>
