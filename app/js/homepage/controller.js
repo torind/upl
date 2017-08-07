@@ -354,7 +354,7 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
 
   $scope.dateOptions = {
     formatYear: 'yy',
-    maxDate: new Date(2020, 5, 22),
+    maxDate: new Date(2017, 11, 31),
     minDate: new Date(),
     startingDay: 1,
     showWeeks: false
@@ -416,7 +416,6 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
       $scope.shouldShow = false;
     }
   });
-
 
 }])
 
