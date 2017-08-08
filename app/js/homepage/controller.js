@@ -548,6 +548,10 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
     }
   });
 
+  $scope.refreshData = function() {
+    $dues.initUnsubmittedData();
+  }
+
   $scope.$watch($dues.isLoaded, function(bool) {
     $scope.loaded = bool;
   });
