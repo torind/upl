@@ -30,7 +30,8 @@ app.use(cookieParser());
 app.use(session({
 	secret: '4001P!nE',
 	resave: false,
-	saveUninitialized: true
+	saveUninitialized: true,
+	secure: true
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
