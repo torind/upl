@@ -2,11 +2,14 @@ var express = require('express');
 var AWS = require("aws-sdk");
 var passwordHash = require('password-hash');
 var sesHandler = require('../../SES/ses-handler.js');
+var config = require(__dirname + "/../../config.js");
 
 AWS.config.loadFromPath('../DynamoDB/dynamodb-config.json');
 
 var router = express.Router();
 var docClient = new AWS.DynamoDB.DocumentClient();
+
+router.use(checkAuth);
 
 router.get('/indv_bro_profile', function(req, res) {
     var uID = parseInt(req.session.uID);
@@ -19,7 +22,7 @@ router.get('/indv_bro_profile', function(req, res) {
     }
     else {
         var params = {
-            TableName: "upl_users",
+            TableName: config.userTable,
             Key : {
                 uID : uID
             }
@@ -159,7 +162,7 @@ router.post('/post-dues-form', function(req, res) {
         }
 
         var params = {
-          TableName: 'upl_users',
+          TableName: config.userTable,
           Key: { uID : uID },
           UpdateExpression: 'set #p = :p, #s = :s, #d = :d',
           ExpressionAttributeNames: {'#p' : 'charges', '#s' : 'dues_status', '#d' : 'dues_amounts'},
@@ -203,7 +206,7 @@ router.post('/post-dues-form', function(req, res) {
 
 var sendConfirmationEmail = function(uID, formattedPayments) {
   var params = {
-    TableName: 'upl_users',
+    TableName: config.userTable,
     Key: {
       uID: uID
     }, 
@@ -233,7 +236,7 @@ router.post('/post-account-setup', function(req, res) {
         var email = req.body.param0;
         var password = req.body.param1;
         var params = {
-          TableName: 'upl_users',
+          TableName: config.userTable,
           Key: { uID : uID },
           UpdateExpression: 'SET #e = :e, #p = :p',
           ExpressionAttributeNames: {'#e' : 'email', '#p': 'password'},
@@ -260,5 +263,73 @@ router.post('/post-account-setup', function(req, res) {
     });
 }
 });
+
+router.get('/dues_form_progress', function(req, res) {
+    var params = {
+        TableName: config.userTable,
+        ProjectionExpression: 'firstName, lastName, dues_status'
+    };
+
+    docClient.scan(params, function(err, data) {
+        if (err) {
+            res.json({
+                success: false,
+                data: null,
+                error: err
+            });
+        }
+        else {
+            var totalCount = data.Count;
+            var unsubmittedCount = 0;
+            var unsubmitted_names = [];
+            var all = data.Items;
+            var failed = false;
+            for (var i = 0; i < all.length; i++) {
+                var status = all[i].dues_status;
+                if (status != null) {
+                    if (!status.form_submitted) {
+                        unsubmitted_names.push(all[i].firstName + " " + all[i].lastName);
+                        unsubmittedCount += 1;
+                    }
+                }
+                else {
+                    failed = true;
+                    res.json({
+                        success: false,
+                        error: "An error occured, please contact Torin",
+                        data: null
+                    })
+                    throw("Got an entry with no dues status" + all[i]);
+                }
+            }
+            if (!failed) {
+                var cData = {
+                    totalCount : totalCount,
+                    unsubmittedCount : unsubmittedCount,
+                    names: unsubmitted_names
+                }
+                res.json({
+                    success: true,
+                    error: null,
+                    data: cData
+                });
+            }
+        }
+    });
+});
+
+function checkAuth(req, res, next) {
+    if (req.path != "/") {
+        if (!req.session || !req.session.authenticated) {
+            res.json({
+                success: false,
+                error: "Please authenticate to access this information",
+                data: null
+            })
+            return;
+        }
+    }
+    next();
+}
 
 module.exports = router;

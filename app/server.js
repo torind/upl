@@ -12,19 +12,17 @@ var helmet = require('helmet');
 var secure_router = require('./routes/secure_routes.js');
 var auth_router = require('./routes/auth_routes.js');
 var api_router = require('./routes/api.js');
-
-var httpsEnabled = true;
-var bypass = false;
+var config = require(__dirname + "/../config.js");
 
 
 var app = express();
-var resources = ['/public', '/js'];
+var resources = ['/public', '/js', '/views/directives'];
 
 // App configuration
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views/');
 
-if (httpsEnabled) {
+if (config.httpsEnabled) {
 	app.use(enforceHttps);
 }
 
@@ -45,6 +43,7 @@ app.use('/api', api_router)
 app.use('/auth', auth_router);
 app.use(secure_router);
 
+
 var port = 3000;
 app.listen(port);
 console.log("App is listening on port: " + port);
@@ -64,9 +63,8 @@ function initializeStaticRoutes() {
 }
 
 function initializeDevMode (req, res, next) {
-
-	if (bypass) {
-	    req.session.uID = 12;
+	if (config.bypass.enabled) {
+	    req.session.uID = config.bypass.uID;
 		req.session.authenticated = true;
 	}
 

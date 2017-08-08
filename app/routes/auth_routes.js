@@ -1,6 +1,7 @@
 var express = require('express');
 var AWS = require("aws-sdk");
 var passwordHash = require('password-hash');
+var config = require(__dirname + "/../../config.js");
 
 AWS.config.loadFromPath('../DynamoDB/dynamodb-config.json');
 
@@ -12,7 +13,7 @@ router.post('/login', function (req, res, next) {
 	var password = req.body.password;
 
 	var params = {
-	    TableName: "upl_users",
+	    TableName: config.userTable,
 	    IndexName: "usernameIndex",
 	    FilterExpression: "username = :u",
 	   	ExpressionAttributeValues: {

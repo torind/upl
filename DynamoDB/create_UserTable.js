@@ -1,11 +1,11 @@
 var AWS = require("aws-sdk");
-AWS.config.loadFromPath('./DynamoDB/dynamodb-config.json');
+AWS.config.loadFromPath(__dirname + '/dynamodb-config.json');
 
 
 var dynamodb = new AWS.DynamoDB();
 
 var params = {
-    TableName : "upl_users",
+    TableName : "dev_upl_users",
     KeySchema: [       
         { AttributeName: "uID", KeyType: "HASH"}  //Partition key
     ],

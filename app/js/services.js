@@ -26,7 +26,38 @@ angular.module('services.js',[])
 	}
 })
 
-.service('profileService', function($http, modalService) {
+.service('duesService', function($http) {
+	var that = this;
+	var unsubmittedData = null;
+	var loaded = false;
+
+	this.initUnsubmittedData = function() {
+		that.loaded = false;
+		$http.get('/api/dues_form_progress').then(
+			function success(response){
+				if (response.data.success) {
+					that.loaded = true;
+					unsubmittedData = response.data.data;
+				}
+				else {
+					console.log("Successful request but bad response!", response.data.error.message);
+				}
+			}, 
+			function error(response) {
+				console.log("Error: could not get unsubmittedData");
+			});
+	}
+
+	this.isLoaded  = function() {
+		return that.loaded;
+	}
+
+	this.getUnsubmittedData = function() {
+		return unsubmittedData;
+	}
+})
+
+.service('profileService', function($http, modalService, duesService) {
 	var profileData = null;
 
 	this.init = function() {
@@ -52,10 +83,12 @@ angular.module('services.js',[])
 		return profileData;
 	}
 
-	this.setFormSubmitted = function() {
+	this.refreshAfterFormSubmit = function() {
 		if (profileData != null && profileData.dues_status != null) {
 			profileData.dues_status.form_submitted = true;
 		}
+		this.init();
+		duesService.initUnsubmittedData();
 	}
 
 	this.isFormSubmitted = function() {

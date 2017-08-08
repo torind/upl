@@ -2,7 +2,7 @@ var AWS = require("aws-sdk");
 var fs = require('fs');
 var passwordHash = require('password-hash');
 
-AWS.config.loadFromPath('./DynamoDB/dynamodb-config.json');
+AWS.config.loadFromPath(__dirname + '/dynamodb-config.json');
 
 var docClient = new AWS.DynamoDB.DocumentClient();
 
@@ -21,12 +21,12 @@ var dues_status_blank = {
 var i = 0;
 var successCount = 0;
 
-var allUsers = JSON.parse(fs.readFileSync('../bin/users.json', 'utf8'));
+var allUsers = JSON.parse(fs.readFileSync(__dirname + '/../../bin/users.json', 'utf8'));
 var totalCount = allUsers.length;
 
 allUsers.forEach(function(user) {
     var params = {
-        TableName: "upl_users",
+        TableName: "dev_upl_users",
         Item: {
             "uID": user.uID,
             "username": user.username,

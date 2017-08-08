@@ -252,8 +252,7 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
         $scope.loading = false;
         if (response.data.success) {
           $modal.popModal();
-          $profile.setFormSubmitted();
-          $profile.init();
+          $profile.refreshAfterFormSubmit();
         }
         else {
           $scope.reportError(response.data.error);
@@ -416,7 +415,6 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
       $scope.shouldShow = false;
     }
   });
-
 }])
 
 .controller('account-setup-controller', ['$scope', 'modalService', '$http', function($scope, $modal, $http) {
@@ -520,4 +518,65 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
         });
     }
   }
-}]);
+}])
+
+.controller('dues-form-progress-controller', ['$scope', 'duesService', function($scope, $dues) {
+  $scope.totalCount = null;
+  $scope.submittedCount = null;
+  $scope.names = null;
+  $scope.loaded = false;
+
+  $scope.init = function() {
+    $dues.initUnsubmittedData()
+  }
+
+  $scope.$watch($dues.getUnsubmittedData, function(data) {
+    if (data!= null) {
+      $scope.totalCount = data.totalCount;
+      $scope.submittedCount = data.totalCount - data.unsubmittedCount;
+      $scope.names = data.names;
+    }
+  });
+
+  $scope.$watch($dues.isLoaded, function(bool) {
+    $scope.loaded = bool;
+  });
+
+  $scope.percentage = function() {
+    var percent = ($scope.submittedCount / $scope.totalCount) * 100;
+    return percent.toFixed(0);
+  }
+
+  $scope.init();
+}])
+
+.directive('uplProgressBar', function() {
+    return {
+    restrict : 'E',
+    scope : {
+      currentVal : '=',
+      maxVal : '='
+    },
+    link : function(scope, element, attrs) {
+      scope.maxValString = function() {
+        return scope.maxVal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      };
+
+      scope.percentage = function() {
+        return Math.round(scope.currentVal / scope.maxVal * 100);
+      };
+
+      scope.currentValString = function() {
+        return scope.currentVal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      };
+
+      scope.progress = function() {
+        per = scope.currentVal / scope.maxVal * 100;
+        return "" + per.toString() + "%";
+      };
+    }, 
+    replace : true,
+    templateUrl : 'upl-progress-bar.html'
+  };
+});
+

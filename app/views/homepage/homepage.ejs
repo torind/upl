@@ -131,19 +131,43 @@
       
 
       
-      <!-- Coming Soon Page -->
-      <div class="container-fluid">
+      <!-- Dues Submission Progress Box -->
+      <div class="container-fluid" ng-controller="dues-form-progress-controller">
         <div class="panel panel-default"  >
           <div class="panel-heading">
-            <div class="container-fluid text-color">
-              <div class="col-xs-12"><h3 class="panel-title" style="text-align: center">Other Shit</h3></div>
+            <div class="container-fluid text-color mobile-nopad">
+              <div class="col-xs-12 mobile-nopad"><h3 class="panel-title">Dues Form Progress</h3></div>
             </div>
           </div>
           <div class="panel-body">
-            <div class="container-fluid dashboard-container">
-              <div class="row" style="text-align: center; margin: auto;">
-               <h2 style=" color: #888888">Other Shit Coming Soon...</h2>
+
+            <!-- Loader -->
+            <div class="container-fluid dashboard-container" ng-if="!loaded">
+              <div class="dfp-loader"></div>
+            </div>
+
+            <div class="container-fluid dashboard-container" ng-if="loaded" ng-cloak>
+              <div class="row" style="margin: 0px 0px 10px 0px;">
+                <div class="dfp-header"> We are {{percentage()}}% of the way to full submission: </div>
               </div>
+
+              <div class="row dfp-bar-row" style="text-align: center;">
+                <upl-progress-bar current-val="submittedCount" max-val="totalCount"></upl-progress-bar>
+              </div>
+
+              <div class="row" style="margin: 25px 0px 10px 0px;">
+                <div class="dfp-header"> The following people have not submitted a dues form: </div>
+              </div>
+
+              <div class="row dfp-container">
+                <div class="col-xs-12" style="text-align: center">
+                  <span ng-repeat="name in names">
+                    <button class="btn btn-default btn-no-touch dfp-btn" type="submit">{{name}}</button>
+                  </span>
+                </div>
+              </div>
+
+
             </div>
           </div>
         </div>
