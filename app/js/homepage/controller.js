@@ -442,10 +442,20 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
 
   $scope.email.validate = function(verbose) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var isValid = re.test($scope.email.value);  
+    var isEmail = re.test($scope.email.value);
+
+    var pennRe = /.*(upenn).*/i;
+    var hasPenn = pennRe.test($scope.email.value);
+    var isValid = isEmail && !hasPenn;
     $scope.email.valid = isValid;
+    
     if (verbose && !isValid) {
-      $scope.reportError("Please enter a valid email")
+      if (hasPenn) {
+        $scope.reportError("You may not use your Penn email");
+      }
+      else if (!isEmail) {
+        $scope.reportError("Please enter a valid email");
+      }
     }
     else {
       $scope.resetError()

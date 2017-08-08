@@ -17,7 +17,7 @@ var dues_status = {
 }
 
 var scan_params = {
-  TableName : 'upl_users',
+  TableName : 'dev_upl_users',
   ProjectionExpression : "uID"
 };
 
@@ -28,7 +28,7 @@ var dues_amounts = {
 
 
 var update_params = {
-  TableName: 'upl_users',
+  TableName: 'dev_upl_users',
   Key: { uID : null },
   UpdateExpression: 'set #p = :p, #s = :s, #da = :da',
   ExpressionAttributeNames: {'#p' : 'charges', '#s' : 'dues_status', '#da' : 'dues_amounts'},
