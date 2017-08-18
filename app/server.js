@@ -50,12 +50,12 @@ app.use('/auth', auth_router);
 app.use(secure_router);
 
 
-var port = 3000;
+var port = config.ports.app;
 app.listen(port);
 console.log("App is listening on port: " + port);
 
 var healthCheck = express();
-var healthCheckPort = 8000;
+var healthCheckPort = config.ports.healthCheck;
 healthCheck.get('/', function(req, res) {
 	res.status(200).send('ok');
 });
