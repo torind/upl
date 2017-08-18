@@ -26,6 +26,7 @@ var resources = ['/public', '/js', '/views/directives'];
 // App configuration
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views/');
+app.set('trust proxy', true);
 
 if (config.httpsEnabled) {
 	app.use(enforceHttps);
