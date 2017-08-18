@@ -40,7 +40,7 @@ router.post('/login', function (req, res, next) {
 						if (err) { res.redirect('/?fcode=3'); }
 						else {
 							req.session.uID = uID;
-							//req.session.positions = data.Item.positions;
+							req.session.positions = data.Item.positions;
 							req.session.authenticated = true;
 							res.redirect('/');
 						}
