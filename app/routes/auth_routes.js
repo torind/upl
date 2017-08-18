@@ -42,6 +42,8 @@ router.post('/login', function (req, res, next) {
 							req.session.uID = uID;
 							req.session.positions = data.Item.positions;
 							req.session.authenticated = true;
+							console.log("authenticated")
+							console.log()
 							res.redirect('/');
 						}
 					})
