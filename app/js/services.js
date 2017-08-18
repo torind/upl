@@ -267,7 +267,7 @@ angular.module('services.js',[])
 					callback(null, response.data.data);
 				}
 				else {
-					console.log("Successful request but bad response!", response.data.error.message);
+					console.log("Successful request but bad response!", response.data.data.error);
 				}
 			}, 
 			function error(response) {

@@ -270,7 +270,6 @@ router.get('/dues_form_progress', function(req, res) {
                         error: "An error occured, please contact Torin",
                         data: null
                     })
-                    throw("Got an entry with no dues status" + all[i]);
                 }
             }
             if (!failed) {
