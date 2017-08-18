@@ -74,6 +74,7 @@ database.db_getFullUser = function(uID, api_callback) {
 				})
 			} 
 			else {
+				user.express = [];
 				api_callback(null, user);
 			}
 		}
