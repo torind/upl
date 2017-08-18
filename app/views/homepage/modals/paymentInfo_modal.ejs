@@ -40,10 +40,12 @@
 
                 <tbody>
                   <tr ng-repeat="p in payments">
-                    <td>{{p.date}}</td>
+                    <td>{{formatDate(p.date)}}</td>
                     <td class="center-text">{{p.description}}</td>
                     <td class="center-text">${{p.amount}}</td>
-                    <td class="center-text"></td>
+                    <td class="center-text">
+                      <span class="glyphicon glyphicon-ok" ng-if="p.paid"></span>
+                    </td>
                   </tr>
                 </tbody>
               </table>

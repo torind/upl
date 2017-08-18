@@ -1,0 +1,86 @@
+<div class="row" ng-controller="paid-expenses-controller">
+
+  <div class="col-xs-12 col-sm-12 nopad" ng-if="show()">
+    <div class="panel panel-default">
+
+      <div class="panel-heading">
+        <div class="container-fluid text-color nopad">
+          <div class="col-xs-12 nopad">
+          <h3 class="panel-title">Paid Expenses</h3>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="panel-body mobile-nopad">
+        <!-- Loader -->
+        <div class="container-fluid dfp-container" ng-if="!loaded">
+          <div class="dfp-loader"></div>
+        </div>
+
+        <!-- Mobile Table -->
+        <div class="container-fluid mobile-only mobile-dashboard-container" ng-if="loaded">
+          <table class="table table-striped mobile-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th class="center-text">Description</th>
+                <th class="center-text">Amount</th>
+                <th class="center-text">    </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr ng-repeat="e in expenses">
+                <td>{{formatDate(e.date)}}</td>
+                <td class="center-text">{{e.description}}</td>
+                <td class="center-text">${{e.amount}}</td>
+                <td class="center-text" ng-if="options.length > 0">
+                 <div class="dropdown">
+                  <div data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-option-horizontal epanel-more"></span>
+                  </div>
+                  <ul class="dropdown-menu epanel-dropdown-menu-right">
+                    <li ng-repeat="option in options" class="hoverable"><a ng-click="option.handler(e.uDatetime)">{{option.name}}</a></li>        
+                  </ul>
+                </div>
+              </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Entries -->
+        <div class="container-fluid no-mobile" ng-if="loaded">
+          <div class="container-fluid brother-container">
+            <div class="row">
+              <div class="col-xs-2">
+                <h6 class="tpanel-title">Date:</h6>
+              </div>
+              <div class="col-xs-1 text-center">
+                <h6 class="tpanel-title">Account:</h6>
+              </div>
+              <div class="col-xs-3 text-center">
+                <h6 class="tpanel-title">Name:</h6>
+              </div>
+              <div class="col-xs-3 text-center">
+                <h6 class="tpanel-title">Description:</h6>
+              </div>
+              <div class="col-xs-2 text-center">
+                <h6 class="tpanel-title">Amount:</h6>
+              </div>
+              <div class="col-xs-1">
+                <h6 class="tpanel-title"></h6>
+              </div>
+            </div>
+            <div class="row">
+              <div ng-repeat="expense in expenses">
+                <epanel-expense data="expense" options="options" needs-attention="false"></epanel-expense>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

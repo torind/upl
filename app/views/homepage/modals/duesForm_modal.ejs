@@ -119,9 +119,6 @@
             <div class="heading"> You have already submitted your form. Thank you! </div>
           </div>
 
-          <div class="container-fluid" ng-if="formSubmitted == -1">
-            <div class="heading">...</div>
-          </div>
         </div>
 
         <div id="errorText" class="row iso-row" ng-if="hasError">
@@ -132,8 +129,8 @@
         </div>
       </div>
 
-      <div class="modal-footer" ng-if="formSubmitted == 0">
-        <img ng-if="loading" class="modal-loader" src="/images/loader.gif">
+      <div class="modal-footer" ng-if="!formSubmitted">
+        <img ng-if="loading" src="/images/loader.gif">
         <button type="button" class="btn btn-primary" ng-click="submit()">Submit</button>
       </div>
     </div>

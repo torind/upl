@@ -30,12 +30,20 @@ var dues_amounts = {
 var update_params = {
   TableName: 'dev_upl_users',
   Key: { uID : null },
-  UpdateExpression: 'set #p = :p, #s = :s, #da = :da',
-  ExpressionAttributeNames: {'#p' : 'charges', '#s' : 'dues_status', '#da' : 'dues_amounts'},
+  UpdateExpression: 'set #p = :p, #s = :s, #da = :da, #e = :e, #c = :c',
+  ExpressionAttributeNames: {
+    '#p' : 'payments',
+    '#s' : 'dues_status',
+    '#da' : 'dues_amounts',
+    "#e" : "expenses",
+    '#c' : 'charges'
+  },
   ExpressionAttributeValues: {
     ':p' : [], 
     ':s' : dues_status, 
-    ':da' : dues_amounts
+    ':da' : dues_amounts,
+    ':e' : [],
+    ':c' : []
   }
 };
 

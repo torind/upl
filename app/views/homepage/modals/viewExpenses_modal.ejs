@@ -1,0 +1,58 @@
+<div class="modal-background" ng-if="getModal('expense-info')" ng-controller="expenses-modal-controller" ng-cloak>
+  <div class="modal-content" >
+    <div class="panel panel-default modal-panel">
+      <div class="panel-heading">
+        <div class="container-fluid">
+          <div class="row text-color">
+            <div class="col-xs-11 nopad">
+              <h2 class="panel-title modal-title">Upcoming Payments</h2>
+            </div>
+            <div class="col-xs-1 nopad">
+              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="closeModal()"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body payment-info-panel-body">
+        <div class="container-fluid modal-container nomargin">
+          <div class="row">
+            <div class="col-xs-6 center-text no-mobile">Amount Fronted This Semester:</div>
+            <div class="col-xs-6 center-text">Amount Owed:</div>
+            <!-- <div class="col-xs-6 col-sm-4 center-text">Remaining Amount Owed:</div> -->
+          </div>
+          <div class="row">
+            <div class="col-xs-6 center-text payment-amount">${{amounts.fronted}}</div>
+            <div class="col-xs-6 center-text payment-amount">${{amounts.owed}}</div>
+            <!-- <div class="col-xs-6 col-sm-4 center-text payment-amount" style="color: #D91E18">${{amounts.owed}}</div> -->
+          </div>
+          <div class="row">
+            <div class="container-fluid payment-info-table-container">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th class="center-text">Account</th>
+                    <th class="center-text">Description</th>
+                    <th class="center-text">Amount</th>
+                    <th class="center-text">Status</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr ng-repeat="e in expenses">
+                    <td>{{formatDate(e.date)}}</td>
+                    <td class="center-text">{{e.account}}</td>
+                    <td class="center-text">{{e.description}}</td>
+                    <td class="center-text">${{e.amount}}</td>
+                    <td class="center-text">{{e.status}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

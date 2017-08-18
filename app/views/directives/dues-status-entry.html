@@ -1,0 +1,75 @@
+<div class="container-fluid brother-entry">
+  <div class="row brother-heading">
+    <div class="col-xs-2">
+    <h6 class="tpanel-text">{{data.firstName}} {{data.lastName}}</h6>
+    </div>
+    <div class="col-xs-3">
+      <h6 class="tpanel-text ">{{data.summary}}</h6>
+    </div>
+    <div class="col-xs-2">
+      <h6 class="tpanel-text ">${{data.paymentTotal}}</h6>
+    </div>
+    <div class="col-xs-2">
+      <h6 class="tpanel-text">${{data.chargeTotal}}</h6>
+    </div>
+    <div class="col-xs-2">
+      <h6 class="tpanel-text" ng-class="{'text-red' : data.balance < 0}">${{abs(data.balance)}}</h6>
+    </div>
+    <div class="col-xs-1" style="padding-left: 0px">
+      <div style="margin-top:5px">
+        <span class="glyphicon glyphicon-option-horizontal tpanel-more"></span>
+        <upl-switch open="open"></upl-switch>
+      </div>
+    </div>
+  </div>
+  <div class="row brother-subentry" ng-if="open">
+    <div class="container-fluid">
+      <div class="row" style="margin: 5px 0px 0px 0px">
+        <div class="col-xs-6">
+
+          <div class="container-fluid nopad" style="margin: 0px 0px 10px 0px;">
+
+            <div class="row" style="margin: 0px 0px 10px 0px">
+              <div class="col-xs-12 nopad">
+                <h6 class="text-center schedule-heading">Charges</h6>
+              </div>
+            </div>
+
+            <div class="row" style="margin: 6px 6px" ng-repeat="charge in data.charges">
+              <div class="col-xs-6 nopad">
+                <h6 class="text-center schedule-body" ng-class="{'text-red' : charge.chargeable, 'text-green' : charge.paid}">{{formatDate(charge.date)}}</h6>
+              </div>
+              <div class="col-xs-6 nopad">
+                <h6 class="text-center schedule-body" ng-class="{'text-red' : charge.chargeable, 'text-green' : charge.paid}">${{charge.amount}}</h6>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-xs-6">
+
+          <div class="container-fluid nopad" style="margin: 0px 0px 10px 0px;">
+
+            <div class="row" style="margin: 0px 0px 10px 0px">
+              <div class="col-xs-12 nopad">
+                <h6 class="text-center schedule-heading">Payments</h6>
+              </div>
+            </div>
+
+            <div class="row" style="margin: 6px 6px" ng-repeat="payment in data.payments">
+              <div class="col-xs-6 nopad">
+                <h6 class="text-center schedule-body">{{formatDate(payment.date)}}</h6>
+              </div>
+              <div class="col-xs-6 nopad">
+                <h6 class="text-center schedule-body">${{payment.amount}}</h6>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="row" style="height: 32px; margin-top: 10px; margin-bottom: 10px">
+  <div class="col-xs-4 col-sm-6 nopad" style="height: 100%; padding-left: 5px">
+    <h5 style="line-height: 100%">{{data.title}}</h5>
+  </div>
+  <div class="col-xs-8 col-sm-6 nopad" style="float: right">
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" ng-click="toggle(true)" ng-class="{'btn-highlight': highlight(true)}" class="btn btn-default btn-toggle">On</button>
+      <button type="button" ng-click="toggle(false)" ng-class="{'btn-highlight': highlight(false)}" class="btn btn-default btn-toggle">Off</button>
+    </div>
+    <span style="height: 100%">
+      <span class="glyphicon glyphicon-remove hover" ng-click="clear()" style="line-height: 100%"></span>
+    </span>
+  </div>
+</div>

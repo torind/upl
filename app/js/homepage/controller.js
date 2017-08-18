@@ -1,13 +1,11 @@
+'use strict'
 angular.module('homepage-app',['services.js', 'ui.bootstrap'])
 
 .controller('root-controller', ['$scope', 'modalService', 'profileService', function($scope, $modal, $profile) {
   $scope.currentModal = null;
   $scope.profileData = null;
 
-  $scope.welcomeIcon = null;
-  $scope.loaded == false;
-
-  $scope.welcomeMessage = "";
+  $scope.loaded = false;
 
   $scope.openModal = function(modal_id) {
     $modal.pushModal(modal_id);
@@ -31,62 +29,206 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
     }
   }
 
-  $scope.showNextCharge = function() {
-    if ($scope.profileData != null) {
-      return $scope.profileData.charge_info.next_charge_date != null;
-    }
-  }
+  var init = function() {
+    $profile.indvProfileData.init()
+  };
 
-  $scope.showNextPayment = function() {
-    if ($scope.profileData != null) {
-      return $scope.profileData.payment_info.next_payment_date != null;
+  $scope.$watch($profile.indvProfileData.isLoading, function(bool) {
+    if (!$scope.loaded) {
+      $scope.loaded = !bool;
     }
-  }
+  });
 
-  $scope.messageHeight = function() {
-    var element = $('#welcome-panel-body');
-    if ($scope.welcomeIcon == 'ok') {
-      return element.outerHeight() - 20;
+  $scope.$watch($profile.indvProfileData.getData, function(data) {
+    if (data) {
+      $scope.profileData = data;
     }
-    else if ($scope.welcomeIcon == 'alert') {
-      return element.outerHeight() - 30;
-    }
-    
-  }
+  });
 
   $scope.$watch($modal.getTopModal, function(m) {
     $scope.currentModal = m;
   });
 
-  var init = function() {
-    $profile.init()
-  };
-
-  var parseData = function() {
-    if ($scope.profileData.dues_status.form_submitted) {
-      $scope.welcomeMessage = "Your dues form has been submitted. Thank you!"
-      $scope.welcomeIcon = 'ok';
-    }
-    else {
-      $scope.welcomeIcon = 'alert';
-      $scope.welcomeMessage = "Please submit a dues form as soon as possible!"
-
-    }
-  }
-
-  $scope.$watch($profile.getData, function(data) {
-    if (data != null) {
-      $scope.loaded = true;
-      $scope.profileData = data;
-      parseData();
-    }
-  }, true);
-
   init()
 }])
 
-.controller('dues-form-controller', ['$scope', 'modalService', 'profileService', '$http', '$location', '$anchorScroll', '$window',
- function($scope, $modal, $profile, $http, $location, $anchorScroll, $window) {
+.controller('welcome-dashboard-controller', ['$scope' , 'profileService', function($scope, $profile) {
+  $scope.welcome = {
+    message : "",
+    icon: null
+  };
+
+  $scope.profileData = null;
+  $scope.showButton = false;
+
+  $scope.messageHeight = function() {
+    var element = $('#welcome-panel-body');
+    var pad = 30;
+    if ($scope.welcome.icon == 'ok') {
+      return element.outerHeight() - 25 - pad;
+    }
+    else if ($scope.welcome.icon == 'alert') {
+      return element.outerHeight() - 30 - pad;
+    }
+    else if ($scope.welcome.icon == 'warn') {
+      return element.outerHeight() - 30 - pad;
+    }
+  }
+
+  var displayMsg = function(icon, msg, showButton) {
+    $scope.welcome.icon = icon;
+    $scope.welcome.message = msg;
+    $scope.showButton = showButton;
+  }
+
+  var parseData = function(data) {
+    $scope.profileData = data;
+    if (!data.dues_status.form_submitted) {
+      displayMsg('alert', "Please submit a dues form as soon as possible!", false);
+    }
+    else {
+      var charges = data.charges;
+      for (var i = 0; i < charges.length; i++) {
+        var c = charges[i];
+        var nextWeekDate = (new Date()).setDate((new Date).getDate() + 7);
+        if (c.date < new Date() && !c.paid) {
+          displayMsg('alert', "You have an unpaid " + c.description + " in the amount of $" + c.amount + ". Please pay it immediately.", true);
+          return;
+        }
+        else if (c.date < nextWeekDate && !c.paid) {
+          var options = {weekday : 'short', month: 'short', day : 'numeric'};
+          var date = c.date.toLocaleDateString('en-US', options);
+          displayMsg('warn', "You have a upcoming " + c.description + " due on " + date + " in the amount of $" + c.amount + ".", true);
+          return;
+        }
+        else {
+          displayMsg('ok', "You have no upcoming payments due.", true);
+        }
+      }
+    }
+  }
+
+  $scope.$watch($profile.indvProfileData.getData, function(data) {
+    if (data != null) {
+      parseData(data);
+    }
+  }, true);
+}])
+
+.controller('expense-dashboard-controller', ['$scope', 'profileService', function($scope, $profile) {
+  $scope.expense = {
+    unapproved : [],
+    approved : [],
+    paid : []
+  }
+
+  $scope.show = function() {
+    var show = {
+      openButton: false
+    }
+    if ($scope.expense.unapproved.length > 0 ||
+      $scope.expense.approved.length > 0 ||
+      $scope.expense.paid.length > 0) {
+        show.openButton = true;
+    }
+    return show;
+  }
+
+  $scope.getExpenseMessage = function() {
+    var approvedCount = $scope.expense.approved.length;
+    var unapprovedCount = $scope.expense.unapproved.length
+    var paidCount = $scope.expense.paid.length
+
+    var _s = function(size) {
+      var ret = size > 1 ? "s" : "";
+      return ret;
+    }
+
+    if (unapprovedCount > 0 && approvedCount > 0) {
+      return "You have " + approvedCount + " approved expense" + _s(approvedCount) +
+        " and " + unapprovedCount +  " expense" + _s(unapprovedCount) + " pending approval";
+    }
+    else if (unapprovedCount > 0) {
+      return "You have " + unapprovedCount + " expense" + _s(unapprovedCount) + " pending approval"
+    }
+    else if (approvedCount > 0) {
+      return "You have " + approvedCount + " approved expense" + _s(approvedCount) + " pending payment"
+    }
+    else if (paidCount > 0) {
+      return "You have no pending expenses at this time"
+    }
+    else {
+      return "You have not submitted an expense this semester"
+    }
+  }
+
+  $scope.$watch($profile.indvProfileData.getData, function(data) {
+    if(data != null) {
+      $scope.expense = data.expenses;
+    }
+  });
+
+  $scope.$watch($profile.isProfileDataLoading, function(bool) {
+    $scope.loading = bool;
+  });
+}])
+
+.controller('expenses-modal-controller', ['$scope', 'profileService', 'modalService', function($scope, $profile, $modal) {
+  $scope.expenses = [];
+  $scope.amounts = {
+    fronted : null,
+    owed : null
+  }
+
+  $scope.$watch($profile.indvProfileData.getData, function(data) {
+    if (data) {
+      parseData(data.expenses);
+    }
+  });
+
+  $scope.closeModal = function() {
+    $modal.popModal();
+  }
+
+  $scope.formatDate = function(date) {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
+
+  var parseData = function(expenses) {
+    var allExpenses = [];
+    var fronted = 0;
+    var owed = 0;
+
+    for (var i = 0; i < expenses.paid.length; i++) {
+      var e = expenses.paid[i];
+      fronted += e.amount;
+      e.status = "Paid";
+      allExpenses.push(e);
+    }
+    for (var i = 0; i < expenses.approved.length; i++) {
+      var e = expenses.approved[i];
+      fronted += e.amount;
+      owed += e.amount;
+      e.status = "Approved";
+      allExpenses.push(e);
+    }
+    for (var i = 0; i < expenses.unapproved.length; i++) {
+      var e = expenses.unapproved[i];
+      e.status = "Pending";
+      allExpenses.push(e);
+    }
+    allExpenses.sort(sortCharges);
+    $scope.expenses = allExpenses;
+    $scope.amounts = {
+      fronted : fronted,
+      owed : owed
+    }
+  };
+}])
+
+.controller('dues-form-controller', ['$scope', 'modalService', 'profileService', '$http', '$location', '$anchorScroll', '$window', 'refreshService',
+ function($scope, $modal, $profile, $http, $location, $anchorScroll, $window, $refresh) {
 
   $scope.hasError = false;
   $scope.errorText = null;
@@ -247,12 +389,13 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
       return;
     }
     $scope.loading = true;
+    console.log(params);
     $http.post('/api/post-dues-form', params).then(
       function success(response) {
         $scope.loading = false;
         if (response.data.success) {
           $modal.popModal();
-          $profile.refreshAfterFormSubmit();
+          $refresh.refresh();
         }
         else {
           $scope.reportError(response.data.error);
@@ -369,8 +512,9 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   // End Date Picker JS
 
   var init = function() {
-    $scope.formSubmitted = $profile.isFormSubmitted();
-    $scope.obligation = $profile.getDuesObligation();
+    console.log($profile.indvProfileData.getData());
+    $scope.formSubmitted = $profile.indvProfileData.getData().isFormSubmitted;
+    $scope.obligation = $profile.indvProfileData.getData().obligation;
   };
 
   init();
@@ -391,23 +535,19 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   $scope.parseData = function(data) {
     if (data.dues_status.form_submitted) {
       $scope.shouldShow = true;
-      $scope.amounts.total = data.dues_amounts.agreed == 0 ? data.dues_amounts.proposed : data.dues_amounts.agreed;
-      $scope.amounts.paid = 0;
+      $scope.amounts.total = data.chargeTotal;
+      $scope.amounts.paid = data.paymentTotal;
       $scope.amounts.owed = $scope.amounts.total - $scope.amounts.paid;
-      var charges = data.charge_info.charges;
-      for (var i = 0; i < charges.length; i++) {
-        var options = { year: 'numeric', month: 'long', day: 'numeric' };
-        var date = new Date(charges[i].date).toLocaleDateString('en-US', options);
-        $scope.payments.push({
-          date: date,
-          amount: charges[i].amount,
-          description: charges[i].description
-        });
-      }
+      $scope.payments = data.charges;
     }
   }
 
-  $scope.$watch($profile.getData, function(data) {
+  $scope.formatDate = function(date) {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
+
+  $scope.$watch($profile.indvProfileData.getData, function(data) {
     if (data != null) {
       $scope.parseData(data);
     }
@@ -534,13 +674,13 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   $scope.totalCount = null;
   $scope.submittedCount = null;
   $scope.names = null;
-  $scope.loaded = false;
+  $scope.loading = true;
 
   $scope.init = function() {
-    $dues.initUnsubmittedData()
+    $dues.unsubmittedData.init();
   }
 
-  $scope.$watch($dues.getUnsubmittedData, function(data) {
+  $scope.$watch($dues.unsubmittedData.getData, function(data) {
     if (data!= null) {
       $scope.totalCount = data.totalCount;
       $scope.submittedCount = data.totalCount - data.unsubmittedCount;
@@ -548,11 +688,15 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
     }
   });
 
+  $scope.$watch($dues.unsubmittedData.isLoading, function(bool) {
+    $scope.loading = bool;
+  })
+
   $scope.refreshData = function() {
-    $dues.initUnsubmittedData();
+    $dues.unsubmittedData.init();
   }
 
-  $scope.$watch($dues.isLoaded, function(bool) {
+  $scope.$watch($dues.unsubmittedData.loaded, function(bool) {
     $scope.loaded = bool;
   });
 
@@ -564,33 +708,63 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   $scope.init();
 }])
 
-.directive('uplProgressBar', function() {
-    return {
-    restrict : 'E',
-    scope : {
-      currentVal : '=',
-      maxVal : '='
-    },
-    link : function(scope, element, attrs) {
-      scope.maxValString = function() {
-        return scope.maxVal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      };
+.controller('submit-expense-controller', ['$scope', 'expenseService', 'modalService', function($scope, $expense, $modal) {
+  $scope.postLoading = false;
 
-      scope.percentage = function() {
-        return Math.round(scope.currentVal / scope.maxVal * 100);
-      };
+  $scope.input = {
+    account: "",
+    description: "",
+    amount: ""
+  }
 
-      scope.currentValString = function() {
-        return scope.currentVal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      };
+  $scope.error = {active: false, msg : null};
 
-      scope.progress = function() {
-        per = scope.currentVal / scope.maxVal * 100;
-        return "" + per.toString() + "%";
-      };
-    }, 
-    replace : true,
-    templateUrl : 'upl-progress-bar.html'
-  };
-});
+  $scope.possibleAccounts = ["Social", "Brotherhood", "Rush", "Admin"];
 
+  $scope.searchFilter = function(item) {
+    if (item.toLowerCase().startsWith($scope.input.account.toLowerCase())) {
+      return true;
+    }
+    return false;
+  }
+
+  $scope.reportError = function(err) {
+    $scope.error.active = true;
+    $scope.error.msg = err;
+  }
+
+  $scope.clearError = function() {
+    $scope.error.active = false;
+  }
+
+  $scope.submit = function() {
+    $scope.postLoading = true;
+    $scope.clearError();
+    if (isNaN(parseFloat($scope.input.amount))) { $scope.reportError("Amount must be valid dollar amount") }
+    else {
+      $expense.postExpense($scope.input, function(success) {
+        $scope.postLoading = false;
+        if (success) {
+          $modal.popModal();
+        }
+        else {
+          $scope.reportError("An error occured, please try again!");
+        }
+      });
+    }
+  }
+}]);
+
+var sortCharges = function(a, b) {
+  if (a.date < b.date) {
+    return -1;
+  }
+  else if (a.date > b.date) {
+    return 1;
+  }
+  else {
+    if (a.paid) { return -1; }
+    if (b.paid) { return 1; }
+    return 0;
+  }
+}

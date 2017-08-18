@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta content="width=device-width, user-scalable=no , initial-scale=1" name="viewport">
+<head>
+
+  <title>UPenn Lions - Home </title>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="icon" href="/images/lions-logo.png">
+  <!-- Fonts -->
+  <script>epanel_type="<%=position%>";</script>
+</head>
+
+<body ng-app="epanel-app" ng-controller="root-controller" ng-class="{'modal-open': hasModal()}">
+  <div class="background-container">
+    <img src="/images/lions-background.png">
+  </div>
+
+
+  <!-- Nav Bar -->
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header"> 
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false"> 
+          <span class="sr-only">Toggle navigation</span> 
+          <span class="icon-bar upl-nav"></span> 
+          <span class="icon-bar upl-nav"></span>
+          <span class="icon-bar upl-nav"></span> 
+        </button> 
+        <a href="/" class="navbar-brand upl-brand">UPenn Lions</a>
+      </div>
+      <ul class="nav navbar-nav no-mobile">
+        <li class="active"><a href="/secure/epanel">E-Panel</span></a></li>
+        <% if (typeof position != 'undefined' && position == 'Treasurer') {%>
+          <li><a href="/tpanel">T-Panel</span></a></li>
+        <% } %>
+      </ul>
+      <nav id="bs-navbar" class="collapse navbar-collapse" id="bs-navbar">
+        <ul class="nav navbar-nav navbar-right">
+          <% if (typeof position != 'undefined') {%>
+            <li class="active mobile-only"><a class="upl-option" href="/epanel">E-Panel</span></a></li>
+          <% } %>
+          <% if (typeof position != 'undefined' && position == 'Treasurer') {%>
+            <li class="mobile-only"><a class="upl-option" href="/tpanel">T-Panel</span></a></li>
+          <% } %>
+          <legend class="mobile-only" style="margin:0"></legend>
+          <li class="mobile-only"><a href="#"  class="upl-option" ng-click="openModal('expense')">Submit Expense</a></li>
+          <legend class="mobile-only" style="margin:0"></legend>
+          <li><a href="/auth/logout" class="upl-option">Log Out</a></li>
+        </ul>
+      </nav>
+    </div>
+  </nav>
+
+  <!-- Main Screen -->
+  <div class="container">
+    <!-- Loading Screen -->
+    <div class="main-container" ng-if="!loaded">
+      <div class="container-fluid">
+        <div class="loader"></div>
+      </div>
+    </div>
+
+    <div class="main-container" ng-if="loaded" ng-cloak>
+      <div class="container-fluid">
+        
+        <!-- Summary -->
+        <div class="row">
+
+          <div class="col-xs-12 col-sm-12 nopad">
+            <div class="panel panel-default">
+
+              <div class="panel-heading">
+                <div class="container-fluid text-color nopad">
+                  <div class="col-xs-12 nopad">
+                    <h3 class="panel-title">{{epanelHeading()}}</h3>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <div class="panel-body">
+                <div class="row flexbox-row">
+
+                  <div class="col-xs-6 col-sm-4 nopad">
+                    <div class="container-fluid">
+                      <div class="row center-text tpanel-title">Spent Amount</div>
+                      <div class="row center-text tpanel-stat" style="color: #D91E18">{{formatDollar(totals.spent, 0)}}</div>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-6 col-sm-4 nopad">
+                    <div class="container-fluid">
+                      <div class="row center-text tpanel-title">Remaining Budget</div>
+                      <div class="row center-text tpanel-stat" style="color: #26A65B">{{formatDollar(totals.remaining, 0)}}</div>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-4 nopad no-mobile">
+                    <div class="container-fluid">
+                      <div class="row center-text tpanel-title">Total Budget</div>
+                      <div class="row center-text tpanel-stat">{{formatDollar(totals.total, 0)}}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row epanel-progress-bar">
+                  <upl-progress-bar current-val="totals.spent" max-val="totals.total" show-total="false" show-percentage="true"></upl-progress-bar>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Expenses -->
+        <div class="row" ng-controller="active-expense-controller">
+
+          <div class="col-xs-12 col-sm-12 nopad" ng-if="show()">
+            <div class="panel panel-default">
+
+              <div class="panel-heading">
+                <div class="container-fluid text-color nopad">
+                  <div class="col-xs-12 nopad">
+                    <h3 class="panel-title">Expenses That Need Attention</h3>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <div class="panel-body mobile-nopad">
+                <!-- Loader -->
+                <div class="container-fluid dfp-container" ng-if="!loaded">
+                  <div class="dfp-loader"></div>
+                </div>
+
+                <!-- Mobile Table -->
+                <div class="container-fluid mobile-only mobile-dashboard-container" ng-if="loaded">
+                  <table class="table table-striped mobile-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th class="center-text">Description</th>
+                        <th class="center-text">Amount</th>
+                        <th class="center-text">    </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr ng-repeat="e in expenses">
+                        <td>{{formatDate(e.date)}}</td>
+                        <td class="center-text">{{e.description}}</td>
+                        <td class="center-text">${{e.amount}}</td>
+                        <td class="center-text" ng-if="options.length > 0">
+                         <div class="dropdown">
+                          <div data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-option-horizontal epanel-more"></span>
+                          </div>
+                          <ul class="dropdown-menu epanel-dropdown-menu-right">
+                            <li ng-repeat="option in options" class="hoverable"><a ng-click="option.handler(e.uDatetime)">{{option.name}}</a></li>        
+                          </ul>
+                        </div>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Entries -->
+                <div class="container-fluid no-mobile" ng-if="loaded">
+                  <div class="container-fluid brother-container">
+                    <div class="row">
+                      <div class="col-xs-2">
+                        <h6 class="tpanel-title">Date:</h6>
+                      </div>
+                      <div class="col-xs-1 text-center">
+                        <h6 class="tpanel-title">Account:</h6>
+                      </div>
+                      <div class="col-xs-3 text-center">
+                        <h6 class="tpanel-title">Name:</h6>
+                      </div>
+                      <div class="col-xs-3 text-center">
+                        <h6 class="tpanel-title">Description:</h6>
+                      </div>
+                      <div class="col-xs-2 text-center">
+                        <h6 class="tpanel-title">Amount:</h6>
+                      </div>
+                      <div class="col-xs-1 text-center">
+                        <h6 class="tpanel-title"></h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div ng-repeat="expense in expenses">
+                        <epanel-expense data="expense" options="options" needs-attention="true"></epanel-expense>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expense History -->
+        <div class="row" ng-controller="expense-history-controller">
+
+          <div class="col-xs-12 col-sm-12 nopad" ng-if="show()">
+            <div class="panel panel-default">
+
+              <div class="panel-heading">
+                <div class="container-fluid text-color nopad">
+                  <div class="col-xs-12 nopad">
+                    <h3 class="panel-title">Approved Expenses</h3>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <div class="panel-body mobile-nopad">
+                <!-- Loader -->
+                <div class="container-fluid dfp-container" ng-if="!loaded">
+                  <div class="dfp-loader"></div>
+                </div>
+
+                <!-- Mobile Table -->
+                <div class="container-fluid mobile-only mobile-dashboard-container" ng-if="loaded">
+                  <table class="table table-striped mobile-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th class="center-text">Description</th>
+                        <th class="center-text">Amount</th>
+                        <th class="center-text">    </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr ng-repeat="e in expenses">
+                        <td>{{formatDate(e.date)}}</td>
+                        <td class="center-text">{{e.description}}</td>
+                        <td class="center-text">${{e.amount}}</td>
+                        <td class="center-text">
+                         <div class="dropdown">
+                          <div data-toggle="dropdown" ng-if="options.length > 0">
+                            <span class="glyphicon glyphicon-option-horizontal epanel-more"></span>
+                          </div>
+                          <ul class="dropdown-menu epanel-dropdown-menu-right">
+                            <li ng-repeat="option in options" class="hoverable"><a ng-click="option.handler(e.uDatetime)">{{option.name}}</a></li>        
+                          </ul>
+                        </div>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Entries -->
+                <div class="container-fluid no-mobile" ng-if="loaded">
+                  <div class="container-fluid brother-container">
+                    <div class="row">
+                      <div class="col-xs-2">
+                        <h6 class="tpanel-title">Date:</h6>
+                      </div>
+                      <div class="col-xs-1 text-center">
+                        <h6 class="tpanel-title">Account:</h6>
+                      </div>
+                      <div class="col-xs-3 text-center">
+                        <h6 class="tpanel-title">Name:</h6>
+                      </div>
+                      <div class="col-xs-3 text-center" nopad>
+                        <h6 class="tpanel-title">Description:</h6>
+                      </div>
+                      <div class="col-xs-2 text-center" nopad>
+                        <h6 class="tpanel-title">Amount:</h6>
+                      </div>
+                      <div class="col-xs-1">
+                        <h6 class="tpanel-title"></h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div ng-repeat="expense in expenses">
+                        <epanel-expense data="expense" options="options" needs-attention="false"></epanel-expense>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Paid Expenses -->
+        <%- (position == 'Treasurer') ? include("epanel_treasurer_only.ejs") : null %>
+
+      </div>
+    </div>
+    
+    <!-- Include Nav -->
+    <% include epanel_navpanel %>
+  </div>
+
+  
+
+
+  <!-- Include Modals -->
+  <%
+    var modals = ["submitExpense"];
+    for (var i =0; i < modals.length; i++) {
+      var path = 'modals/' + modals[i] + '_modal.ejs'; %>
+      <%- include(path); %>
+    <% } %>
+
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
+  <script src="/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/angular/angular.js"></script>
+  <script src="/angular/angular-animate.js"></script>
+  <script src="/angular/angular-sanitize.js"></script>
+  <script src="/angular/angular-resource.min.js"></script>
+  <script src="/bootstrap/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+  <script src="/services.js"></script>
+  <script src="/epanel/controller.js"></script>
+  <%- (position == 'Treasurer') ? "<script src='/epanel/treasurer_controller.js'></script>" : "" %>
+
+</body>
+
+</html>

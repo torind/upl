@@ -1,0 +1,34 @@
+<div class="container-fluid brother-entry" style="padding: 0px">
+  <div class="row" ng-class="{'unpaid-charge-heading' : needsAttention, 'brother-heading': !needsAttention}">
+    <div class="col-xs-2">
+      <h6 class="tpanel-text">{{formatDate(data.date)}}</h6>
+    </div>
+    <div class="col-xs-1 text-center">
+      <h6 class="tpanel-text">{{data.account}}</h6>
+    </div>
+    <div class="col-xs-3 text-center">
+      <h6 class="tpanel-text">{{data.name}}</h6>
+    </div>
+    <div class="col-xs-3 text-center">
+      <h6 class="tpanel-text ">{{data.description}}</h6>
+    </div>
+    <div class="col-xs-2 text-center">
+      <h6 class="tpanel-text ">${{data.amount}}</h6>
+    </div>
+    <div class="col-xs-1 text-center">
+      <div class="btn-group dropup" ng-if="options.length > 0">
+
+        <div class="dropdown">
+          <div data-toggle="dropdown">
+            <span class="glyphicon glyphicon-option-horizontal epanel-more"></span>
+          </div>
+          <ul class="dropdown-menu epanel-dropdown-menu" style="margin-bottom: -5px;">
+              <li ng-repeat="option in options" class="hoverable"><a ng-click="option.handler(data.uDatetime)">{{option.name}}</a></li>        
+          </ul>
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
+</div>

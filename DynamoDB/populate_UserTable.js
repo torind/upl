@@ -26,7 +26,7 @@ var totalCount = allUsers.length;
 
 allUsers.forEach(function(user) {
     var params = {
-        TableName: "dev_upl_users",
+        TableName: "qa_upl_users",
         Item: {
             "uID": user.uID,
             "username": user.username,

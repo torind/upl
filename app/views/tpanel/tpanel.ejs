@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta content="width=device-width, user-scalable=no , initial-scale=1" name="viewport">
+<head>
+
+  <title>UPenn Lions - Home </title>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="icon" href="/images/lions-logo.png">
+  <!-- Fonts -->
+</head>
+
+<body ng-app="tpanel-app" ng-controller="root-controller" ng-class="{'modal-open': hasModal()}">
+  <div class="background-container">
+    <img src="/images/lions-background.png">
+  </div>
+
+
+  <!-- Nav Bar -->
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header"> 
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false"> 
+          <span class="icon-bar upl-nav"></span> 
+          <span class="icon-bar upl-nav"></span>
+          <span class="icon-bar upl-nav"></span> 
+        </button> 
+        <a href="/" class="navbar-brand upl-brand">UPenn Lions</a>
+      </div>
+      <ul class="nav navbar-nav no-mobile">
+        <li><a href="/epanel">E-Panel</span></a></li>
+        <li class="active"><a href="#">T-Panel</span></a></li>
+      </ul>
+      <nav id="bs-navbar" class="collapse navbar-collapse" id="bs-navbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="mobile-only"><a class="upl-option" href="/epanel">E-Panel</span></a></li>
+          <li class="active mobile-only"><a class="upl-option" href="/tpanel">T-Panel</span></a></li>
+          <legend class="mobile-only" style="margin:0"></legend>
+          <li class="mobile-only"><a href="#"  class="upl-option" ng-click="openModal('add-charge')">Add Charge</a></li>
+          <li class="mobile-only"><a href="#"  class="upl-option" ng-click="openModal('add-payment')">Add Payment</a></li>
+          <legend class="mobile-only" style="margin:0"></legend>
+          <li><a href="/auth/logout" class="upl-option">Log Out</a></li>
+        </ul>
+      </nav>
+    </div>
+  </nav>
+
+  <!-- Main Screen -->
+  <div class="container">
+    <!-- Loading Screen -->
+    <div class="main-container" ng-if="!loaded">
+      <div class="container-fluid">
+        <div class="loader"></div>
+      </div>
+    </div>
+
+    <div class="main-container" ng-if="loaded" ng-cloak>
+      
+      <!-- Welcome Boxes -->
+      <div class="container-fluid">
+        <!-- Top Split Row -->
+        <div class="row">
+
+          <div class="col-xs-12 col-sm-12 nopad">
+            <div class="panel panel-default">
+
+              <div class="panel-heading">
+                <div class="container-fluid text-color nopad">
+                  <div class="col-xs-12 nopad">
+                    <h3 class="panel-title" ng-click="click()">Aggregate Collection Info</h3>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <div class="panel-body flexbox-container">
+                <div class="row flexbox-row">
+
+                  <div class="col-xs-6 col-sm-4 nopad no-mobile">
+                    <div class="container-fluid">
+                      <div class="row center-text tpanel-title">Paid</div>
+                      <div class="row center-text tpanel-stat" style="color: #26A65B">{{formatDollar(amounts.paid)}}</div>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-6 col-sm-4 nopad">
+                    <div class="container-fluid">
+                      <div class="row center-text tpanel-title">Unpaid</div>
+                      <div class="row center-text tpanel-stat" style="color: #D91E18">{{formatDollar(amounts.unpaid)}}</div>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-6 col-sm-4 nopad">
+                    <div class="container-fluid">
+                      <div class="row center-text tpanel-title">Total</div>
+                      <div class="row center-text tpanel-stat">{{formatDollar(amounts.total)}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unpaid Charges Row -->
+        <div class="row" ng-controller="unpaid-charges-controller">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="container-fluid text-color">
+                <div class="col-xs-11"><h3 class="panel-title">Unpaid Charges</h3></div>
+              </div>
+            </div>
+
+            <div class="panel-body maxed-panel mobile-nopad">
+              <!-- Loader -->
+              <div class="container-fluid dfp-container" ng-if="loading">
+                <div class="dfp-loader"></div>
+              </div>
+
+              <!-- Mobile Table -->
+              <div class="container-fluid mobile-dashboard-container mobile-only" ng-if="!loading">
+                <table class="table table-striped mobile-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Name</th>
+                      <th class="center-text">Description</th>
+                      <th class="center-text">Amount</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr class="danger" ng-repeat="c in unpaidCharges">
+                      <td>{{formatDate(c.date)}}</td>
+                      <td>{{c.firstName}} {{c.lastName}}</td>
+                      <td class="center-text">{{c.description}}</td>
+                      <td class="center-text">${{c.amount}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Entries -->
+              <div class="container-fluid no-mobile" ng-if="!loading">
+                <div ng-repeat="charge in unpaidCharges">
+                  <tpanel-unpaid-charge data="charge"></tpanel-unpaid-charge>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- All Brothers Row -->
+        <div class="row" ng-controller="table-controller">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="container-fluid text-color">
+                <div class="col-xs-11"><h3 class="panel-title">Dues Information</h3></div>
+              </div>
+            </div>
+            <div class="panel-body mobile-nopad">
+              <!-- Loader -->
+              <div class="container-fluid dfp-container" ng-if="loading">
+                <div class="dfp-loader"></div>
+              </div>
+
+              <!-- Mobile Table -->
+              <div class="container-fluid mobile-only mobile-dashboard-container" ng-if="!loading">
+                <table class="table table-striped mobile-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Dues Status</th>
+                      <th class="center-text">Paid</th>
+                      <th class="center-text">Balance</th>
+
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr ng-repeat="entry in approvalData | filter : shouldShow">
+                      <td>{{entry.firstName}} {{entry.lastName}}</td>
+                      <td>{{entry.summary}}</td>
+                      <td class="center-text">${{entry.paymentTotal}} / ${{entry.chargeTotal}}</td>
+                      <td class="center-text" ng-class="{'text-red' : data.balance < 0}">${{abs(entry.balance)}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Entries -->
+              <div class="container-fluid no-mobile" ng-if="!loading">
+                <div class="container-fluid brother-container">
+                  <div class="col-xs-2">
+                    <h6 class="tpanel-title">Name:</h6>
+                  </div>
+                  <div class="col-xs-3">
+                    <h6 class="tpanel-title">Dues Status:</h6>
+                  </div>
+                  <div class="col-xs-2">
+                    <h6 class="tpanel-title">Paid:</h6>
+                  </div>
+                  <div class="col-xs-2">
+                    <h6 class="tpanel-title">Total:</h6>
+                  </div>
+                  <div class="col-xs-2">
+                    <h6 class="tpanel-title">Balance:</h6>
+                  </div>
+                </div>
+                <div ng-repeat="entry in approvalData | filter : shouldShow">
+                  <dues-status-entry data="entry"></dues-status-entry>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Include Nav -->
+    <% include tpanel_navpanel %>
+  </div>
+
+  
+
+
+  <!-- Include Modals -->
+  <%
+    var modals = ["addCharge", "addPayment"];
+    for (var i =0; i < modals.length; i++) {
+      var path = 'modals/' + modals[i] + '_modal.ejs'; %>
+      <%- include(path); %>
+    <% } %>
+
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
+  <script src="/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/angular/angular.js"></script>
+  <script src="/angular/angular-animate.js"></script>
+  <script src="/angular/angular-sanitize.js"></script>
+  <script src="/angular/angular-resource.min.js"></script>
+  <script src="/bootstrap/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+  <script src="/services.js"></script>
+  <script src="/tpanel/controller.js"></script>
+</body>
+
+</html>

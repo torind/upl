@@ -16,6 +16,11 @@ var config = require(__dirname + "/../config.js");
 
 
 var app = express();
+
+if (!config.cacheViews) {
+	app.disable('view cache');
+}
+
 var resources = ['/public', '/js', '/views/directives'];
 
 // App configuration
@@ -67,8 +72,9 @@ function initializeDevMode (req, res, next) {
 	if (config.bypass.enabled) {
 	    req.session.uID = config.bypass.uID;
 		req.session.authenticated = true;
+		req.session.positions = config.bypass.positions;
 	}
-
+	
 	next()
 }
 

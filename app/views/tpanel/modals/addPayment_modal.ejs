@@ -1,0 +1,93 @@
+<div class="modal-background" ng-if="getModal('add-payment')" ng-cloak>
+  <div class="modal-content" ng-controller="add-payment-controller">
+    <div class="panel panel-default modal-panel">
+      <div class="panel-heading">
+        <div class="container-fluid">
+          <div class="row text-color">
+            <div class="col-xs-11 nopad">
+              <h2 class="panel-title modal-title">Add Payment</h2>
+            </div>
+            <div class="col-xs-1 nopad">
+              <span class="glyphicon glyphicon-remove-circle close-icon" aria-hidden="true" ng-click="closeModal()"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body" style="padding-bottom: 0px">
+        <div class="container-fluid modal-container">
+          <div class="row">
+
+            <div class="col-xs-2 no-mobile"></div>
+            <!-- Date -->
+            <div class="col-xs-12 col-sm-2 mobile-modal-padded">
+
+              <label>Date:</label>
+              <p class="input-group">
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="date.date" is-open="date.open" datepicker-options="dateOptions" ng-required="true" close-text="Done" popup-placement="bottom" />
+
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+
+            </div>
+
+            <!-- User -->
+            <div class="col-xs-12 col-sm-4 mobile-modal-padded">
+
+              <label>User:</label>
+              <input type="text" ng-model="selectedUser.name" uib-typeahead="fullName(user) for user in users | filter:searchFilter | limitTo:8" class="form-control" placeholder="Select user to charge..." typeahead-on-select="selectUser($item, $model, $label, $event)" typeahead-select-on-exact="true">
+
+            </div>
+
+            <div class="col-xs-12 col-sm-4 mobile-modal-padded">
+              <label>Amount:</label>
+              <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control" ng-model="amount" placeholder="Amount...">
+              </div>
+            </div>
+
+            <div class="col-xs-4 no-mobile"></div>
+
+          </div>
+
+          <div class="row mobile-modal-padded" ng-if="showConfirmation">
+            <div class="tpanel-title text-center" style="margin: 10px 0px 5px 0px;">Confirmation:</div>
+            <div class="well well-sm" style="width: 300px; margin: auto">
+              <div class="container-fluid">
+
+                <div class="row">
+                  <div class="col-xs-6 text-bold">Date:</div>
+                  <div class="col-xs-6">{{confirmation.date}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-6 text-bold">Name:</div>
+                  <div class="col-xs-6">{{confirmation.name}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-6 text-bold">Amount:</div>
+                  <div class="col-xs-6">${{confirmation.amount}}</div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row iso-row" ng-if="error.active">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+              <p class="error-text" ng-cloak>{{error.msg}}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <img ng-if="postLoading" src="/images/loader.gif">
+        <button type="button" class="btn btn-primary" ng-click="confirm()" ng-if="!showConfirmation">Confirm</button>
+        <button type="button" class="btn btn-primary" ng-click="submit()" ng-if="showConfirmation">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

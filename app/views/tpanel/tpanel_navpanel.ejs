@@ -1,0 +1,36 @@
+<div class="nav-container" ng-cloak ng-controller="nav-controller">
+  <div class="box shadow" style="margin-top: 40px">
+    <div class="box-content container-fluid">
+
+      <div class="row">
+        <h3 class="nopad nomargin" style="text-align: center; width: 100%">Filters</h3>
+      </div>
+
+      <div class="row" style="margin: 10px 0px;">
+        <div class="input-group">
+          <span class="input-group-addon glyphicon glyphicon-search" style="top:0px;"></span>
+          <input type="text" class="form-control" ng-model="searchObj.text" placeholder="Search...">
+        </div>
+      </div>
+
+      <tpanel-toggle data="filters.received"></tpanel-toggle>
+      <tpanel-toggle data="filters.payingFull"></tpanel-toggle>
+      <tpanel-toggle data="filters.paymentPlan"></tpanel-toggle>
+      <tpanel-toggle data="filters.discountedPlan"></tpanel-toggle>
+
+      <div class="row" style="height: 10px; border-bottom: 1px #afafaf solid"></div>
+      <div class="row" style="height: 15px; border-top: 1px #8f8f8f solid"></div>
+
+      <div class="row text-center"><span class="options-header">Available Actions:</span></div>
+      <div class="row hoverable smooth-corners option-row" ng-click="openModal('add-charge')">
+        <div class="col-xs-1 nopad indent"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span></div>
+        <div class="col-xs-10 nopad">Add Charge</div>
+      </div>
+
+      <div class="row hoverable smooth-corners option-row" ng-click="openModal('add-payment')">
+        <div class="col-xs-1 nopad indent"><span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span></div>
+        <div class="col-xs-10 nopad">Add Payment</div>
+      </div>
+    </div>
+  </div>
+</div>
