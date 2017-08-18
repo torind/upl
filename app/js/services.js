@@ -408,7 +408,7 @@ angular.module('services.js',[])
 	this.aggregateData = HTTPGetFactory(initAggregateData);
 })
 
-.service('profileService', function($http, HTTPGetFactory, refreshService) {
+.service('profileService', function($http, HTTPGetFactory, refreshService, modalService) {
 	var that = this;
 
 	var initIndvBroProfile = function(callback) {
