@@ -1,1 +1,15 @@
-upl_errorLog.log
+/home/ubuntu/upl/node_modules/aws-sdk/lib/request.js:31
+            throw err;
+            ^
+
+TypeError: Cannot read property 'length' of undefined
+    at Object.async.each (/usr/lib/nodejs/async.js:120:17)
+    at Response.<anonymous> (/home/ubuntu/upl/app/routes/database.js:65:10)
+    at Request.<anonymous> (/home/ubuntu/upl/node_modules/aws-sdk/lib/request.js:364:18)
+    at Request.callListeners (/home/ubuntu/upl/node_modules/aws-sdk/lib/sequential_executor.js:105:20)
+    at Request.emit (/home/ubuntu/upl/node_modules/aws-sdk/lib/sequential_executor.js:77:10)
+    at Request.emit (/home/ubuntu/upl/node_modules/aws-sdk/lib/request.js:683:14)
+    at Request.transition (/home/ubuntu/upl/node_modules/aws-sdk/lib/request.js:22:10)
+    at AcceptorStateMachine.runTo (/home/ubuntu/upl/node_modules/aws-sdk/lib/state_machine.js:14:12)
+    at /home/ubuntu/upl/node_modules/aws-sdk/lib/state_machine.js:26:10
+    at Request.<anonymous> (/home/ubuntu/upl/node_modules/aws-sdk/lib/request.js:38:9)
