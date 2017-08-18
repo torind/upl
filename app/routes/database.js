@@ -62,15 +62,20 @@ database.db_getFullUser = function(uID, api_callback) {
 			var user = data.Item;
 			var expenseIDs = user.expenses;
 			var expenses = [];
-			async.each(expenseIDs, getExpenseFromID.bind({expenses : expenses}) , function(err) {
-				if (err) {
-					api_callback(err, null);
-				}
-				else {
-					user.expenses = expenses;
-					api_callback(null, user);
-				}
-			})
+			if (typeof expenseIDs != 'undefined' && expenseIDs != null) {
+				async.each(expenseIDs, getExpenseFromID.bind({expenses : expenses}) , function(err) {
+					if (err) {
+						api_callback(err, null);
+					}
+					else {
+						user.expenses = expenses;
+						api_callback(null, user);
+					}
+				})
+			} 
+			else {
+				api_callback(null, user);
+			}
 		}
 	});
 }
