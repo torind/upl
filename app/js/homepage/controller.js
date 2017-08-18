@@ -389,7 +389,7 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
       return;
     }
     $scope.loading = true;
-    console.log(params);
+
     $http.post('/api/post-dues-form', params).then(
       function success(response) {
         $scope.loading = false;
@@ -512,8 +512,7 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   // End Date Picker JS
 
   var init = function() {
-    console.log($profile.indvProfileData.getData());
-    $scope.formSubmitted = $profile.indvProfileData.getData().isFormSubmitted;
+    $scope.formSubmitted = $profile.indvProfileData.getData().dues_status.form_submitted;
     $scope.obligation = $profile.indvProfileData.getData().obligation;
   };
 
