@@ -9,7 +9,7 @@ var SNS = new AWS.SNS();
 var handler = {};
 
 handler.sendSignupConfirmation = function(number) {
-	var msg = "Thank you for adding a phone number to your profile. You will now be able to" + 
+	var msg = "Thank you for adding a phone number to your profile. You will now be able to " + 
 		"recieve notifications and alerts by text message. \n\n Visit https://upennlions.com " + 
 		"to change your notifiaction preferences.";
 	var payload = {
