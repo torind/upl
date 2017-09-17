@@ -91,7 +91,7 @@ router.post('/forgotpassword', function(req, res) {
 				var number = data.Items[0].phone_number;
 
 				if (typeof number == 'undefined') {
-					var msg = "There is no phone number assosciated with your account. Please contact" +
+					var msg = "There is no phone number assosciated with your account. Please contact " +
 						"Torin to reset your password manually";
 					var uri = '/?fcode=4&msg=' + encodeURI(msg);
 					res.redirect(uri);
