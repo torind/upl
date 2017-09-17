@@ -420,6 +420,9 @@ angular.module('services.js',[])
 					if (typeof needsPwdReset != 'undefined' && needsPwdReset) {
 						modalService.pushModal('account-setup');
 					}
+					if (typeof new_data.phoneNumber == 'undefined') {
+						modalService.pushModal('phoneNumber-setup');
+					}
 					callback(null, new_data);
 				}
 				else {

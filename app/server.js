@@ -12,6 +12,7 @@ var helmet = require('helmet');
 var secure_router = require('./routes/secure_routes.js');
 var auth_router = require('./routes/auth_routes.js');
 var api_router = require('./routes/api.js');
+var email_templates = require('./routes/email_templates.js')
 var config = require(__dirname + "/../config.js");
 
 
@@ -50,6 +51,7 @@ initializeStaticRoutes()
 
 app.use('/api', api_router)
 app.use('/auth', auth_router);
+app.use('/template', email_templates);
 app.use(secure_router);
 
 

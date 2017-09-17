@@ -3,6 +3,7 @@ var express = require('express');
 var AWS = require("aws-sdk");
 var passwordHash = require('password-hash');
 var sesHandler = require('../../SES/ses-handler.js');
+var snsHandler = require('../../SNS/sns-handler.js');
 var config = require(__dirname + "/../../config.js");
 var async = require("async");
 var database = require(__dirname + "/database.js");
@@ -53,7 +54,8 @@ function indv_bro_profile(data) {
         expenses : dbItem.expenses,
         payments: dbItem.payments,
         dues_status: dbItem.dues_status,
-        obligation: getObligation(dbItem.year)
+        obligation: getObligation(dbItem.year),
+        phoneNumber: dbItem.phone_number
     }
     popBalance(cData, dbItem);
     popAppliedPayments(cData, dbItem);
@@ -233,6 +235,46 @@ router.post('/post-account-setup', function(req, res) {
         }
     });
 }
+});
+
+router.post('/post-phonenumber-setup', function(req, res) {
+    var uID = parseInt(req.session.uID);
+    if (uID == 'undefined') {
+        res.status(400).json({
+            success : false,
+            data : null, 
+            error : "User id required for profile setup"
+        });
+    }
+    else {
+        var number = req.body.param0;
+        var params = {
+          TableName: config.userTable,
+          Key: { uID : uID },
+          UpdateExpression: 'SET #pn = :pn',
+          ExpressionAttributeNames: {'#pn' : 'phone_number'},
+          ExpressionAttributeValues: {
+            ':pn' : number
+          }
+        }
+    };
+    docClient.update(params, function(err, data) {
+        if (err) {
+            res.json({
+                success : false,
+                data : null, 
+                error : err
+            });
+        }
+        else {
+            snsHandler.sendSignupConfirmation(number);
+            res.json({
+                success: true,
+                data: null,
+                error: null
+            });
+        }
+    });
 });
 
 router.get('/dues_form_progress', function(req, res) {

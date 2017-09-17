@@ -1,0 +1,45 @@
+<div class="modal-background" ng-if="getModal('phoneNumber-setup')" ng-cloak>
+  <div class="modal-content" ng-controller="phone-number-controller">
+    <div class="panel panel-default modal-panel">
+      <div class="panel-heading">
+        <div class="container-fluid">
+          <div class="row text-color">
+            <div class="col-xs-11 nopad">
+              <h2 class="panel-title modal-title">Phone Number Setup</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="container-fluid modal-container">
+          <div class="row iso-row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6 phoneNumberSetup-help">
+              <p>Please add a phone number to your account so we can send you payment and expense updates via text message:</p>
+            </div>
+          </div>
+
+          <div class="row iso-row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6 text-color form-group nomargin">
+              <input style="display:none">
+              <input class="input-phone form-control" type='text' phone-input ng-model="phoneVal" placeholder="(xxx) xxx-xxxx" />
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+
+          <div class="row iso-row" style="margin-bottom: 0px" ng-if="error.active">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+              <p class="error-text" ng-cloak style="margin-bottom: 0px">{{error.msg}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <img ng-if="loading" class="modal-loader" src="/images/loader.gif">
+        <button type="button" class="btn btn-primary" ng-click="submit()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

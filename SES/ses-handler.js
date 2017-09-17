@@ -15,10 +15,13 @@ handler.sendDuesFormConfirmation = function(email, payments) {
   for (var i = 0; i < payments.length; i++) {
     total += parseInt(payments[i].amount)
   }
+
+  var path = __dirname + "/email_templates/dues_form_confirmation/";
+  
   var params = {
     payments : payments,
     total : total,
-    filename: "ses-handler.js"
+    path: path
   }
 
   var from = 'UpennLions <et@upennlions.com>';

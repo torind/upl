@@ -3,26 +3,6 @@ var router = express.Router();
 
 router.use(checkAuth);
 
-router.get('/ses_confirmation_template', function(req, res) {
-	var params = {
-		payments : [
-			{
-				date: "Aug 3, 2018",
-				amount : 100
-			},
-			{
-				date: "Aug 3, 2018",
-				amount : 200
-			},
-			{
-				date: "Aug 3, 2018",
-				amount : 300
-			}
-		], 
-		total: 700
-	};
-	res.render(__dirname + "/../../SES/email_templates/dues_form_confirmation/confirmation-template.ejs", params);
-});
 
 router.get('/tpanel', function(req, res) {
 	res.render(__dirname + "/../views/tpanel/tpanel.ejs");
@@ -66,6 +46,12 @@ router.get('/', function(req, res) {
 				case 2:
 					res.render('login.ejs', {failMessage : "Please log in to view this resource"});
 					break;
+				case 3:
+					res.render('login.ejs', {failMessage: req.query.msg});
+					break;
+				case 4:
+					res.render('login.ejs', {message: req.query.msg});
+					break;
 				default:
 					res.render('login.ejs', {failMessage : "An error occured. Please log in to continue"});
 					break;
@@ -74,7 +60,6 @@ router.get('/', function(req, res) {
 		else {
 			res.render('login.ejs');
 		}
-		
 	}
 });
 

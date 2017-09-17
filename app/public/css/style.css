@@ -15,6 +15,13 @@ body {
 	margin: auto;
 	margin-top: 10%;
 }
+
+.input-jawn {
+	padding: 6px 12px;
+	height: 52px!important;
+	width: 100%!important;
+}
+
 .avatar {
 	width: 100%;
 	margin: auto;
@@ -26,8 +33,9 @@ body {
 	bottom: -15px;
 }
 .avatar img {
-	width: 55px;
-	height: 55px;
+	width: 61px;
+    height: 61px;
+    margin-left: 2px;
 	border-radius: 100px;
 	margin: auto;
 	border:3px solid #fff;

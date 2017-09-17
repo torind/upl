@@ -215,7 +215,7 @@
 
   <!-- Include Modals -->
   <%
-    var modals = ["changePassword", "duesForm", "links", "reportIssue", "submitExpense", "accountSetup", "paymentInfo", "viewExpenses"];
+    var modals = ["changePassword", "duesForm", "links", "reportIssue", "submitExpense", "accountSetup", "paymentInfo", "viewExpenses", "phoneNumber"];
     for (var i =0; i < modals.length; i++) {
       var path = 'modals/' + modals[i] + '_modal.ejs'; %>
       <%- include(path); %>

@@ -1,0 +1,23 @@
+.modal-title {
+	font-family: "Helvetica Neue";
+	font-weight: 500;
+}
+
+.bar:focus { 
+	outline: none;
+}
+
+i:focus {
+	outline: none;
+}
+
+/*Mobile Screen Only*/
+@media screen and (max-width: 650px) {
+	.container-fluid {
+		padding: 0px;
+	}
+
+	.modal-body {
+		padding: 10px 0px;
+	}
+}

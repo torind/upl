@@ -8,9 +8,11 @@
   <meta charset="UTF-8">
 
   <title>UPenn Lions - Login </title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
   <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css"/>
+  <link rel="stylesheet" type="text/css" href="/css/login.css" type="text/css">
   <link rel="icon" href="/images/lions-logo.png">
 </head>
 
@@ -21,22 +23,54 @@
       <img src="/images/lions-logo.png">
     </div>
     <form action="/auth/login" method="POST">
-      <input type="text" name="username" placeholder="Username" required>
+      <input class="form-control input-jawn" type="text" name="username" placeholder="Username" required>
       <div class="bar">
         <i></i>
       </div>
-      <input type="password" name="password" placeholder="Password" required>
-      <a href="" class="forgot_link">forgot ?</a>
+      <input type="password" class="form-control input-jawn" name="password" placeholder="Password" required>
+      <a href="#forgotModal" class="forgot_link" data-toggle="modal">forgot ?</a>
       <% if (typeof failMessage != 'undefined') { %>
         <h2 style="width:100%; text-align:center; padding-bottom:20px; font-family: Impact, Charcoal, sans-serif; color:#990000"><%=failMessage%></h2>
+      <% } %>
+      <% if (typeof message != 'undefined') { %>
+        <h2 style="width:100%; text-align:center; padding-bottom:20px; font-family: Impact, Charcoal, sans-serif; color: #222222"><%=message%></h2>
       <% } %>
       <button>Sign In</button>
     </form>
   </div>
 
+   <!-- Modal -->
+  <div class="modal fade" id="forgotModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Forgot Password</h4>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="col-sm-12 phoneNumberSetup-help">
+              <form action="/auth/forgotpassword" method="POST">
+                <p>Please enter your UpennLions username:</p>
+                <div style="height:10px"></div>
+                <input type="text" name="username" class="form-control" placeholder="Username..." required>
+                <div style="height:10px"></div>
+                <button type="submit" class="btn btn-primary" style="float: right">Send Reset Link</button>
+              </form>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
 </body>
 
-<script src="https://code.jquery.com/jquery-1.9.1.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </html>
