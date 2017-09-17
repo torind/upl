@@ -16,7 +16,7 @@ angular.module('services.js',[])
 
 	this.getTopModal = function() {
 		if (that.hasModal()) {
-			return modalQueue[0];
+			return modalQueue[modalQueue.length - 1];
 		}
 		else {
 			return null;
@@ -416,12 +416,12 @@ angular.module('services.js',[])
 			function success(response) {
 				if (response.data.success) {
 					var new_data = parseProfileData(response.data.data);
+					if (typeof new_data.phoneNumber == 'undefined') {
+						modalService.pushModal('phoneNumber-setup');
+					}
 					var needsPwdReset = new_data.passwordNeedsReset;
 					if (typeof needsPwdReset != 'undefined' && needsPwdReset) {
 						modalService.pushModal('account-setup');
-					}
-					if (typeof new_data.phoneNumber == 'undefined') {
-						modalService.pushModal('phoneNumber-setup');
 					}
 					callback(null, new_data);
 				}

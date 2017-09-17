@@ -618,18 +618,26 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   };
 
   $scope.confirm.validate = function(verbose) {
-    var isValid = false;
     if ($scope.password.value == $scope.confirm.value) {
-      isValid = true;
-    }
-    $scope.confirm.valid = isValid;
-    if (verbose && !isValid) {
-      $scope.reportError("Passwords must match. Please try again")
+      if ($scope.password.value != "lions1") {
+        $scope.resetError;
+        $scope.password.valid = true;
+        $scope.confirm.valid = true;
+        return true;
+      }
+      else {
+        if (verbose) { $scope.reportError("New password cannot be lions1. Please try again"); }
+        $scope.password.valid = false;
+        $scope.confirm.valid = false;
+        return false;
+      }
     }
     else {
-      $scope.resetError()
+      if (verbose) { $scope.reportError("Passwords must match. Please try again"); }
+        $scope.password.valid = false;
+        $scope.confirm.valid = false;
+      return false;
     }
-    return isValid;
   }
 
   $scope.reportError = function(error) {
