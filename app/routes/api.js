@@ -471,7 +471,8 @@ var applyPayments = function(charges, payments) {
         var p = payments[i];
         paymentTotal += parseInt(p.amount);
     }
-
+    charges.sort(sortCharges);
+    
     for (var i = 0; i < charges.length; i++) {
         var c = charges[i];
         c.chargeable = false;
@@ -925,5 +926,19 @@ var error_log = function(err) {
       console.log(datetime + "  ~~  API ~~" + err);
     }
 };
+
+var sortCharges = function(a, b) {
+  if (a.date < b.date) {
+    return -1;
+  }
+  else if (a.date > b.date) {
+    return 1;
+  }
+  else {
+    if (a.paid) { return -1; }
+    if (b.paid) { return 1; }
+    return 0;
+  }
+}
 
 module.exports = router;
