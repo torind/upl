@@ -195,6 +195,15 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
     return date.toLocaleDateString('en-US', options);
   }
 
+  $scope.formatDollar = function(val) {
+    if (val != null) {
+      return "$" + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    else {
+      return "";
+    }
+  }
+
   var parseData = function(expenses) {
     var allExpenses = [];
     var fronted = 0;

@@ -463,6 +463,114 @@ angular.module('tpanel-app',['services.js', 'ui.bootstrap'])
   $scope.init()
 }])
 
+.controller('expense-controller', ['$scope', '$http', function($scope, $http) {
+  $scope.accounts = ["Treasurer", "Social", "Brotherhood", "Rush"];
+
+  $scope.account_info = {};
+
+  $scope.getSpent = function(account) {
+    if (typeof $scope.account_info[account] == 'undefined') {
+      return null;
+    }
+    return $scope.account_info[account].totals.spent;
+  }
+
+  $scope.format = function(val) {
+    if (val != null) {
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    else {
+      return "";
+    }
+  }
+
+  $scope.getRemaining = function(account) {
+    if (typeof $scope.account_info[account] == 'undefined') {
+      return null;
+    }
+    return ($scope.account_info[account].totals.total - $scope.account_info[account].totals.spent).toFixed(2);
+  }
+
+  $scope.getName = function(account) {
+    switch(account) {
+      case 'Brotherhood':
+        return 'Brohood';
+      case 'Treasurer':
+        return 'All'
+      default:
+        return account;
+    }
+  }
+
+  $scope.getTotal = function(account) {
+    if (typeof $scope.account_info[account] == 'undefined') {
+      return null;
+    }
+    return $scope.account_info[account].totals.total;
+  }
+
+  var parseExpenseData = function(data, label) {
+    var unapprovedExpenses = [];
+    var approvedExpenses = [];
+
+    var expenses = data.expenses;
+
+    for (var i = 0; i < expenses.length; i++) {
+      var date = new Date(expenses[i].uDatetime);
+      expenses[i].date = date;
+      if (expenses[i].approved) {
+        approvedExpenses.push(expenses[i]);
+        
+      }
+      else {
+        unapprovedExpenses.push(expenses[i]);
+      }
+    }
+
+    var parsedData = {
+      unapprovedExpenses : unapprovedExpenses,
+      approvedExpenses : approvedExpenses,
+      totals : {
+        total : data.budget,
+        spent : 0,
+        remaining : 0
+      }
+    }
+    $scope.account_info[label] =  calcuateTotals(parsedData);
+  }
+
+  var calcuateTotals = function(data) {
+    for (var i = 0; i < data.approvedExpenses.length; i++) {
+      data.totals.spent += data.approvedExpenses[i].amount;
+    }
+    data.totals.spent = data.totals.spent.toFixed(2);
+    data.totals.remaining = data.totals.total - data.totals.spent;
+
+    return data;
+  }
+
+  var init = function() {
+    for (var i = 0; i < $scope.accounts.length; i++) {
+      var url = '/api/get-expenses?gt=' + $scope.accounts[i];
+      $http.get(url).then(
+        function sucess(response) {
+          if (response.data.success) {
+            parseExpenseData(response.data.data, response.data.data.account);
+          }
+          else {
+            console.log(response.data.error);
+          }
+        }, function error(response) {
+          console.log(response);
+        })
+    }
+    
+  };
+
+  init();
+
+}])
+
 .directive('duesStatusEntry', function() {
   return {
     restrict : 'E',

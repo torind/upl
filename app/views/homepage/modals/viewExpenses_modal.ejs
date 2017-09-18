@@ -22,8 +22,8 @@
             <!-- <div class="col-xs-6 col-sm-4 center-text">Remaining Amount Owed:</div> -->
           </div>
           <div class="row">
-            <div class="col-xs-6 center-text payment-amount">${{amounts.fronted}}</div>
-            <div class="col-xs-6 center-text payment-amount">${{amounts.owed}}</div>
+            <div class="col-xs-6 center-text payment-amount">{{formatDollar(amounts.fronted)}}</div>
+            <div class="col-xs-6 center-text payment-amount">{{formatDollar(amounts.owed)}}</div>
             <!-- <div class="col-xs-6 col-sm-4 center-text payment-amount" style="color: #D91E18">${{amounts.owed}}</div> -->
           </div>
           <div class="row">

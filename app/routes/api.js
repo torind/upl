@@ -749,7 +749,7 @@ router.get('/get-expenses', function(req, res) {
             break;
         case 'Social':
             accountKey = 'Social';
-            filter = 'Social';
+    filter = 'Social';
             projectionExpression = "uDatetime, account, amount, approved, description, submitter_uID"
             break;
         case 'Rush':
@@ -763,7 +763,8 @@ router.get('/get-expenses', function(req, res) {
             projectionExpression = "uDatetime, account, amount, approved, description, submitter_uID"
             break;
         default:
-            res.json(err_factory("Invalid type"));
+            var err_str = "Invalid type: " + type;
+            res.json(err_factory(err_str));
             return;
     };
     var params = {
@@ -818,6 +819,7 @@ router.get('/get-expenses', function(req, res) {
         }
         else {
             var data = {
+                account : type,
                 budget : results[0].Item.budget,
                 expenses : results[1]
             }

@@ -200,7 +200,7 @@ angular.module('services.js',[])
 	}
 
 	var initExpenses = function(callback) {
-		if (registeredType == null) { callback("Registered type not defined", null); }
+		if (registeredType == null) { callback("Registered type not defined", null);  return; }
 		var queryString = "/api/get-expenses?gt=" + registeredType;
 		$http.get(queryString).then(
 			function success(response) {
@@ -272,6 +272,7 @@ angular.module('services.js',[])
 			}, 
 			function error(response) {
 				console.log("Error: could not get unsubmittedData");
+				console.log(response);
 			});
 	}
 

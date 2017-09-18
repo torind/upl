@@ -897,7 +897,10 @@ ul,div:focus {
 }
 
 @media (min-width: 650px) {
-
+	.tpanel-progress-bar {
+		margin: 20px 40px 10px 40px;
+	}
+	
 	.dfp-bar-row {
 		margin: 0px 40px;
 	}

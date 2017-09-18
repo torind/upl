@@ -69,7 +69,7 @@
               <div class="panel-heading">
                 <div class="container-fluid text-color nopad">
                   <div class="col-xs-12 nopad">
-                    <h3 class="panel-title" ng-click="click()">Aggregate Collection Info</h3>
+                    <h3 class="panel-title">Aggregate Collection Info</h3>
                   </div>
                   
                 </div>
@@ -99,6 +99,45 @@
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expenses Panel -->
+        <div class="container-fluid" ng-controller="expense-controller">
+        <!-- Top Split Row -->
+        <div class="row">
+
+          <div class="col-xs-12 col-sm-12 nopad">
+            <div class="panel panel-default">
+
+              <div class="panel-heading">
+                <div class="container-fluid text-color nopad">
+                  <div class="col-xs-12 nopad">
+                    <h3 class="panel-title">Expense Overview</h3>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <div class="panel-body">
+
+                <div ng-repeat="account in accounts">
+                  <!-- All Bar -->
+                  <div class="row tpanel-progress-bar">
+                    <div class="col-xs-3 col-sm-1">
+                      <h6 class="tpanel-text">{{getName(account)}}:</h6>
+                    </div>
+                    <div class="col-xs-9 col-sm-8">
+                      <upl-progress-bar current-val="getSpent(account)" max-val="getTotal(account)" show-total="false" show-percentage="true"></upl-progress-bar>
+                    </div>
+                    <div class="col-sm-3 nopad no-mobile tpanel-text" ng-cloak>
+                      <h6 class="tpanel-text">${{format(getRemaining(account))}} remaining</h6>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>

@@ -141,7 +141,7 @@
                   <table class="table table-striped mobile-table">
                     <thead>
                       <tr>
-                        <th>Date</th>
+                        <th>Name</th>
                         <th class="center-text">Description</th>
                         <th class="center-text">Amount</th>
                         <th class="center-text">    </th>
@@ -150,7 +150,7 @@
 
                     <tbody>
                       <tr ng-repeat="e in expenses">
-                        <td>{{formatDate(e.date)}}</td>
+                        <td>{{e.name}}</td>
                         <td class="center-text">{{e.description}}</td>
                         <td class="center-text">${{e.amount}}</td>
                         <td class="center-text" ng-if="options.length > 0">
@@ -229,7 +229,7 @@
                   <table class="table table-striped mobile-table">
                     <thead>
                       <tr>
-                        <th>Date</th>
+                        <th>Name</th>
                         <th class="center-text">Description</th>
                         <th class="center-text">Amount</th>
                         <th class="center-text">    </th>
@@ -238,7 +238,7 @@
 
                     <tbody>
                       <tr ng-repeat="e in expenses">
-                        <td>{{formatDate(e.date)}}</td>
+                        <td>{{e.name}}</td>
                         <td class="center-text">{{e.description}}</td>
                         <td class="center-text">${{e.amount}}</td>
                         <td class="center-text">
