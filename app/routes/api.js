@@ -471,6 +471,7 @@ var applyPayments = function(charges, payments) {
         var p = payments[i];
         paymentTotal += parseInt(p.amount);
     }
+
     for (var i = 0; i < charges.length; i++) {
         var c = charges[i];
         c.chargeable = false;
