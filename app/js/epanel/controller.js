@@ -79,7 +79,7 @@ angular.module('epanel-app', upl_dependencies())
 
   	$scope.$watch($expense.expenseData.getData, function(data) {
       if (data) {
-        console.log(data);
+        console.log(data);2
         $scope.expenses = data.activeExpenses;
       }
   	});

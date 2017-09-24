@@ -197,7 +197,7 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
 
   $scope.formatDollar = function(val) {
     if (val != null) {
-      return "$" + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return "$" + val.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     else {
       return "";
