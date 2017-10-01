@@ -677,6 +677,7 @@ router.post('/post-user-payment', function(req, res) {
                     return;
                 }
                 else {
+                    snsHandler.sendPaymentConfirmation(uID, amount);
                     res.json({
                         success: true,
                         error: null,
@@ -842,6 +843,9 @@ router.get('/delete-expense', function(req, res) {
                 res.json(err_factory(err));
             }
             else {
+                if (data) {
+                    var item = data.Item;
+                }
                 res.json(scc_factory("Success!"))
             }
         })
@@ -863,6 +867,10 @@ router.get('/approve-expense', function(req, res) {
     docClient.update(params, function(err, data) {
         if (err) { res.json(err_factory(err)); }
         else {
+            if (data) {
+                var item = data.Item;
+                snsHandler.sendExpenseApprovedConfirmation(uDatetime);
+            }
             res.json(scc_factory(""));
         }
     });
@@ -883,6 +891,10 @@ router.get('/pay-expense', function(req, res) {
     docClient.update(params, function(err, data) {
         if (err) { res.json(err_factory(err)); }
         else {
+            if (data) {
+                var item = data.Item;
+                snsHandler.sendExpensePaidConfirmation(uDatetime);
+            }
             res.json(scc_factory(""));
         }
     });
@@ -904,6 +916,7 @@ router.post('/post-expense', function(req, res) {
                 res.json(err_factory(err)); 
             }
             else {
+                snsHandler.sendExpenseRecievedConfirmation(expense.submitter_uID, expense.amount, expense.description);
                 res.json(scc_factory("Success!"));
             }
         });
