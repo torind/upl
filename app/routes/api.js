@@ -124,7 +124,6 @@ router.post('/post-dues-form', function(req, res) {
             form_approved : false
         }
         var proposed_amount = 0;
-        console.log(payments);
         for (var i = 0; i < payments.length; i++) {
             proposed_amount += parseInt(payments[i].amount);
         }
@@ -471,8 +470,6 @@ var applyPayments = function(charges, payments) {
         var p = payments[i];
         paymentTotal += parseInt(p.amount);
     }
-    charges.sort(sortCharges);
-    
     for (var i = 0; i < charges.length; i++) {
         var c = charges[i];
         c.chargeable = false;
@@ -483,9 +480,6 @@ var applyPayments = function(charges, payments) {
             paymentTotal -= parseInt(c.amount);
             if (paymentTotal >= 0) {
                 c.paid = true;
-            }
-            else {
-                paymentTotal += parseInt(c.amount);
             }
         }
     }
@@ -931,10 +925,19 @@ var error_log = function(err) {
 };
 
 var sortCharges = function(a, b) {
-  if (a.date < b.date) {
+  var da = a.date;
+  var db = b.date;
+  if (typeof(da) == 'string') {
+    da = new Date(a);
+  }
+  if (typeof(db) == 'string') {
+    db = new Date(b);
+  }
+
+  if (da < db) {
     return -1;
   }
-  else if (a.date > b.date) {
+  else if (da > db) {
     return 1;
   }
   else {
