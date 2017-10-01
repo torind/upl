@@ -138,7 +138,7 @@ angular.module('tpanel-app',['services.js', 'ui.bootstrap'])
     $scope.dateOptions = {
       formatYear: 'yy',
       maxDate: new Date(2017, 11, 31),
-      minDate: new Date(),
+      minDate: new Date(2017, 8, 22),
       startingDay: 1,
       showWeeks: false
     };
@@ -295,7 +295,7 @@ angular.module('tpanel-app',['services.js', 'ui.bootstrap'])
     $scope.dateOptions = {
       formatYear: 'yy',
       maxDate: new Date(2017, 11, 31),
-      minDate: new Date(),
+      minDate: new Date(2017, 8, 22),
       startingDay: 1,
       showWeeks: false
     };

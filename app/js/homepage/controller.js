@@ -739,38 +739,70 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
 }])
 
 .controller('dues-form-progress-controller', ['$scope', 'duesService', function($scope, $dues) {
-  $scope.totalCount = null;
-  $scope.submittedCount = null;
-  $scope.names = null;
+  $scope.names = [];
   $scope.loading = true;
+  $scope.amounts = null;
 
   $scope.init = function() {
+    $dues.unpaidChargeData.init();
     $dues.unsubmittedData.init();
+    $dues.aggregateData.init();
   }
 
-  $scope.$watch($dues.unsubmittedData.getData, function(data) {
-    if (data!= null) {
-      $scope.totalCount = data.totalCount;
-      $scope.submittedCount = data.totalCount - data.unsubmittedCount;
-      $scope.names = data.names;
-    }
+  $scope.$watch($dues.unpaidChargeData.getData, function(data) {
+    compile_names();
   });
 
-  $scope.$watch($dues.unsubmittedData.isLoading, function(bool) {
+  $scope.$watch($dues.unsubmittedData.getData, function(data) {
+    compile_names();
+  });
+
+  var compile_names = function() {
+    let unpaid_data = $dues.unpaidChargeData.getData();
+    let unsubmittedData = $dues.unsubmittedData.getData();
+    if (unpaid_data && unsubmittedData) {
+      $scope.names = [];
+      // Unpaid Data
+      for (let i = 0; i < unpaid_data.length; i++) {
+        var charge = unpaid_data[i];
+        var name = charge.firstName + " " + charge.lastName;
+        if ($scope.names.indexOf(name) == -1) {
+          $scope.names.push(name);
+        }
+      }
+      // Unsubmitted Data
+      for (let i = 0; i < unsubmittedData.names.length; i++) {
+        var name = unsubmittedData.names[i];
+        if ($scope.names.indexOf(name) == -1) {
+          $scope.names.push(name);
+        }
+      }
+    }
+  }
+
+  $scope.$watch($dues.aggregateData.getData, function(data) {
+    if (data != null) {
+      $scope.amounts = data;
+    }
+  })
+
+  $scope.$watch($dues.unpaidChargeData.isLoading, function(bool) {
     $scope.loading = bool;
   })
 
   $scope.refreshData = function() {
+    $dues.unpaidChargeData.init();
     $dues.unsubmittedData.init();
+    $dues.aggregateData.init();
   }
 
-  $scope.$watch($dues.unsubmittedData.loaded, function(bool) {
-    $scope.loaded = bool;
-  });
-
-  $scope.percentage = function() {
-    var percent = ($scope.submittedCount / $scope.totalCount) * 100;
-    return percent.toFixed(0);
+  $scope.outstanding_amount = function() {
+    if ($scope.amounts) {
+      return $scope.amounts.unpaid.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    else {
+      return "..."
+    }
   }
 
   $scope.init();

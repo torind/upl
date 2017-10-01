@@ -484,6 +484,9 @@ var applyPayments = function(charges, payments) {
             if (paymentTotal >= 0) {
                 c.paid = true;
             }
+            else {
+                paymentTotal += parseInt(c.amount);
+            }
         }
     }
     var r = {
