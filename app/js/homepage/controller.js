@@ -686,6 +686,71 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   }
 }])
 
+.controller('doomsday-controller', ['$scope', "$interval", function($scope, $interval) {
+  let shutdownDate = new Date(2017, 9, 9, 0, 0, 0, 0);
+  let now = new Date();
+
+  let interval = $interval(function() {
+    now = new Date();
+  }, 1000);
+
+  $scope.getDayNum = function() {
+    let ms = now-shutdownDate;
+    let days = Math.floor(ms/(1000*60*60*24));
+    return days;
+  }
+
+  $scope.getHourNum = function() {
+    let ms = now-shutdownDate;
+    let hrs = Math.floor(ms/(1000*60*60));
+    let nHrs = hrs - $scope.getDayNum() * 24;
+    return nHrs;
+  }
+
+  $scope.getMinNum = function() {
+    let ms = now-shutdownDate;
+    let mins = Math.floor(ms/(1000*60));
+    let nMins = mins - $scope.getDayNum() * 24 * 60 - $scope.getHourNum() * 60;
+    return nMins;
+  }
+
+  $scope.getSecNum = function() {
+    let ms = now-shutdownDate;
+    let secs = Math.floor(ms/(1000));
+    let nSecs = secs - $scope.getDayNum() * 24 * 60 * 60 - $scope.getHourNum() * 60 * 60 - $scope.getMinNum() * 60;
+    return nSecs;
+  }
+
+  $scope.getDayText = function() {
+    if ($scope.getDayNum() == 1) {
+      return "Day"
+    }
+    return "Days"
+  }
+
+  $scope.getHourText = function() {
+    if ($scope.getHourNum() == 1) {
+      return "Hour"
+    }
+    return "Hours"
+  }
+
+  $scope.getMinText = function() {
+    if ($scope.getMinNum() == 1) {
+      return "Minute"
+    }
+    return "Minutes"
+  }
+
+  $scope.getSecText = function() {
+    if ($scope.getSecNum() == 1) {
+      return "Second"
+    }
+    return "Seconds"
+  }
+
+}])
+
 .controller('phone-number-controller', ['$scope', 'modalService', '$http', function($scope, $modal, $http) {
   $scope.phoneVal;
 

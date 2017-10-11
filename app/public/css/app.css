@@ -837,8 +837,30 @@ ul,div:focus {
 		padding:0!important;
 }
 
+.dd-digit {
+	text-shadow: 0px 2px #A5a5a5;
+	font-weight: bold;
+	color: #393939;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.dd-desc {
+	color: #656565;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
 /*Mobile Screen Only*/
 @media screen and (max-width: 650px) {
+	.dd-digit {
+		font-size: 14pt;
+		margin-left: 3px;
+	}
+
+	.dd-desc{
+		font-size: 10pt;
+		margin-left: 1px;
+	}
+
 	.mobile-nopad {
 		padding: 0px;
 	}
@@ -897,6 +919,16 @@ ul,div:focus {
 }
 
 @media (min-width: 650px) {
+	.dd-digit {
+		font-size: 32pt;
+		margin-left: 10px;
+	}
+
+	.dd-desc{
+		font-size: 22pt;
+		margin-left: 5px;
+	}
+
 	.tpanel-progress-bar {
 		margin: 20px 40px 10px 40px;
 	}

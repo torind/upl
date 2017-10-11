@@ -158,6 +158,30 @@
       </div>
 
       
+      <!-- Doomsday Box -->
+      <div class="container-fluid" ng-controller="doomsday-controller">
+        <div class="panel panel-default"  >
+          <div class="panel-heading">
+            <div class="container-fluid text-color mobile-nopad">
+              <div class="col-xs-11 mobile-nopad"><h3 class="panel-title">Days Since The Shutdown</h3></div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="container-fluid" style="padding-bottom: 10px; padding-top: 10px">
+              <div class="row text-center">
+                <span class="dd-digit">{{getDayNum()}}</span>
+                <span class="dd-desc">{{getDayText()}}</span>
+                <span class="dd-digit">{{getHourNum()}}</span>
+                <span class="dd-desc">{{getHourText()}}</span>
+                <span class="dd-digit">{{getMinNum()}}</span>
+                <span class="dd-desc">{{getMinText()}}</span>
+                <span class="dd-digit">{{getSecNum()}}</span>
+                <span class="dd-desc">{{getSecText()}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       
       <!-- Dues Submission Progress Box -->
