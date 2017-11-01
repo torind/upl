@@ -7,6 +7,7 @@ angular.module('tpanel-app',['services.js', 'ui.bootstrap'])
   $scope.amounts = {
     paid: null,
     unpaid: null,
+    remaining: null,
     total: null
   }
 
@@ -17,17 +18,6 @@ angular.module('tpanel-app',['services.js', 'ui.bootstrap'])
     else {
       return "$..."
     }
-  }
-
-  $scope.click = function(){
-    console.log("allBroChargeData")
-    console.log($dues.allBroChargeData.getData());
-    console.log("unpaidChargeData")
-    console.log($dues.unpaidChargeData.getData());
-    console.log("unsubmittedData")
-    console.log($dues.unsubmittedData.getData());
-    console.log("aggregateData")
-    console.log($dues.aggregateData.getData());
   }
 
   $scope.openModal = function(modal_id) {
@@ -469,6 +459,14 @@ angular.module('tpanel-app',['services.js', 'ui.bootstrap'])
   $scope.account_info = {};
 
   $scope.getSpent = function(account) {
+    if (account == "Treasurer") {
+      a = ["Social", "Brotherhood", "Rush"];
+      let total = 0.0;
+      for (let i = 0; i < a.length; i++) {
+        total += parseFloat($scope.getSpent(a[i]));
+      }
+      return total.toFixed(2);
+    }
     if (typeof $scope.account_info[account] == 'undefined') {
       return null;
     }
@@ -485,6 +483,14 @@ angular.module('tpanel-app',['services.js', 'ui.bootstrap'])
   }
 
   $scope.getRemaining = function(account) {
+    if (account == "Treasurer") {
+      a = ["Social", "Brotherhood", "Rush"];
+      let total = 0.0;
+      for (let i = 0; i < a.length; i++) {
+        total += parseFloat($scope.getRemaining(a[i]));
+      }
+      return total.toFixed(2);
+    }
     if (typeof $scope.account_info[account] == 'undefined') {
       return null;
     }

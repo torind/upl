@@ -283,6 +283,7 @@ angular.module('services.js',[])
 	        	var agg = {};
 	          	agg.paid = response.data.data.paid ? response.data.data.paid : 0;
 	          	agg.unpaid = response.data.data.unpaid ? response.data.data.unpaid : 0;
+	          	agg.remaining = response.data.data.remaining ? response.data.data.remaining : 0;
 	          	agg.total = response.data.data.total ? response.data.data.total : 0;
 	  			callback(null, agg);
 	        }

@@ -370,6 +370,7 @@ router.get('/agg-dues-data', function(req, res) {
                 data: {
                     paid : paidSum,
                     unpaid : shouldBePaidSum - paidSum,
+                    remaining: totalSum - paidSum,
                     total : totalSum
                 }
             });

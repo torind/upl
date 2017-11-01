@@ -78,21 +78,28 @@
               <div class="panel-body flexbox-container">
                 <div class="row flexbox-row">
 
-                  <div class="col-xs-6 col-sm-4 nopad no-mobile">
+                  <div class="col-xs-6 col-sm-3 nopad no-mobile">
                     <div class="container-fluid">
                       <div class="row center-text tpanel-title">Paid</div>
                       <div class="row center-text tpanel-stat" style="color: #26A65B">{{formatDollar(amounts.paid)}}</div>
                     </div>
                   </div>
 
-                  <div class="col-xs-6 col-sm-4 nopad">
+                  <div class="col-xs-6 col-sm-3 nopad">
                     <div class="container-fluid">
                       <div class="row center-text tpanel-title">Unpaid</div>
                       <div class="row center-text tpanel-stat" style="color: #D91E18">{{formatDollar(amounts.unpaid)}}</div>
                     </div>
                   </div>
 
-                  <div class="col-xs-6 col-sm-4 nopad">
+                  <div class="col-xs-6 col-sm-3 nopad">
+                    <div class="container-fluid">
+                      <div class="row center-text tpanel-title">Remaining</div>
+                      <div class="row center-text tpanel-stat" style="color: #0074D9">{{formatDollar(amounts.remaining)}}</div>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-6 col-sm-3 nopad no-mobile">
                     <div class="container-fluid">
                       <div class="row center-text tpanel-title">Total</div>
                       <div class="row center-text tpanel-stat">{{formatDollar(amounts.total)}}</div>
