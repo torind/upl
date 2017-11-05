@@ -228,6 +228,10 @@ angular.module('services.js',[])
 		text : ""
 	};
 
+	this.hasSearchText = function() {
+		return that.searchObj.text != "";
+	}
+
 	this.filters = {
       approved : {
         title : "Approved",

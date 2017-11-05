@@ -112,7 +112,7 @@
         </div>
 
         <!-- Expense Row -->
-        <div class="row" ng-controller="expense-controller">
+        <div class="row" ng-controller="expense-controller" ng-if="!hasSearchText">
 
           <div class="col-xs-12 col-sm-12 nopad">
             <div class="panel panel-default">
@@ -149,7 +149,7 @@
         </div>
 
         <!-- Unpaid Charges Row -->
-        <div class="row" ng-controller="unpaid-charges-controller">
+        <div class="row" ng-controller="unpaid-charges-controller" ng-if="!hasSearchText">
           <div class="panel panel-default">
             <div class="panel-heading">
               <div class="container-fluid text-color">

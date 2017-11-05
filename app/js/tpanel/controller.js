@@ -1,8 +1,14 @@
 angular.module('tpanel-app',['services.js', 'ui.bootstrap'])
 
-.controller('root-controller', ['$scope', 'modalService', 'duesService', function($scope, $modal, $dues) {
+.controller('root-controller', ['$scope', 'modalService', 'duesService', 'filterService', function($scope, $modal, $dues, $f) {
   $scope.currentModal = null;
   $scope.loaded = true;
+
+  $scope.hasSearchText = false;
+
+  $scope.$watch($f.hasSearchText, function(bool) {
+    $scope.hasSearchText = bool;
+  });
 
   $scope.amounts = {
     paid: null,
