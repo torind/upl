@@ -149,7 +149,7 @@
         </div>
 
         <!-- Unpaid Charges Row -->
-        <div class="row" ng-controller="unpaid-charges-controller" ng-if="!hasSearchText">
+        <div class="row" ng-controller="unpaid-charges-controller" ng-show="!hasSearchText">
           <div class="panel panel-default">
             <div class="panel-heading">
               <div class="container-fluid text-color">
@@ -187,7 +187,7 @@
               </div>
 
               <!-- Entries -->
-              <div class="container-fluid no-mobile" ng-if="!loading">
+              <div class="container-fluid no-mobile" ng-show="!loading">
                 <div ng-repeat="charge in unpaidCharges">
                   <tpanel-unpaid-charge data="charge"></tpanel-unpaid-charge>
                 </div>
