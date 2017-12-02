@@ -10,7 +10,7 @@
       <h6 class="tpanel-text">{{data.name}}</h6>
     </div>
     <div class="col-xs-3 text-center">
-      <h6 class="tpanel-text ">{{data.description}}</h6>
+      <h6 class="tpanel-text" style="cursor: pointer" ng-click-copy="{{getTextRepresentation()}}">{{data.description}}</h6>
     </div>
     <div class="col-xs-2 text-center">
       <h6 class="tpanel-text ">${{data.amount}}</h6>

@@ -155,7 +155,6 @@ angular.module('epanel-app', upl_dependencies())
       return date.toLocaleDateString("en-us", options);
     }
 
-
     $scope.show = function() {
       if ($scope.expenses) {
         if ($scope.expenses.length > 0) {
@@ -247,13 +246,22 @@ angular.module('epanel-app', upl_dependencies())
     scope : {
       data : "=",
       options : "=",
-      needsAttention: '='
+      needsAttention: '=',
+      textRepresentation : '='
     },
     link : function(scope, element, attrs) {
       scope.open = false;
 
-      scope.optionClick = function() {
-        console.log(scope.options);
+      scope.getTextRepresentation = function() {
+        let amount = scope.data.amount;
+        let splitters = /[\s\/]/
+        let desc_comps = scope.data.description.toLowerCase().split(splitters);
+        let desc_initials = ""
+        for (var i = 0; i < desc_comps.length; i++) {
+          desc_initials += desc_comps[i].charAt(0);
+        }
+        console.log(amount + " for " + desc_initials);
+        return amount + " for " + desc_initials;
       }
 
       scope.formatDate = function(date) {
