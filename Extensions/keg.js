@@ -10,7 +10,7 @@ var config = require(__dirname + "/../config.js");
 
 var filename = __dirname + "/Artifacts/keg_ps.json"
 
-let keg_template = function() {
+var keg_template = function() {
 	return {
 		timestamp: new Date(),
 		critical_number : config.keg_critical_number,
@@ -20,11 +20,11 @@ let keg_template = function() {
 	}
 }
 
-let keg = {}
+var keg = {}
 
 
-let write_keg_to_file = function(keg, callback) {
-	let obj_str = JSON.stringify(keg);
+var write_keg_to_file = function(keg, callback) {
+	var obj_str = JSON.stringify(keg);
 	fs.writeFile(filename, obj_str, function(err, data) {
 		if (err) { callback(err, null); }
 		else {
@@ -33,7 +33,7 @@ let write_keg_to_file = function(keg, callback) {
 	});
 }
 
-let keg_file_check = function(callback) {
+var keg_file_check = function(callback) {
 	fs.readFile(filename, function(err, data) {
 		if (err) {
 			if (err.code == 'ENOENT') {
@@ -47,9 +47,9 @@ let keg_file_check = function(callback) {
 			}
 		}
 		else {
-			let k = JSON.parse(data);
-			let k_date = new Date(k.timestamp);
-			let today = new Date();
+			var k = JSON.parse(data);
+			var k_date = new Date(k.timestamp);
+			var today = new Date();
 			if (k_date.toDateString() != today.toDateString()) {
 				write_keg_to_file(keg_template(), function(err, data) {
 					if(err) {
@@ -66,7 +66,7 @@ let keg_file_check = function(callback) {
 	})
 }
 
-let read_keg_from_file = function(callback) {
+var read_keg_from_file = function(callback) {
 	keg_file_check(function(err, data) {
 		if (err) {
 			callback(err, null);
@@ -77,7 +77,7 @@ let read_keg_from_file = function(callback) {
 					callback(err, null);
 				}
 				else {
-					let k = JSON.parse(data);
+					var k = JSON.parse(data);
 					callback(null, k);
 				}
 			})
@@ -90,13 +90,13 @@ keg.get_status = function(uid, callback) {
 		if (err) {
 			callback(err, null);
 		} else {
-			let status = false;
+			var status = false;
 			for (var i = 0; i < data.ids.length; i++) {
 				if (data.ids[i] == uid) {
 					status = true;
 				}
 			}
-			let ret_data = {
+			var ret_data = {
 				keg: data,
 				status: status
 			}
@@ -111,7 +111,7 @@ keg.modify_status = function(id, name, status, callback) {
 			callback(err, null);
 		}
 		else {
-			let k = data;
+			var k = data;
 
 			if (status == "in") {
 				if (k.ids.indexOf(id) == -1) {
@@ -127,7 +127,7 @@ keg.modify_status = function(id, name, status, callback) {
 							callback(err, null);
 						}
 						else {
-							let ret_data = {
+							var ret_data = {
 								keg: k,
 								status: status
 							}
