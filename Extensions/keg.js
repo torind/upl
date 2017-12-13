@@ -8,7 +8,7 @@ var fs = require('fs');
 var sns_handler = require('../SNS/sns-handler.js');
 var config = require(__dirname + "/../config.js");
 
-let filename = __dirname + "/Artifacts/keg_ps.json"
+var filename = __dirname + "/Artifacts/keg_ps.json"
 
 let keg_template = function() {
 	return {
