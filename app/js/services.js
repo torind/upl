@@ -494,7 +494,7 @@ angular.module('services.js',[])
 
 })
 
-.service('kegService', function($http, HTTPGetFactory, refreshService) {
+.service('kegService', function($http, HTTPGetFactory, refreshService, profileService) {
 	var that = this;
 
 	var initKegData = function(callback) {
@@ -515,8 +515,9 @@ angular.module('services.js',[])
 	this.kegData = HTTPGetFactory(initKegData);
 
 	this.updateKegStatus = function(status, callback) {
+		let profileData = profileService.indvProfileData.data;
 		let params = {
-			name: "Torin"
+			name: profileData.firstName + " " + profileData.lastName
 		}
 		if (status) {
 			params.status = "in";
