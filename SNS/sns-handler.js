@@ -159,6 +159,19 @@ var send_message = function(uID, msg) {
 	});
 }
 
+handler.notify_keg_hit = function(names) {
+	var message = "Keg has hit the critical mass! People in are:\n"
+
+	for (let i = 0; i < names.length; i++) {
+		message += names[i];
+		if (i != names.length -1) {
+			message += "\n"
+		}
+	}
+
+	send_message(12, message);
+}
+
 var lookup_number = function(uID, callback) {
 	var params = {
         TableName : config.userTable,

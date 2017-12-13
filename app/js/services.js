@@ -494,6 +494,52 @@ angular.module('services.js',[])
 
 })
 
+.service('kegService', function($http, HTTPGetFactory, refreshService) {
+	var that = this;
+
+	var initKegData = function(callback) {
+		$http.get("api/get-keg-status").then(
+			function success(response) {
+				if (response.data.success) {
+					callback(null, response.data.data);
+				}
+				else {
+					callback(response.data.error, null);
+				}
+			}, 
+			function error(response) {
+				callback(response, null);
+			});
+	}
+
+	this.kegData = HTTPGetFactory(initKegData);
+
+	this.updateKegStatus = function(status, callback) {
+		let params = {
+			name: "Torin"
+		}
+		if (status) {
+			params.status = "in";
+		}
+		else {
+			params.status = "out";
+		}
+
+		$http.get("api/mod-keg-status", {params: params}).then(
+			function success(response) {
+				if (response.data.success) {
+					that.kegData.init();
+					callback(null, response.data.data);
+				}
+				else {
+					callback(response.data.error, null);
+				}
+			}, function error(response) {
+				callback(response, null);
+			});
+	}
+})
+
 .service('refreshService', function($http) {
 	var listeners = [];
 

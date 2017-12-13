@@ -565,6 +565,93 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
   });
 }])
 
+.controller('keg-controller', ['$scope', '$http', 'kegService', function($scope, $http, kegService) {
+  $scope.status = false;
+  $scope.keg;
+  $scope.message = "..."
+
+  let msg1 = function() {
+    if ($scope.status) {
+      return "You have joined the keg."
+    }
+    else {
+      return "Click here to join the keg. "
+    }
+  }
+
+  let msg2 = function() {
+    if ($scope.status) {
+      let remaining = $scope.keg.critical_number - $scope.keg.count;
+      if (remaining == 1) {
+        return "Only one more person needs to be in!"
+      }
+      else if (remaining > 1) {
+        return "Keg will be ordered if " + remaining + " more people join!"
+      }
+      else if (remaining < 1) {
+        return "A keg will be ordered tonight!";
+      }
+    }
+    else {
+      if ($scope.keg.count == 0) {
+        return "You will be the first one in!"
+      }
+      else if ($scope.keg.count == 1) {
+        return "One other person is already in!"
+      }
+      else {
+        return $scope.keg.count + " other people are already in!"
+      }
+    }
+  }
+
+  $scope.color = function() {
+    if ($scope.status) {
+      return 'keg-good';
+    }
+    else {
+      return 'keg-bad';
+    }
+  }
+
+  $scope.icon = function() {
+    if ($scope.status) {
+      return 'glyphicon glyphicon-thumbs-up'
+    }
+    else {
+      return 'glyphicon glyphicon-thumbs-down'
+    }
+  }
+
+  $scope.update_message = function() {
+    if ($scope.keg) {
+      $scope.message = msg1() + " " + msg2();
+    }
+    else {
+      return "..."
+    }
+  }
+
+  $scope.handleClick = function() {
+    $scope.status = !$scope.status;
+    kegService.updateKegStatus($scope.status, function(err, data) {
+      if (err) {
+        console.log(err);
+      } 
+    });
+  }
+
+  $scope.$watch(kegService.kegData.getData, function(data) {
+    if (data) {
+      $scope.keg = data.keg;
+      $scope.status = data.status;
+      $scope.update_message();
+    }
+  });
+
+  kegService.kegData.init();
+}])
+
 .controller('account-setup-controller', ['$scope', 'modalService', '$http', function($scope, $modal, $http) {
   $scope.error = {
     active : false,

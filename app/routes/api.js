@@ -2,6 +2,8 @@
 var express = require('express');
 var AWS = require("aws-sdk");
 var passwordHash = require('password-hash');
+
+var keg = require('../../Extensions/keg.js')
 var sesHandler = require('../../SES/ses-handler.js');
 var snsHandler = require('../../SNS/sns-handler.js');
 var config = require(__dirname + "/../../config.js");
@@ -325,6 +327,38 @@ router.get('/dues_form_progress', function(req, res) {
                     data: cData
                 });
             }
+        }
+    });
+});
+
+router.get('/mod-keg-status', function(req, res) {
+    let uid = parseInt(req.session.uID);
+    let name = req.query.name;
+    let status = req.query.status;
+
+    if (typeof(name) == 'undefined' || typeof(status) == 'undefined') {
+        res.json(err_factory("Name or status was not defined in request"));
+    }
+    else {
+        keg.modify_status(uid, name, status, function (err, data) {
+            if (err) {
+                res.json(err_factory(err));
+            }
+            else {
+                res.json(scc_factory(data));
+            }
+        });
+    }
+});
+
+router.get('/get-keg-status', function(req, res) {
+    let uid = parseInt(req.session.uID);
+    keg.get_status(uid, function(err, data) {
+        if (err) {
+            res.json(err_factory(err));
+        }
+        else {
+            res.json(scc_factory(data));
         }
     });
 });

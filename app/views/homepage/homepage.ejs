@@ -82,6 +82,17 @@
 
     <div class="main-container" ng-if="loaded" ng-cloak>
 
+      <div class="container-fluid" style="margin-bottom: 20px" ng-controller="keg-controller">
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <div class="keg-wrapper" ng-click="handleClick()" ng-class="color()">
+              <div ng-class="icon()"></div>
+              <div>{{message}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Welcome Boxes -->
       <div class="container-fluid">
         <div class="row">

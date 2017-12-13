@@ -263,6 +263,31 @@ tbody {
 	background: #00d2ff; /* fallback for old browsers */
 }
 
+
+
+.keg-wrapper {
+	text-align: center;
+	background-color: #f5f5f5;
+	padding: 10px 4px;
+	border-radius: 3px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 17px;
+    color: #555555;
+    font-weight: 500;
+    border: 1px solid rgb(221, 221, 221);
+    cursor: pointer;
+}
+
+.keg-good {
+	background-color: #b3ffcc;
+	border: 1px solid #ccffdd;
+}
+
+.keg-bad {
+	background-color: #ffb3b3;
+	border: 1px solid #ffcccc;
+}
+
 .centeredCell {
 	text-align: center;
 }
