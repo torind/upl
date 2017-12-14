@@ -3,4 +3,6 @@ node_modules/
 DynamoDB/dynamodb-config.json
 ubuntu@ec2-52-90-95-187.compute-1.amazonaws.com
 config.js
-Extensions/Artifacts/
+
+Extensions/Artifacts/*
+!Extensions/Artifacts/.gitkeep
