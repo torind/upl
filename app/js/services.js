@@ -498,12 +498,14 @@ angular.module('services.js',[])
 	var that = this;
 
 	var initKegData = function(callback) {
+		console.log("Here")
 		$http.get("api/get-keg-status").then(
 			function success(response) {
 				if (response.data.success) {
 					callback(null, response.data.data);
 				}
 				else {
+					console.log("Error" + response.data.error);
 					callback(response.data.error, null);
 				}
 			}, 

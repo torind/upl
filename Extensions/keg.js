@@ -8,11 +8,20 @@ var fs = require('fs');
 var sns_handler = require('../SNS/sns-handler.js');
 var config = require(__dirname + "/../config.js");
 
-var filename = __dirname + "/Artifacts/keg_ps.json"
+var kegs_dir = __dirname + "/Artifacts/"
+
+var est_today = function() {
+	var offset = -5;
+
+	var now = new Date();
+	var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+	var est_now = new Date(utc + (3600000*offset));
+	return est_now;
+}
 
 var keg_template = function() {
 	return {
-		timestamp: new Date(),
+		timestamp: est_today().toLocaleString(),
 		critical_number : config.keg_critical_number,
 		count : 0,
 		ids: [],
@@ -22,10 +31,18 @@ var keg_template = function() {
 
 var keg = {}
 
+var today_keg_name = function() {
+	var today = est_today();
+	var year = "" + today.getFullYear();
+	var month = "" + (today.getMonth() + 1);
+	var day = "" + today.getDate();
+
+	return kegs_dir + year + "_" + month + "_" + day + "_keg.json"
+}
 
 var write_keg_to_file = function(keg, callback) {
 	var obj_str = JSON.stringify(keg);
-	fs.writeFile(filename, obj_str, function(err, data) {
+	fs.writeFile(today_keg_name(), obj_str, function(err, data) {
 		if (err) { callback(err, null); }
 		else {
 			callback(err, "Count:" + keg.count);
@@ -34,9 +51,10 @@ var write_keg_to_file = function(keg, callback) {
 }
 
 var keg_file_check = function(callback) {
-	fs.readFile(filename, function(err, data) {
+	fs.readFile(today_keg_name(), function(err, data) {
 		if (err) {
 			if (err.code == 'ENOENT') {
+				cosole.log("writing keg to file")
 				write_keg_to_file(keg_template(), function(err, data) {
 					if(err) {
 						callback("Error making new keg file", null);
@@ -44,24 +62,12 @@ var keg_file_check = function(callback) {
 						callback(null, "Success");
 					}
 				})
+			} else {
+				callback("Got a new error, not 'File Not Found'", null);
 			}
 		}
 		else {
-			var k = JSON.parse(data);
-			var k_date = new Date(k.timestamp);
-			var today = new Date();
-			if (k_date.toDateString() != today.toDateString()) {
-				write_keg_to_file(keg_template(), function(err, data) {
-					if(err) {
-						callback("Error updating keg file", null);
-					} else {
-						callback(null, "Success");
-					}
-				})
-			}
-			else {
-				callback(null, "Success!")
-			}
+			callback(null, "Success")
 		}
 	})
 }
@@ -72,7 +78,7 @@ var read_keg_from_file = function(callback) {
 			callback(err, null);
 		}
 		else {
-			fs.readFile(filename, function(err, data) {
+			fs.readFile(today_keg_name(), function(err, data) {
 				if (err) {
 					callback(err, null);
 				}
