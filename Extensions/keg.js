@@ -54,7 +54,6 @@ var keg_file_check = function(callback) {
 	fs.readFile(today_keg_name(), function(err, data) {
 		if (err) {
 			if (err.code == 'ENOENT') {
-				cosole.log("writing keg to file")
 				write_keg_to_file(keg_template(), function(err, data) {
 					if(err) {
 						callback("Error making new keg file", null);
