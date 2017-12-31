@@ -352,7 +352,7 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
     if ($scope.options.one) {
       $scope.payments = [
         {
-          date : new Date(2017, 8, 12, 0, 0, 0, 0),
+          date : new Date(2018, 0, 12, 0, 0, 0, 0),
           amount : $scope.obligation
         }
       ];
@@ -891,9 +891,14 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
 }])
 
 .controller('dues-form-progress-controller', ['$scope', 'duesService', function($scope, $dues) {
-  $scope.names = [];
+  $scope.late_dues_names = [];
+  $scope.late_form_names = [];
   $scope.loading = true;
   $scope.amounts = null;
+  $scope.dues_form_counts = {
+    unsubmitted : 0,
+    total : 0
+  }
 
   $scope.init = function() {
     $dues.unpaidChargeData.init();
@@ -913,20 +918,26 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
     let unpaid_data = $dues.unpaidChargeData.getData();
     let unsubmittedData = $dues.unsubmittedData.getData();
     if (unpaid_data && unsubmittedData) {
-      $scope.names = [];
+      $scope.late_dues_names = [];
+      $scope.late_form_names = [];
+
       // Unpaid Data
       for (let i = 0; i < unpaid_data.length; i++) {
         var charge = unpaid_data[i];
         var name = charge.firstName + " " + charge.lastName;
-        if ($scope.names.indexOf(name) == -1) {
-          $scope.names.push(name);
+        if ($scope.late_dues_names.indexOf(name) == -1) {
+          $scope.late_dues_names.push(name);
         }
       }
+
+      $scope.dues_form_counts.unsubmitted = unsubmittedData.unsubmittedCount;
+      $scope.dues_form_counts.total = unsubmittedData.totalCount;
       // Unsubmitted Data
       for (let i = 0; i < unsubmittedData.names.length; i++) {
         var name = unsubmittedData.names[i];
-        if ($scope.names.indexOf(name) == -1) {
-          $scope.names.push(name);
+        $scope.late_form_names.push(name);
+        if ($scope.late_dues_names.indexOf(name) == -1) {
+          $scope.late_dues_names.push(name);
         }
       }
     }
