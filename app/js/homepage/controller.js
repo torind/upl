@@ -505,7 +505,7 @@ angular.module('homepage-app',['services.js', 'ui.bootstrap'])
 
   $scope.dateOptions = {
     formatYear: 'yy',
-    maxDate: new Date(2017, 11, 31),
+    maxDate: new Date(2018, 4, 8),
     minDate: new Date(),
     startingDay: 1,
     showWeeks: false
