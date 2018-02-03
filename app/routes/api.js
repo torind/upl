@@ -765,6 +765,8 @@ function getObligation(year) {
             return 850;
         case 2020:
             return 980;
+        case 2021:
+            return 980;
         default:
             return 1000000;
     }

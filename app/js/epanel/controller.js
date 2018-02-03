@@ -199,7 +199,7 @@ angular.module('epanel-app', upl_dependencies())
 
   $scope.error = {active: false, msg : null};
 
-  $scope.possibleAccounts = ["Social", "Brotherhood", "Rush", "Admin"];
+  $scope.possibleAccounts = ["Social", "Brotherhood", "Rush", "Education", "Admin"];
 
   $scope.searchFilter = function(item) {
     if (item.toLowerCase().startsWith($scope.input.account.toLowerCase())) {
