@@ -1,488 +1,137 @@
 [
  {
-   "uID": 1,
-   "username": "abarnish",
-   "password": "lions1",
-   "firstName": "Andrew",
-   "lastName": "Barnish",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 2,
-   "username": "wbass",
-   "password": "lions1",
-   "firstName": "Will",
-   "lastName": "Bass",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 3,
-   "username": "abendix",
-   "password": "lions1",
-   "firstName": "Alex",
-   "lastName": "Bendix",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 4,
-   "username": "mblinstrub",
-   "password": "lions1",
-   "firstName": "Mark",
-   "lastName": "Blinstrub",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 5,
-   "username": "bborjiet",
-   "password": "lions1",
-   "firstName": "Boyd",
-   "lastName": "Borjiet",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 6,
-   "username": "abrodeur",
-   "password": "lions1",
-   "firstName": "AJ",
-   "lastName": "Brodeur",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 7,
-   "username": "cbrown",
-   "password": "lions1",
-   "firstName": "Carl",
-   "lastName": "Brown",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 8,
-   "username": "kbutcher",
-   "password": "lions1",
-   "firstName": "Keen",
-   "lastName": "Butcher",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 9,
-   "username": "rchung",
-   "password": "lions1",
-   "firstName": "Raymond",
-   "lastName": "Chung",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 10,
-   "username": "mclare",
-   "password": "lions1",
-   "firstName": "Matt",
-   "lastName": "Clare",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 11,
-   "username": "sdelcarson",
-   "password": "lions1",
-   "firstName": "Steven",
-   "lastName": "Delcarson",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 12,
-   "username": "torind",
-   "password": "lions1",
-   "firstName": "Torin",
-   "lastName": "Di Salvo ",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 13,
-   "username": "afarris",
-   "password": "lions1",
-   "firstName": "Austin",
-   "lastName": "Farris",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 14,
-   "username": "jfonseca",
-   "password": "lions1",
-   "firstName": "Joel",
-   "lastName": "Fonseca",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 15,
-   "username": "eganshaw",
-   "password": "lions1",
-   "firstName": "Eric",
-   "lastName": "Ganshaw",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 16,
-   "username": "wgeffs",
-   "password": "lions1",
-   "firstName": "Wit",
-   "lastName": "Geffs",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 17,
-   "username": "jgerber",
-   "password": "lions1",
-   "firstName": "John",
-   "lastName": "Gerber",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 18,
-   "username": "rgordon",
-   "password": "lions1",
-   "firstName": "Ross",
-   "lastName": "Gordon",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 19,
-   "username": "dgrigoryan",
-   "password": "lions1",
-   "firstName": "David",
-   "lastName": "Grigoryan",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 20,
-   "username": "whagen",
-   "password": "lions1",
-   "firstName": "Wil",
-   "lastName": "Hagen",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 21,
-   "username": "ahall",
-   "password": "lions1",
-   "firstName": "Alex",
-   "lastName": "Hall",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 22,
-   "username": "dhua",
-   "password": "lions1",
-   "firstName": "David",
-   "lastName": "Hua",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 23,
-   "username": "lhuebner",
-   "password": "lions1",
-   "firstName": "Liam",
-   "lastName": "Huebner",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 24,
-   "username": "khutchison",
-   "password": "lions1",
-   "firstName": "Kenton",
-   "lastName": "Hutchison",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 25,
-   "username": "djohnson",
-   "password": "lions1",
-   "firstName": "Desmond",
-   "lastName": "Johnson",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 26,
-   "username": "ejonokuchi ",
-   "password": "lions1",
-   "firstName": "Evan",
-   "lastName": "Jonokuchi ",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 27,
-   "username": "zkaminsky",
-   "password": "lions1",
-   "firstName": "Zack",
-   "lastName": "Kaminsky",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 28,
-   "username": "bkeller",
-   "password": "lions1",
-   "firstName": "Brad",
-   "lastName": "Keller",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 29,
-   "username": "rkelly",
-   "password": "lions1",
-   "firstName": "Reed",
-   "lastName": "Kelly",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 30,
-   "username": "skenney",
-   "password": "lions1",
-   "firstName": "Sean",
-   "lastName": "Kenney",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 31,
-   "username": "ckirby",
-   "password": "lions1",
-   "firstName": "Chris",
-   "lastName": "Kirby",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 32,
-   "username": "mknudson",
-   "password": "lions1",
-   "firstName": "Michael",
-   "lastName": "Knudson",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 33,
-   "username": "mkreps",
-   "password": "lions1",
-   "firstName": "Matt",
-   "lastName": "Kreps",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 34,
-   "username": "lmainwaring",
-   "password": "lions1",
-   "firstName": "Luke",
-   "lastName": "Mainwaring",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 35,
-   "username": "bmcginty",
-   "password": "lions1",
-   "firstName": "Brendan",
-   "lastName": "McGinty",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 36,
-   "username": "cmchugh",
-   "password": "lions1",
-   "firstName": "Colin",
-   "lastName": "McHugh",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 37,
-   "username": "amckeen",
-   "password": "lions1",
-   "firstName": "Aidan",
-   "lastName": "McKeen",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 38,
-   "username": "cmcmanus",
-   "password": "lions1",
-   "firstName": "Collin",
-   "lastName": "McManus",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 39,
-   "username": "cmellen",
-   "password": "lions1",
-   "firstName": "Connor",
-   "lastName": "Mellen",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 40,
-   "username": "lmorrissy",
-   "password": "lions1",
-   "firstName": "Liam",
-   "lastName": "Morrissy",
-   "email": null,
-   "year": 2020
- },
- {
-   "uID": 41,
-   "username": "roconnor",
-   "password": "lions1",
-   "firstName": "Ryan",
-   "lastName": "O'Connor",
-   "email": null,
-   "year": 2018
- },
- {
-   "uID": 42,
-   "username": "pojo",
-   "password": "lions1",
-   "firstName": "Peter",
-   "lastName": "Ojo",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 43,
-   "username": "mrothschild",
-   "password": "lions1",
-   "firstName": "Max",
-   "lastName": "Rothschild",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 44,
-   "username": "sryan",
-   "password": "lions1",
+   "uID": 58,
    "firstName": "Sam",
-   "lastName": "Ryan",
+   "lastName": "Dvorak",
+   "username": "sdvorak",
+   "password": "lions1",
    "email": null,
-   "year": 2018
+   "year": 2021
  },
  {
-   "uID": 45,
-   "username": "wschaffer",
+   "uID": 59,
+   "firstName": "Nick",
+   "lastName": "Emms",
+   "username": "nemms",
    "password": "lions1",
-   "firstName": "Will",
-   "lastName": "Schaffer",
    "email": null,
-   "year": 2020
+   "year": 2021
  },
  {
-   "uID": 46,
-   "username": "hschmandt",
+   "uID": 60,
+   "firstName": "Sam",
+   "lastName": "Fuchs",
+   "username": "sfuchs",
    "password": "lions1",
-   "firstName": "Henry",
-   "lastName": "Schmandt",
    "email": null,
-   "year": 2020
+   "year": 2021
  },
  {
-   "uID": 47,
-   "username": "bschmitt",
+   "uID": 61,
+   "firstName": "Louis ",
+   "lastName": "Galarowicz",
+   "username": "lgalarowicz",
    "password": "lions1",
-   "firstName": "Brian",
-   "lastName": "Schmitt",
    "email": null,
-   "year": 2020
+   "year": 2021
  },
  {
-   "uID": 48,
-   "username": "askolds",
+   "uID": 62,
+   "firstName": "Sebi",
+   "lastName": "Gray",
+   "username": "sgray",
    "password": "lions1",
-   "firstName": "Alex",
-   "lastName": "Skolds",
    "email": null,
-   "year": 2018
+   "year": 2021
  },
  {
-   "uID": 49,
-   "username": "rslade",
+   "uID": 63,
+   "firstName": "Carter",
+   "lastName": "Haak",
+   "username": "chaak",
    "password": "lions1",
-   "firstName": "Richard",
-   "lastName": "Slade",
    "email": null,
-   "year": 2018
+   "year": 2021
  },
  {
-   "uID": 50,
-   "username": "esnyder",
+   "uID": 64,
+   "firstName": "Sean",
+   "lastName": "Lee",
+   "username": "slee",
    "password": "lions1",
-   "firstName": "Evan",
-   "lastName": "Snyder",
    "email": null,
-   "year": 2020
+   "year": 2021
  },
  {
-   "uID": 51,
-   "username": "asoriano",
+   "uID": 65,
+   "firstName": "Michael",
+   "lastName": "Meadows-Smith",
+   "username": "mmeadows-smith",
    "password": "lions1",
-   "firstName": "Adan",
-   "lastName": "Soriano",
    "email": null,
-   "year": 2019
+   "year": 2021
  },
  {
-   "uID": 52,
-   "username": "estinner",
+   "uID": 66,
+   "firstName": "Lachlan",
+   "lastName": "Mersky",
+   "username": "lmersky",
    "password": "lions1",
-   "firstName": "Ethan",
-   "lastName": "Stinner",
    "email": null,
-   "year": 2018
+   "year": 2021
  },
  {
-   "uID": 53,
-   "username": "wthomas",
-   "password": "lions1",
-   "firstName": "Willy",
-   "lastName": "Thomas",
-   "email": null,
-   "year": 2019
- },
- {
-   "uID": 54,
-   "username": "twu",
-   "password": "lions1",
+   "uID": 67,
    "firstName": "Tommy",
-   "lastName": "Wu",
+   "lastName": "Pollack",
+   "username": "tpollack",
+   "password": "lions1",
    "email": null,
-   "year": 2020
+   "year": 2021
+ },
+ {
+   "uID": 68,
+   "firstName": "Chris",
+   "lastName": "Silva",
+   "username": "csilva",
+   "password": "lions1",
+   "email": null,
+   "year": 2021
+ },
+ {
+   "uID": 69,
+   "firstName": "Andy",
+   "lastName": "Sun",
+   "username": "asun",
+   "password": "lions1",
+   "email": null,
+   "year": 2021
+ },
+ {
+   "uID": 70,
+   "firstName": "Ryan",
+   "lastName": "Telesca",
+   "username": "rtelesca",
+   "password": "lions1",
+   "email": null,
+   "year": 2021
+ },
+ {
+   "uID": 71,
+   "firstName": "Brandon",
+   "lastName": "Winner",
+   "username": "bwinner",
+   "password": "lions1",
+   "email": null,
+   "year": 2021
+ },
+ {
+   "uID": 72,
+   "firstName": "Dani",
+   "lastName": "Michaelson",
+   "username": "dmichaelson",
+   "password": "lions1",
+   "email": null,
+   "year": 2021
  }
 ]
